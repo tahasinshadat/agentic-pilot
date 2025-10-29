@@ -1,0 +1,288 @@
+"""
+Interactive GUI Testing - Visual Verification
+Actually displays the GUI so you can see and verify it works correctly.
+"""
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel
+from PySide6.QtCore import QTimer, Qt
+from gui.floating_window import FloatingAssistantWindow
+from gui.settings import get_settings
+
+
+class GUITestController(QMainWindow):
+    """Control panel for testing GUI states."""
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Jarvis GUI Test Controller")
+        self.setGeometry(100, 100, 400, 500)
+
+        # Create the GUI window to test
+        self.jarvis_gui = FloatingAssistantWindow()
+
+        # Setup UI
+        self.setup_ui()
+
+    def setup_ui(self):
+        """Create control panel UI."""
+        central = QWidget()
+        self.setCentralWidget(central)
+        layout = QVBoxLayout(central)
+
+        # Title
+        title = QLabel("🎭 Jarvis GUI Test Controller")
+        title.setStyleSheet("font-size: 18px; font-weight: bold; padding: 10px;")
+        title.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title)
+
+        # Instructions
+        instructions = QLabel(
+            "Click buttons to test different GUI states.\n"
+            "Watch the floating window in bottom-right corner!"
+        )
+        instructions.setStyleSheet("padding: 10px; color: #666;")
+        instructions.setAlignment(Qt.AlignCenter)
+        layout.addWidget(instructions)
+
+        # State buttons
+        layout.addSpacing(20)
+
+        btn_listening = QPushButton("🎤 LISTENING Mode")
+        btn_listening.clicked.connect(self.test_listening)
+        btn_listening.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """)
+        layout.addWidget(btn_listening)
+
+        btn_thinking = QPushButton("🤔 THINKING Mode")
+        btn_thinking.clicked.connect(self.test_thinking)
+        btn_thinking.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #FF9800;
+                color: white;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background-color: #e68900;
+            }
+        """)
+        layout.addWidget(btn_thinking)
+
+        btn_speaking = QPushButton("🗣️ SPEAKING Mode")
+        btn_speaking.clicked.connect(self.test_speaking)
+        btn_speaking.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #2196F3;
+                color: white;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background-color: #0b7dda;
+            }
+        """)
+        layout.addWidget(btn_speaking)
+
+        btn_idle = QPushButton("💤 IDLE Mode")
+        btn_idle.clicked.connect(self.test_idle)
+        btn_idle.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #9E9E9E;
+                color: white;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background-color: #757575;
+            }
+        """)
+        layout.addWidget(btn_idle)
+
+        layout.addSpacing(20)
+
+        # Auto test
+        btn_auto = QPushButton("🎬 Run Auto Test Sequence")
+        btn_auto.clicked.connect(self.run_auto_test)
+        btn_auto.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #9C27B0;
+                color: white;
+                border-radius: 8px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #7b1fa2;
+            }
+        """)
+        layout.addWidget(btn_auto)
+
+        layout.addSpacing(20)
+
+        # Status label
+        self.status_label = QLabel("Ready to test!")
+        self.status_label.setStyleSheet("""
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-family: 'Courier New';
+        """)
+        self.status_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.status_label)
+
+        # Voice viz test button
+        btn_voice_viz = QPushButton("🎙️ Test Voice Visualization (30s)")
+        btn_voice_viz.clicked.connect(self.test_voice_viz)
+        btn_voice_viz.setStyleSheet("""
+            QPushButton {
+                padding: 15px;
+                font-size: 14px;
+                background-color: #00BCD4;
+                color: white;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background-color: #0097A7;
+            }
+        """)
+        layout.addWidget(btn_voice_viz)
+
+        layout.addStretch()
+
+    def update_status(self, message):
+        """Update status label."""
+        self.status_label.setText(message)
+
+    def test_listening(self):
+        """Test listening state."""
+        self.update_status("Testing LISTENING mode...\n🎤 Speak into mic to see border glow!")
+        self.jarvis_gui.set_listening()
+
+    def test_thinking(self):
+        """Test thinking state."""
+        self.update_status("Testing THINKING mode...")
+        self.jarvis_gui.set_thinking()
+
+    def test_speaking(self):
+        """Test speaking state."""
+        self.update_status("Testing SPEAKING mode...\n🗣️ Watch the animation!")
+        self.jarvis_gui.set_speaking()
+
+    def test_idle(self):
+        """Test idle state."""
+        self.update_status("Testing IDLE mode...\n💤 Window will hide in 2 seconds")
+        self.jarvis_gui.set_idle()
+
+    def test_voice_viz(self):
+        """Test voice visualization for 30 seconds."""
+        self.update_status(
+            "🎙️ VOICE VISUALIZATION TEST\n\n"
+            "Speak into your microphone!\n"
+            "Border will glow based on volume:\n"
+            "• Quiet = dim glow\n"
+            "• Loud = bright glow\n\n"
+            "Test runs for 30 seconds..."
+        )
+        self.jarvis_gui.set_listening()
+
+        # Stop after 30 seconds
+        QTimer.singleShot(30000, lambda: (
+            self.jarvis_gui.set_idle(),
+            self.update_status("Voice visualization test complete!")
+        ))
+
+    def run_auto_test(self):
+        """Run automated test sequence."""
+        self.update_status("🎬 AUTO TEST: Starting sequence...")
+
+        # Listening (5 seconds)
+        QTimer.singleShot(0, lambda: (
+            self.jarvis_gui.set_listening(),
+            self.update_status("🎤 LISTENING (5s)\nWindow should slide in, border glows with voice")
+        ))
+
+        # Thinking (5 seconds)
+        QTimer.singleShot(5000, lambda: (
+            self.jarvis_gui.set_thinking(),
+            self.update_status("🤔 THINKING (5s)\nAnimation should stop, no glow")
+        ))
+
+        # Speaking (5 seconds)
+        QTimer.singleShot(10000, lambda: (
+            self.jarvis_gui.set_speaking(),
+            self.update_status("🗣️ SPEAKING (5s)\nAnimation should be active, no glow")
+        ))
+
+        # Idle (waits 2s then hides)
+        QTimer.singleShot(15000, lambda: (
+            self.jarvis_gui.set_idle(),
+            self.update_status("💤 IDLE\nWindow should hide after 2 seconds")
+        ))
+
+        # Complete
+        QTimer.singleShot(18000, lambda: self.update_status(
+            "✅ AUTO TEST COMPLETE!\n\n"
+            "All states tested:\n"
+            "• Listening ✓\n"
+            "• Thinking ✓\n"
+            "• Speaking ✓\n"
+            "• Idle ✓"
+        ))
+
+    def closeEvent(self, event):
+        """Clean up when closing."""
+        self.jarvis_gui.close()
+        event.accept()
+
+
+def main():
+    """Run interactive GUI test."""
+    # Load and display current settings
+    settings = get_settings()
+
+    print("="*70)
+    print("  JARVIS GUI INTERACTIVE TEST")
+    print("="*70)
+    print("\n📋 CURRENT SETTINGS (from config/settings.json):")
+    print(f"   Name: {settings.get_assistant_name()}")
+    print(f"   Voice: {settings.get('voice_accent')}")
+    print(f"   Color: {settings.get('gui_color').capitalize()}")
+    print(f"   Glow: {settings.get('glow_effect').capitalize()}")
+    print(f"   Shape: {settings.get('animation_shape').capitalize()}")
+    print("\n💡 TIP: Run 'python settings_app.py' to change these settings!")
+    print("\nStarting GUI test controller...")
+    print("Watch the floating window in the bottom-right corner!")
+    print("\nFeatures to test:")
+    print("  • Window slide-in/slide-out animations")
+    print("  • State transitions (Listening/Thinking/Speaking/Idle)")
+    print("  • Voice level visualization (border glow)")
+    print("  • Animation widget")
+    print("\nClose the controller window to exit.")
+    print("="*70)
+
+    app = QApplication(sys.argv)
+    controller = GUITestController()
+    controller.show()
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

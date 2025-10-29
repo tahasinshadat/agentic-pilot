@@ -1,0 +1,156 @@
+"""
+3D Animated sphere widget for Jarvis.
+Pulses when speaking, rotates continuously with smooth animations.
+"""
+
+import math
+from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import QTimer, Qt
+from PySide6.QtGui import QPainter, QColor, QBrush, QVector3D, QMatrix4x4
+
+
+class AIAnimationWidget(QWidget):
+    """
+    3D animated sphere that pulses when Jarvis is speaking.
+    """
+
+    def __init__(self, parent=None, color_rgb=(0, 150, 255)):
+        super().__init__(parent)
+        self.angle_y = 0
+        self.angle_x = 0
+        self.sphere_points = self.create_sphere_points()
+        self.is_speaking = False
+        self.pulse_angle = 0
+
+        # Color customization
+        self.base_color = color_rgb  # RGB tuple
+
+        # Smooth pulse interpolation
+        self.target_pulse = 0.0
+        self.current_pulse = 0.0
+        self.pulse_smoothing = 0.15
+
+        # Animation timer - 60 FPS for smoothness
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_animation)
+        self.timer.start(16)  # ~60 FPS
+
+        # Transparent background
+        self.setAttribute(Qt.WA_TranslucentBackground)
+
+    def start_speaking_animation(self):
+        """Activates the speaking animation (pulsing sphere)."""
+        self.is_speaking = True
+
+    def stop_speaking_animation(self):
+        """Deactivates the speaking animation."""
+        self.is_speaking = False
+        self.pulse_angle = 0
+        self.target_pulse = 0.0
+        self.update()
+
+    def set_color(self, r, g, b):
+        """Change the animation color."""
+        self.base_color = (r, g, b)
+        self.update()
+
+    def create_sphere_points(self, radius=40, num_points_lat=15, num_points_lon=30):
+        """Creates 3D points on a sphere surface."""
+        points = []
+        for i in range(num_points_lat + 1):
+            lat = math.pi * (-0.5 + i / num_points_lat)
+            y = radius * math.sin(lat)
+            xy_radius = radius * math.cos(lat)
+
+            for j in range(num_points_lon):
+                lon = 2 * math.pi * (j / num_points_lon)
+                x = xy_radius * math.cos(lon)
+                z = xy_radius * math.sin(lon)
+                points.append(QVector3D(x, y, z))
+        return points
+
+    def update_animation(self):
+        """Update rotation and pulse angles with smooth interpolation."""
+        # Smooth rotation
+        self.angle_y += 0.8
+        self.angle_x += 0.2
+
+        # Smooth pulse animation
+        if self.is_speaking:
+            self.pulse_angle += 0.25  # Smooth pulse speed
+            if self.pulse_angle > math.pi * 2:
+                self.pulse_angle -= math.pi * 2
+
+            # Calculate target pulse
+            self.target_pulse = (1 + math.sin(self.pulse_angle)) / 2
+        else:
+            self.target_pulse = 0.0
+
+        # Smooth interpolation to target pulse
+        self.current_pulse += (self.target_pulse - self.current_pulse) * self.pulse_smoothing
+
+        if self.angle_y >= 360:
+            self.angle_y -= 360
+        if self.angle_x >= 360:
+            self.angle_x -= 360
+
+        self.update()  # Trigger repaint
+
+    def paintEvent(self, event):
+        """Draw the 3D sphere with pulsing effect."""
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.fillRect(self.rect(), Qt.transparent)
+
+        w, h = self.width(), self.height()
+        painter.translate(w / 2, h / 2)
+
+        # Smooth pulse effect when speaking
+        pulse_amplitude = 0.25  # 25% pulse
+        pulse_factor = 1.0 + (self.current_pulse * pulse_amplitude)
+
+        # Rotation matrices
+        rotation_y = QMatrix4x4()
+        rotation_y.rotate(self.angle_y, 0, 1, 0)
+        rotation_x = QMatrix4x4()
+        rotation_x.rotate(self.angle_x, 1, 0, 0)
+        rotation = rotation_y * rotation_x
+
+        # Project 3D points to 2D
+        projected_points = []
+        for point in self.sphere_points:
+            rotated_point = rotation.map(point)
+
+            # Perspective projection
+            z_factor = 200 / (200 + rotated_point.z())
+            x = (rotated_point.x() * z_factor) * pulse_factor
+            y = (rotated_point.y() * z_factor) * pulse_factor
+
+            # Size and alpha based on Z depth
+            size = (rotated_point.z() + 40) / 80
+            alpha = int(50 + 205 * size)
+            point_size = 1 + size * 2.5
+
+            projected_points.append((x, y, point_size, alpha))
+
+        # Sort by size for depth effect
+        projected_points.sort(key=lambda p: p[2])
+
+        # Draw points
+        for x, y, point_size, alpha in projected_points:
+            # Lighter when speaking, darker otherwise
+            r, g, b = self.base_color
+            if self.is_speaking:
+                # Brighten color when speaking
+                color = QColor(
+                    min(int(r + (255 - r) * 0.4), 255),
+                    min(int(g + (255 - g) * 0.4), 255),
+                    min(int(b + (255 - b) * 0.4), 255),
+                    alpha
+                )
+            else:
+                color = QColor(r, g, b, alpha)
+
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(color))
+            painter.drawEllipse(int(x), int(y), int(point_size), int(point_size))
