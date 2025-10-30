@@ -7,9 +7,10 @@ import time
 import pyautogui
 import subprocess
 import webbrowser
+from typing import Dict, Any
 
 
-def play_music(query: str) -> str:
+def play_music(query: str) -> Dict[str, Any]:
     """
     Play music using the best available method.
 
@@ -21,17 +22,49 @@ def play_music(query: str) -> str:
         query: The song/artist to play (e.g., "We Don't Talk Anymore by Charlie Puth")
 
     Returns:
-        Success message describing what was done
+        Dict with status and message
     """
     print(f"[PlayMusic] Attempting to play: {query}")
 
-    try:
-        # Try to launch Spotify
-        print("[PlayMusic] Launching Spotify...")
-        subprocess.Popen("spotify", shell=True)
-        time.sleep(3)  # Wait for Spotify to open
+    # Try Spotify first
+    spotify_result = _try_spotify(query)
+    if spotify_result["success"]:
+        return spotify_result
 
-        # Click in the center to focus Spotify window
+    # Fallback to YouTube
+    print(f"[PlayMusic] Spotify failed ({spotify_result.get('error')}), using YouTube...")
+    return _try_youtube(query)
+
+
+def _try_spotify(query: str) -> Dict[str, Any]:
+    """
+    Try to play music in Spotify.
+
+    Returns:
+        Dict with success status and message/error
+    """
+    try:
+        print("[PlayMusic] Launching Spotify...")
+
+        # Try to launch Spotify
+        process = subprocess.Popen(
+            ["spotify"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        # Wait for Spotify to start (with timeout check)
+        time.sleep(3)
+
+        # Check if process is still running (Spotify found)
+        if process.poll() is not None:
+            # Process exited immediately - Spotify not found
+            return {
+                "success": False,
+                "error": "Spotify executable not found"
+            }
+
+        # Focus the current window (Spotify should be foreground)
         pyautogui.click()
         time.sleep(0.3)
 
@@ -52,23 +85,75 @@ def play_music(query: str) -> str:
         time.sleep(0.3)
 
         print(f"[PlayMusic] Playing '{query}' in Spotify")
-        return f"Playing '{query}' in Spotify"
+        return {
+            "success": True,
+            "status": "success",
+            "message": f"Playing '{query}' in Spotify",
+            "method": "spotify"
+        }
 
+    except FileNotFoundError:
+        # Spotify executable not found
+        return {
+            "success": False,
+            "error": "Spotify not installed"
+        }
+    except PermissionError:
+        # Can't execute Spotify
+        return {
+            "success": False,
+            "error": "Permission denied to launch Spotify"
+        }
     except Exception as e:
-        # Spotify not available, use YouTube
-        print(f"[PlayMusic] Spotify failed ({e}), using YouTube...")
+        # Other errors
+        return {
+            "success": False,
+            "error": f"Spotify error: {str(e)}"
+        }
+
+
+def _try_youtube(query: str) -> Dict[str, Any]:
+    """
+    Play music on YouTube as fallback.
+
+    Returns:
+        Dict with success status and message
+    """
+    try:
         youtube_query = f"{query} official audio"
         youtube_url = f"https://www.youtube.com/results?search_query={youtube_query.replace(' ', '+')}"
 
         # Open YouTube search in browser
+        print(f"[PlayMusic] Opening YouTube: {youtube_url}")
         webbrowser.open(youtube_url)
         time.sleep(2)
 
-        # Click first video
-        # YouTube first video is typically at around (300, 350) on a standard screen
-        pyautogui.click(400, 350)
+        # Get screen size to calculate click position dynamically
+        screen_width, screen_height = pyautogui.size()
 
-        return f"Playing '{query}' on YouTube (Spotify not available)"
+        # YouTube's first video is typically in the upper-left quadrant
+        # Calculate position based on screen size (more reliable than hardcoded)
+        click_x = int(screen_width * 0.25)  # 25% from left
+        click_y = int(screen_height * 0.35)  # 35% from top
+
+        print(f"[PlayMusic] Clicking first video at ({click_x}, {click_y})")
+        pyautogui.click(click_x, click_y)
+        time.sleep(0.5)
+
+        return {
+            "success": True,
+            "status": "success",
+            "message": f"Playing '{query}' on YouTube (Spotify not available)",
+            "method": "youtube"
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "status": "error",
+            "message": f"Failed to play music: {str(e)}",
+            "error": str(e)
+        }
 
 
 # MCP integration

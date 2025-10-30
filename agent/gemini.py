@@ -74,26 +74,17 @@ class GeminiCore:
         """Create Gemini API configuration with tools (typed config) and keep legacy return keys."""
         from google.genai import types
 
-        sys_instr = f"""You are {self.wake_word.capitalize()}, an advanced AI voice assistant.
-
-VOICE ASSISTANT BASICS:
-- Keep responses SHORT (1-3 sentences) - you'll be speaking out loud
-- No code blocks, markdown, or formatting - plain text only
-- Be natural and conversational
-
-EXPRESSIVE SPEECH:
-Use <break time="0.5s"/> for pauses and [laugh], [sigh] for emotions when appropriate.
-
-SCREEN CONTEXT:
-You can always see the user's screen. Use this context to be helpful.
-
-TOOL USAGE:
-- Use tools to perform actions (open apps, click buttons, type text, etc.)
-- Answer simple questions directly without tools
-- Make smart inferences - don't ask for obvious details
-- Use multiple tools in sequence when needed to complete tasks
-
-You have access to many tools. Use them intelligently based on the user's request."""
+        # Load comprehensive system prompt from context.txt
+        try:
+            import os
+            context_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'context.txt')
+            with open(context_path, 'r', encoding='utf-8') as f:
+                sys_instr = f.read()
+        except Exception as e:
+            Logger.error("Core", f"Failed to load context.txt: {e}. Using fallback.")
+            sys_instr = f"""You are {self.wake_word.capitalize()}, an advanced AI voice assistant with vision and computer control.
+Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can see the screen via screenshots."""
+       
         # Get MCP tool schemas and build typed Tool
         tool_decls = format_tools_for_gemini()  # list[FunctionDeclaration]
         from google.genai import types

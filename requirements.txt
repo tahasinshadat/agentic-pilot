@@ -23,3 +23,4 @@ asyncio>=3.4.3
 playwright>=1.40.0
 pyautogui>=0.9.54
 pyperclip>=1.8.2
+elevenlabs>=1.0.0

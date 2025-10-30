@@ -105,7 +105,9 @@ class ToolExecutor:
             elif tool_name == "edit_file":
                 return tools.edit_file(
                     file_path=args.get("file_path"),
-                    content=args.get("content")
+                    content=args.get("content"),
+                    mode=args.get("mode", "replace"),
+                    line_number=args.get("line_number")
                 )
 
             elif tool_name == "read_file":
@@ -145,19 +147,6 @@ class ToolExecutor:
             elif tool_name == "search_google":
                 return tools.search_google(query=args.get("query"))
 
-            # ==================== SCREENSHOT/VISION ====================
-            elif tool_name == "take_screenshot":
-                return await tools.take_screenshot(self.screen_capture)
-
-            elif tool_name == "capture_screen_region":
-                return await tools.capture_screen_region(
-                    self.screen_capture,
-                    x=args.get("x"),
-                    y=args.get("y"),
-                    width=args.get("width"),
-                    height=args.get("height")
-                )
-
             # ==================== SCREEN ANALYSIS ====================
             elif tool_name == "analyze_screen":
                 return await tools.analyze_screen(
@@ -180,19 +169,6 @@ class ToolExecutor:
                     self.gemini_client,
                     self.screen_capture,
                     problem_type="coding"
-                )
-
-            elif tool_name == "read_form":
-                return await tools.read_form(self.gemini_client, self.screen_capture)
-
-            elif tool_name == "extract_text_from_screen":
-                return await tools.extract_text_from_screen(self.gemini_client, self.screen_capture)
-
-            elif tool_name == "answer_screen_question":
-                return await tools.answer_screen_question(
-                    self.gemini_client,
-                    self.screen_capture,
-                    question=args.get("question")
                 )
 
             # ==================== GENERAL UI INTERACTION ====================
@@ -247,9 +223,6 @@ class ToolExecutor:
                     language=args.get("language", "python")
                 )
 
-            elif tool_name == "replace_selection":
-                return await tools.replace_selection(new_code=args.get("new_code"))
-
             elif tool_name == "get_selected_code":
                 return await tools.get_selected_code()
 
@@ -292,6 +265,15 @@ class ToolExecutor:
 
             elif tool_name == "browser_screenshot":
                 return await tools.browser_screenshot(self.browser)
+
+            # ==================== AUTOPILOT ====================
+            elif tool_name == "execute_autopilot":
+                return await tools.execute_autopilot(
+                    self.gemini_client,
+                    self.screen_capture,
+                    objective=args.get("objective"),
+                    max_iterations=args.get("max_iterations", 10)
+                )
 
             # ==================== UNKNOWN TOOL ====================
             else:

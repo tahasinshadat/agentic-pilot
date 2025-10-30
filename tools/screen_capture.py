@@ -11,18 +11,21 @@ class ScreenCapture:
     # Handles screenshot capture for vision analysis.
 
     @staticmethod
-    async def capture_screen(compress: bool = True) -> Optional[Tuple[Image.Image, dict]]:
+    async def capture_screen(compress: bool = False) -> Optional[Tuple[Image.Image, dict]]:
         # Capture current screen and prepare for Gemini vision.
         #
         # Args:
         #     compress: If True, resize to 1024x1024 for API efficiency.
-        #               If False, keep original size for accurate coordinates.
+        #               If False (default), keep original size for accurate coordinates.
         #
         # Returns:
-        #     Tuple of (PIL Image, Gemini-formatted data dict)
+        #     Tuple of (PIL Image, Gemini-formatted data dict with dimensions)
         try:
             # Capture screenshot at full resolution
             screenshot = await asyncio.to_thread(ImageGrab.grab)
+
+            # Store original dimensions before any compression
+            original_width, original_height = screenshot.size
 
             # Optionally compress for API efficiency
             # For clicking operations, we should NOT compress to maintain coordinate accuracy
@@ -31,13 +34,15 @@ class ScreenCapture:
 
             # Convert to bytes for Gemini
             image_io = io.BytesIO()
-            screenshot.save(image_io, format="jpeg", quality=85)
+            screenshot.save(image_io, format="jpeg", quality=95)  # Higher quality for better accuracy
             image_bytes = image_io.getvalue()
 
-            # Format for Gemini
+            # Format for Gemini with dimensions included
             gemini_data = {
                 "mime_type": "image/jpeg",
-                "data": base64.b64encode(image_bytes).decode()
+                "data": base64.b64encode(image_bytes).decode(),
+                "width": original_width,
+                "height": original_height
             }
 
             return screenshot, gemini_data
@@ -47,19 +52,22 @@ class ScreenCapture:
             return None
 
     @staticmethod
-    async def capture_region(x: int, y: int, width: int, height: int, compress: bool = True) -> Optional[Tuple[Image.Image, dict]]:
+    async def capture_region(x: int, y: int, width: int, height: int, compress: bool = False) -> Optional[Tuple[Image.Image, dict]]:
         # Capture specific screen region.
         #
         # Args:
         #     x, y: Top-left corner coordinates
         #     width, height: Region dimensions
-        #     compress: If True, resize to 1024x1024 for API efficiency
+        #     compress: If False (default), keep original size for accurate coordinates
         #
         # Returns:
-        #     Tuple of (PIL Image, Gemini-formatted data dict)
+        #     Tuple of (PIL Image, Gemini-formatted data dict with dimensions)
         try:
             bbox = (x, y, x + width, y + height)
             screenshot = await asyncio.to_thread(ImageGrab.grab, bbox=bbox)
+
+            # Store original dimensions before any compression
+            original_width, original_height = screenshot.size
 
             # Optionally compress
             if compress:
@@ -67,13 +75,15 @@ class ScreenCapture:
 
             # Convert to bytes
             image_io = io.BytesIO()
-            screenshot.save(image_io, format="jpeg", quality=85)
+            screenshot.save(image_io, format="jpeg", quality=95)  # Higher quality for better accuracy
             image_bytes = image_io.getvalue()
 
-            # Format for Gemini
+            # Format for Gemini with dimensions included
             gemini_data = {
                 "mime_type": "image/jpeg",
-                "data": base64.b64encode(image_bytes).decode()
+                "data": base64.b64encode(image_bytes).decode(),
+                "width": original_width,
+                "height": original_height
             }
 
             return screenshot, gemini_data

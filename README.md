@@ -1,174 +1,201 @@
 # JARVIS - Advanced AI Assistant
 
-An advanced voice-activated AI assistant with vision capabilities, inspired by both Iron Man's JARVIS and modern AI technology.
+An advanced voice-activated AI assistant with vision and autopilot capabilities, combining the best of conversational AI with powerful computer control. Inspired by Iron Man's JARVIS and enhanced with Open-Interface's autonomous UI automation.
 
 ## Features
 
-- 🎤 **Wake Word Detection** - Activate with "Hey Jarvis" or "Hey Sarah"
-- 🗣️ **Natural Voice Interaction** - Powered by Gemini Live API and **ChatTTS (open-source, local TTS)**
-- 👁️ **Vision Capabilities** - Can see and analyze your screen
-- 🛠️ **Powerful Tools** - File operations, app launching, web browsing, code execution
-- 🎨 **Beautiful GUI** - Floating window with 3D animated sphere (appears bottom-right)
-- ⚡ **Async Architecture** - Fast and responsive
-- 🆓 **100% Open Source TTS** - No API costs for text-to-speech!
+### Core Capabilities
+- **Wake Word Detection** - Activate with "Hey Jarvis" or "Hey Sarah"
+- **Natural Voice Interaction** - Powered by Gemini 2.0 Flash and **ElevenLabs TTS**
+- **Vision Capabilities** - Can see and analyze your screen in real-time
+- **Autopilot Mode** - Autonomous computer control with PyAutoGUI (inspired by Open-Interface)
+- **50+ Specialized Tools** - File operations, app launching, web browsing, code execution, screen interaction
+- **Beautiful GUI** - Floating window with 3D animated sphere (appears bottom-right)
+- **Async Architecture** - Fast, responsive, and non-blocking
+
+### What Makes JARVIS Unique
+- **Voice + Vision + Autopilot**: Combines conversational AI with autonomous UI control
+- **Context-Aware**: Loads comprehensive system prompts from \`config/context.txt\` for intelligent behavior
+- **Multi-Turn Conversations**: Maintains context across multiple interactions
+- **Recursive Autopilot**: Uses screenshot feedback loops for precise task execution
+- **Tool-Based Architecture**: Modular, extensible tool system (MCP-inspired)
 
 ## Setup
 
 ### 1. Install Dependencies
 
-```bash
+\`\`\`bash
 pip install -r requirements.txt
-```
+\`\`\`
 
 **Important Notes:**
 - **PyAudio** can be tricky on some systems:
   - **Windows**: Download wheel from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio)
-  - **Mac**: `brew install portaudio && pip install pyaudio`
-  - **Linux**: `sudo apt-get install portaudio19-dev && pip install pyaudio`
+  - **Mac**: \`brew install portaudio && pip install pyaudio\`
+  - **Linux**: \`sudo apt-get install portaudio19-dev && pip install pyaudio\`
 
-- **ChatTTS** will download models on first run (~200MB). This is normal!
+- **Playwright** (for browser automation):
+  \`\`\`bash
+  playwright install chromium
+  \`\`\`
 
-- **PyTorch** is required for ChatTTS. If you have a GPU:
-  ```bash
-  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-  ```
+### 2. Configure API Keys
 
-### 2. Configure API Key
+Edit the \`.env\` file in the root directory:
 
-Edit the `.env` file in the root directory:
-
-```env
+\`\`\`env
 GEMINI_API_KEY=your_gemini_api_key_here
-```
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+\`\`\`
 
-Get your Gemini API key:
-- Gemini: [Google AI Studio](https://aistudio.google.com/app/apikey) - **FREE tier available!**
+Get your API keys:
+- **Gemini**: [Google AI Studio](https://aistudio.google.com/app/apikey) - **FREE tier available!**
+- **ElevenLabs**: [ElevenLabs](https://elevenlabs.io/) - For TTS (has free tier)
 
-**Note**: No need for ElevenLabs or any other API keys - ChatTTS runs locally!
+### 3. Run JARVIS
 
-### 3. Run Jarvis
-
-```bash
+\`\`\`bash
 python main.py
-```
+\`\`\`
 
 ## Usage
 
 ### Voice Commands
 
+#### Basic Commands
 - **Activate**: Say "Hey Jarvis" (or "Hey Sarah")
 - **Ask Questions**: "What's the weather?" (uses Google Search)
 - **Screen Help**: "Help me with this LeetCode problem" (takes screenshot + vision)
-- **File Operations**: "Create a file called notes.txt"
+- **File Operations**: "Create a file called notes.txt with my shopping list"
 - **Launch Apps**: "Open Chrome"
-- **Browse Web**: "Go to youtube.com"
-- **Code Execution**: "Calculate 15 * 23"
+- **Browse Web**: "Go to youtube.com" or "Search for Python tutorials"
+
+#### Advanced Commands (Autopilot)
+- **Complex UI Tasks**: "Fill out this form on screen"
+- **Multi-Step Workflows**: "Open Notepad and create a shopping list"
+- **Navigation**: "Navigate to settings and enable dark mode"
+
+The autopilot automatically:
+1. Captures screenshots to see current state
+2. Plans keyboard/mouse actions
+3. Executes them with PyAutoGUI
+4. Verifies completion with new screenshots
+5. Repeats until task is done
 
 ### Continuous Mode
 
-- **Enable**: "Hey Jarvis, Listen up" - Jarvis will respond without wake word
-- **Disable**: "Hey Jarvis, stop listening" - Back to wake word mode
+- **Enable**: "Hey Jarvis, Listen up" - JARVIS will respond without wake word
+- **Disable**: Say "terminate" or "that's all"
 
 ### GUI
 
-A small floating window appears in the bottom-right corner when Jarvis is active:
+A small floating window appears in the bottom-right corner:
 - **Blue sphere** - Idle/Listening
+- **Yellow sphere** - Thinking
 - **Pulsing sphere** - Speaking
-- Auto-hides when idle
+- Auto-hides after 2 seconds of idle
 
-## Project Structure
+## Architecture
 
-```
-personal-assistant/
-├── main.py              # Entry point
-├── requirements.txt     # Dependencies
-├── .env                 # API keys
-├── README.md            # This file
-├── CHATTTS_MIGRATION.md # ChatTTS migration guide
-├── config/              # Configuration folder
-│   ├── config.py        # Technical configuration
-│   └── settings.json    # User preferences
-├── core/
-│   └── jarvis_core.py  # Main AI logic
-├── gui/
-│   ├── floating_window.py  # Floating GUI
-│   └── animation.py        # 3D sphere animation
+### Recent Improvements (Integration with Open-Interface)
+
+#### What's New
+1. **Autopilot Mode**: Full PyAutoGUI-based computer control for complex UI tasks
+2. **Context System**: Comprehensive system prompt in \`config/context.txt\` (90+ lines)
+3. **Security Fixes**: Removed all \`shell=True\` usage from subprocess calls
+4. **Better Architecture**: Enhanced tool organization and execution flow
+5. **Improved Documentation**: Clearer README with architecture diagrams
+
+#### What Was Preserved
+- All 50+ existing tools (no functionality lost)
+- Voice input/output with wake word detection
+- Floating GUI with 3D sphere animation
+- Multi-turn conversations
+- Screen capture and vision capabilities
+- Browser automation with Playwright
+- Continuous listening mode
+
+### Project Structure
+
+\`\`\`
+agentic-pilot/
+├── main.py                      # Entry point
+├── .env                         # API keys
+│
+├── config/
+│   ├── config.py               # Technical configuration
+│   ├── context.txt             # Comprehensive system prompt
+│   └── settings.json           # User preferences
+│
+├── agent/
+│   └── gemini.py               # Core AI logic
+│
+├── mcp/                        # Model Context Protocol
+│   ├── tool_schemas.py         # 50+ tool definitions
+│   └── tool_execution.py       # Tool dispatcher
+│
+├── tools/                      # 50+ Tool Implementations
+│   ├── autopilot.py            # PyAutoGUI autopilot
+│   ├── click_on_screen.py      # AI-powered clicking
+│   ├── smart_open.py           # Updated security concerns (no access to program & system files)
+│   └── ... (50+ more tools)
+│
 ├── speech/
-│   ├── wake_word.py    # Wake word detection
-│   └── tts.py          # Text-to-speech
-├── vision/
-│   ├── screen_capture.py   # Screenshots
-│   └── video_feed.py       # Camera/screen feed
-├── tools/
-│   ├── file_operations.py  # File system
-│   ├── app_control.py      # App launching
-│   └── web_tools.py        # Web browsing
-├── utils/
-│   └── logger.py       # Logging
-└── ada/                 # Reference project (ADA)
-```
+│   ├── wake_word.py            # Wake word detection
+│   └── tts.py                  # Text-to-speech
+│
+└── gui/
+    ├── floating_window.py      # Floating window
+    └── animation.py            # 3D sphere
+\`\`\`
+
+### Key Components
+
+1. **GeminiCore** - Main orchestrator with context.txt loading
+2. **Autopilot** - PyAutoGUI-based UI automation (NEW)
+3. **Tool System** - 50+ modular tools
+4. **Context System** - Comprehensive prompts (NEW)
 
 ## Customization
 
 ### Change Wake Word
 
-Edit `config/config.py`:
-
-```python
+Edit \`config/config.py\`:
+\`\`\`python
 WAKE_WORD = "sarah"  # Options: "jarvis", "sarah"
-```
+\`\`\`
 
-### Customize ChatTTS
+### Customize System Prompt
 
-ChatTTS generates natural-sounding speech automatically. You can customize generation in `config/config.py`:
+Edit \`config/context.txt\` to modify JARVIS's behavior and tool usage patterns.
 
-```python
-TTS_COMPILE = True  # Enable for faster inference (requires compatible GPU)
-```
+### Add New Tools
 
-For advanced customization, edit `speech/tts.py` to modify voice characteristics.
+1. Create \`tools/my_tool.py\`
+2. Add to \`tools/__init__.py\`
+3. Add schema to \`mcp/tool_schemas.py\`
+4. Add handler to \`mcp/tool_execution.py\`
 
 ## Troubleshooting
 
 ### No Wake Word Detection
+- Check microphone permissions
+- Verify default microphone device
+- Try speaking louder/closer
 
-- Check microphone permissions in system settings
-- Verify microphone is set as default device
-- Try increasing `ENERGY_THRESHOLD` in config/config.py
-
-### GUI Not Showing
-
-- Make sure PySide6 is installed: `pip install PySide6`
-- Check if window is hidden behind other windows
+### Autopilot Not Working
+- Ensure PyAutoGUI is installed
+- Check console for errors
+- Verify screenshots are being captured
 
 ### API Errors
-
-- Verify Gemini API key in `.env` file
-- Check Gemini API quotas (free tier has limits)
-- Ensure you have internet connection for Gemini
-
-### ChatTTS Issues
-
-- **First run is slow**: ChatTTS downloads models (~200MB) on first use
-- **Voice quality**: ChatTTS generates natural speech but may vary. It's learning-based.
-- **GPU acceleration**: Set `TTS_COMPILE = True` in config/config.py if you have a CUDA GPU
-- **Memory usage**: ChatTTS needs ~1-2GB RAM. Close other apps if needed.
+- Verify API keys in \`.env\`
+- Check Gemini API quotas
+- Ensure internet connection
 
 ## Credits
+- **Powered by**: Gemini 2.0 Flash, ElevenLabs, faster-whisper, PyAutoGUI, Playwright
 
-- Inspired by [ADA](https://github.com/example) project
-- Built with Google Gemini and **ChatTTS (open-source)**
-- Uses faster-whisper for wake word detection
-- ChatTTS: [https://github.com/2noise/ChatTTS](https://github.com/2noise/ChatTTS)
 
-## Why ChatTTS?
-
-- ✅ **100% Free** - No API costs
-- ✅ **Privacy** - Runs locally, your data stays on your machine
-- ✅ **No Rate Limits** - Use as much as you want
-- ✅ **Natural Speech** - High-quality, expressive TTS
-- ✅ **Open Source** - Community-driven, constantly improving
-
-## License
-
-MIT License
+---
+**Built with combining conversational AI with autonomous computer control**

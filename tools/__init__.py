@@ -23,16 +23,9 @@ from .get_current_time import get_current_time
 from .open_website import open_website
 from .search_google import search_google
 
-# Screenshot/Vision tools
-from .take_screenshot import take_screenshot
-from .capture_screen_region import capture_screen_region
-
 # Screen solver tools
 from .analyze_screen import analyze_screen
 from .solve_problem_on_screen import solve_problem_on_screen, solve_leetcode
-from .read_form import read_form
-from .extract_text_from_screen import extract_text_from_screen
-from .answer_screen_question import answer_screen_question
 
 # General UI interaction tools
 from .click_on_screen import click_on_screen
@@ -44,7 +37,6 @@ from .move_text_cursor import move_text_cursor
 # Code assistant tools
 from .insert_code import insert_code
 from .generate_code import generate_code
-from .replace_selection import replace_selection
 from .get_selected_code import get_selected_code
 from .format_code import format_code
 from .save_file import save_file
@@ -59,6 +51,9 @@ from .browser_fill_form import browser_fill_form
 from .browser_click_element import browser_click_element
 from .browser_get_page_content import browser_get_page_content
 from .browser_screenshot import browser_screenshot
+
+# Autopilot (PyAutoGUI-based computer control)
+from .autopilot import execute_autopilot
 
 __all__ = [
     # Utilities
@@ -79,16 +74,10 @@ __all__ = [
     # Web tools
     "open_website",
     "search_google",
-    # Screenshot/Vision
-    "take_screenshot",
-    "capture_screen_region",
     # Screen solver
     "analyze_screen",
     "solve_problem_on_screen",
     "solve_leetcode",  # Legacy alias
-    "read_form",
-    "extract_text_from_screen",
-    "answer_screen_question",
     # UI interaction
     "click_on_screen",
     "type_text",
@@ -98,7 +87,6 @@ __all__ = [
     # Code assistant
     "insert_code",
     "generate_code",
-    "replace_selection",
     "get_selected_code",
     "format_code",
     "save_file",
@@ -112,4 +100,6 @@ __all__ = [
     "browser_click_element",
     "browser_get_page_content",
     "browser_screenshot",
+    # Autopilot
+    "execute_autopilot",
 ]

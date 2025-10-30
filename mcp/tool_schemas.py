@@ -36,12 +36,14 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
     },
     {
         "name": "edit_file",
-        "description": "Edits an existing file with new content. Use when user wants to modify a file.",
+        "description": "Edits an existing file with new content. Supports three modes: 'replace' (default, overwrites entire file), 'append' (adds content to end), 'insert' (inserts at specific line). Use when user wants to modify a file.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
                 "file_path": {"type": "STRING", "description": "Path to file to edit"},
-                "content": {"type": "STRING", "description": "New file content"}
+                "content": {"type": "STRING", "description": "Content to write/append/insert"},
+                "mode": {"type": "STRING", "description": "Edit mode: 'replace' (default), 'append', or 'insert'"},
+                "line_number": {"type": "INTEGER", "description": "Line number for insert mode (required when mode='insert')"}
             },
             "required": ["file_path", "content"]
         }
@@ -162,34 +164,30 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
         }
     },
 
-    # ==================== SCREENSHOT/VISION ====================
+    # ==================== AUTOPILOT (PRIMARY ACTION TOOL) ====================
     {
-        "name": "take_screenshot",
-        "description": "Takes a screenshot of the current screen. Use when user wants to capture what's on screen.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {}
-        }
-    },
-    {
-        "name": "capture_screen_region",
-        "description": "Captures a specific region of the screen. Use for partial screenshots.",
+        "name": "execute_autopilot",
+        "description": "PRIMARY ACTION TOOL - USE THIS WHEN USER WANTS YOU TO DO ANYTHING. Autopilot takes control of the screen to complete multi-step tasks by analyzing screenshots in a loop and executing PyAutoGUI commands. Use for: solving problems, filling forms, playing games, navigating UIs, opening apps AND doing something with them. When user says DO/SOLVE/COMPLETE/FILL/PLAY/OPEN AND DO X, use this tool. Examples: 'solve today's wordle' -> autopilot opens Wordle and solves it; 'fill out this form' -> autopilot fills form step by step; 'send an email' -> autopilot opens email, composes, sends.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
-                "x": {"type": "INTEGER", "description": "X coordinate of top-left corner"},
-                "y": {"type": "INTEGER", "description": "Y coordinate of top-left corner"},
-                "width": {"type": "INTEGER", "description": "Width of region"},
-                "height": {"type": "INTEGER", "description": "Height of region"}
+                "objective": {
+                    "type": "STRING",
+                    "description": "Clear description of what task to complete (e.g., 'Open NY Times Wordle and solve today's puzzle', 'Fill out the visible form with user information')"
+                },
+                "max_iterations": {
+                    "type": "INTEGER",
+                    "description": "Maximum number of screenshot-analyze-execute cycles (default: 10)"
+                }
             },
-            "required": ["x", "y", "width", "height"]
+            "required": ["objective"]
         }
     },
 
     # ==================== SCREEN ANALYSIS ====================
     {
         "name": "analyze_screen",
-        "description": "Analyzes what's currently on the screen using AI vision. Use when user asks 'what do you see' or needs screen analysis.",
+        "description": "INFORMATION TOOL - Use when user wants to READ/UNDERSTAND what's on screen. Analyzes and describes screen content but does NOT take any action. Returns text description only. Use when user says: 'what do you see', 'read this', 'what's on my screen'. For DOING things (clicking, typing, solving), use execute_autopilot instead.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
@@ -199,39 +197,12 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
     },
     {
         "name": "solve_problem_on_screen",
-        "description": "Solves ANY problem visible on screen (math, coding, homework, puzzles, etc.). Analyzes the screen, solves the problem, and returns the answer. Use when user asks for help solving something on their screen.",
+        "description": "DEPRECATED - Use execute_autopilot instead. This tool only ANALYZES problems and returns text, it does NOT actually SOLVE them or take action. For actually solving tasks on screen (clicking, typing, completing steps), use execute_autopilot which will take control and complete the task.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
                 "problem_type": {"type": "STRING", "description": "Optional hint about problem type (math, coding, etc.)"}
             }
-        }
-    },
-    {
-        "name": "read_form",
-        "description": "Reads and understands form fields visible on screen. Use when user needs help understanding a form.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {}
-        }
-    },
-    {
-        "name": "extract_text_from_screen",
-        "description": "Extracts all text visible on screen using AI vision (OCR-like). Use when user wants to read text from screen.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {}
-        }
-    },
-    {
-        "name": "answer_screen_question",
-        "description": "Answers a question about what's on screen. Use when user asks specific questions about screen content.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {
-                "question": {"type": "STRING", "description": "Question about screen content"}
-            },
-            "required": ["question"]
         }
     },
 
@@ -326,17 +297,6 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
                 "language": {"type": "STRING", "description": "Programming language (default: python)"}
             },
             "required": ["prompt"]
-        }
-    },
-    {
-        "name": "replace_selection",
-        "description": "Replaces selected code in IDE. Use when user wants to replace highlighted code.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {
-                "new_code": {"type": "STRING", "description": "New code to replace selection"}
-            },
-            "required": ["new_code"]
         }
     },
     {

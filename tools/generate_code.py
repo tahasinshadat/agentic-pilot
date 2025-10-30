@@ -3,8 +3,8 @@
 import asyncio
 from typing import Any, Dict
 from tools.get_selected_code import get_selected_code
-from tools.replace_selection import replace_selection
 from tools.insert_code import insert_code
+from config.config import Config
 
 
 async def generate_code(
@@ -52,7 +52,7 @@ Code:"""
         # Call Gemini
         def _call_gemini():
             response = gemini_client.models.generate_content(
-                model="gemini-2.0-flash-exp",
+                model=Config.MODEL,
                 contents=full_prompt
             )
             return response.text

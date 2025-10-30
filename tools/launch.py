@@ -93,7 +93,7 @@ def _launch_app_via_search(app_name: str) -> Dict[str, Any]:
 
         app_lower = app_name.lower()
         if app_lower in quick_apps:
-            subprocess.Popen(quick_apps[app_lower], shell=True)
+            subprocess.Popen([quick_apps[app_lower]])
             return {"status": "success", "message": f"Launched '{app_name}' directly"}
 
         # Use Windows Search for everything else
