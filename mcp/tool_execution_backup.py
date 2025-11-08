@@ -3,7 +3,7 @@ MCP Tool Execution
 Executes tools from the tools directory.
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 import asyncio
 
 # Import all tools
@@ -19,13 +19,9 @@ class BrowserManager:
         self.browser = None
         self.pages = {}
         self.current_page = None
-        self._initialized = False
 
     async def initialize(self):
-        """Initialize browser with proper error handling."""
-        if self._initialized:
-            return
-        
+        """Initialize browser."""
         try:
             from playwright.async_api import async_playwright
             self.playwright = await async_playwright().start()
@@ -34,15 +30,10 @@ class BrowserManager:
             try:
                 self.browser = await self.playwright.chromium.connect_over_cdp("http://localhost:9222")
                 print("[Browser] Connected to existing Chrome")
-            except Exception as connect_error:
-                print(f"[Browser] Could not connect to existing Chrome: {connect_error}")
+            except Exception:
                 # Launch new browser
-                try:
-                    self.browser = await self.playwright.chromium.launch(headless=False)
-                    print("[Browser] Launched new browser")
-                except Exception as launch_error:
-                    print(f"[Browser] Failed to launch browser: {launch_error}")
-                    raise RuntimeError(f"Browser initialization failed: {launch_error}") from launch_error
+                self.browser = await self.playwright.chromium.launch(headless=False)
+                print("[Browser] Launched new browser")
 
             # Get default context
             contexts = self.browser.contexts
@@ -52,14 +43,8 @@ class BrowserManager:
                 if pages:
                     self.current_page = pages[0]
                     self.pages["main"] = self.current_page
-            
-            self._initialized = True
-            
         except Exception as e:
             print(f"[Browser] Init error: {e}")
-            # Cleanup partial initialization
-            await self.cleanup()
-            raise
 
     async def cleanup(self):
         """Cleanup browser."""
@@ -70,8 +55,6 @@ class BrowserManager:
                 await self.playwright.stop()
         except Exception as e:
             print(f"[Browser] Cleanup error: {e}")
-        finally:
-            self._initialized = False
 
 
 class ToolExecutor:
@@ -92,12 +75,8 @@ class ToolExecutor:
     async def initialize(self):
         """Initialize executor (browser)."""
         print("[MCP] Initializing browser...")
-        try:
-            await self.browser.initialize()
-            print("[MCP] Browser initialized!")
-        except Exception as e:
-            print(f"[MCP] Browser initialization failed: {e}")
-            print("[MCP] Some browser-based tools may not work. Continuing anyway...")
+        await self.browser.initialize()
+        print("[MCP] Browser initialized!")
 
     async def execute(self, tool_name: str, args: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -269,32 +248,10 @@ class ToolExecutor:
                 return await tools.browser_google_search(self.browser, args.get("query"))
 
             elif tool_name == "browser_fill_form":
-                return await tools.browser_fill_form(
-                    self.browser,
-                    args.get("fields", {}),
-                    args.get("frame_url_contains"),
-                    args.get("frame_name"),
-                    args.get("frame_index"),
-                )
+                return await tools.browser_fill_form(self.browser, args.get("fields", {}))
 
             elif tool_name == "browser_click_element":
-                return await tools.browser_click_element(
-                    self.browser,
-                    args.get("selector"),
-                    args.get("frame_url_contains"),
-                    args.get("frame_name"),
-                    args.get("frame_index"),
-                )
-            
-            # ==================== APPOINTMENTS ====================
-            elif tool_name == "make_appointment":
-                return await tools.make_appointment(
-                    self.browser,
-                    booking_url=args.get("booking_url"),
-                    date_text=args.get("date_text"),
-                    time_text=args.get("time_text"),
-                    patient=args.get("patient", {}),
-                )
+                return await tools.browser_click_element(self.browser, args.get("selector"))
 
             elif tool_name == "browser_get_page_content":
                 return await tools.browser_get_page_content(self.browser)

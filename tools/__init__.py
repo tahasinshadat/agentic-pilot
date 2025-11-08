@@ -50,6 +50,10 @@ from .browser_click_element import browser_click_element
 from .browser_get_page_content import browser_get_page_content
 from .browser_screenshot import browser_screenshot
 
+# Accessibility tools
+from .accessibility_shortcuts import accessibility_shortcuts
+from .screen_color_filter import screen_color_filter
+
 # Autopilot (PyAutoGUI-based computer control)
 from .autopilot import execute_autopilot
 

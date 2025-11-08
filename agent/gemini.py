@@ -35,6 +35,7 @@ class GeminiCore:
         # Continuous conversation mode
         self.continuous_mode = False
         self.conversation_history = []
+        self._history_lock = asyncio.Lock()  # Protect conversation history from race conditions
 
         # Initialize components
         Logger.info("Core", f"Initializing {wake_word.capitalize()}...")
@@ -48,7 +49,7 @@ class GeminiCore:
         # TTS manager (ElevenLabs WebSocket Streaming - exact copy from ada.py)
         self.tts = ElevenLabsTTS(
             api_key=Config.ELEVENLABS_API_KEY,
-            voice_id="UgBBYS2sOqTuMpoF3BR0"
+            voice_id=Config.ELEVENLABS_VOICE_ID
         )
 
         # Screen capture
@@ -169,8 +170,12 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
             screenshot_result = await self.screen_capture.capture_screen()
 
             # Use conversation history in continuous mode
-            if use_history and self.conversation_history:
-                contents = list(self.conversation_history)
+            if use_history:
+                async with self._history_lock:
+                    if self.conversation_history:
+                        contents = list(self.conversation_history)
+                    else:
+                        contents = []
             else:
                 contents = []
 
@@ -231,7 +236,7 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
                         # Other errors, don't retry
                         raise
 
-            max_iterations = 5
+            max_iterations = Config.MAX_TOOL_ITERATIONS
             for _ in range(max_iterations):
                 function_calls = []
                 if getattr(response, "candidates", None):
@@ -294,11 +299,12 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
 
             # Add assistant's response to conversation history
             if use_history and response.candidates:
-                contents.append(response.candidates[0].content)
-                # Keep last 10 turns to avoid context length issues
-                if len(contents) > 20:
-                    contents = contents[-20:]
-                self.conversation_history = contents
+                async with self._history_lock:
+                    contents.append(response.candidates[0].content)
+                    # Keep last N turns to avoid context length issues
+                    if len(contents) > Config.MAX_CONVERSATION_TURNS:
+                        contents = contents[-Config.MAX_CONVERSATION_TURNS:]
+                    self.conversation_history = contents
 
             if response_text and len(response_text) > 5:
                 Logger.info("Core", "Speaking response...")
@@ -396,13 +402,13 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
             try:
                 if self.on_speaking_end:
                     await self.on_speaking_end()
-            except:
+            except Exception:
                 pass
 
             try:
                 if not use_history and self.on_idle:
                     await self.on_idle()
-            except:
+            except Exception:
                 pass
 
 
@@ -520,10 +526,10 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
             CHANNELS = 1
             RATE = 16000
             CHUNK = 1024
-            SILENCE_THRESHOLD = 300
-            SILENCE_DURATION = 2.0
-            MAX_DURATION = 10
-            MIN_AUDIO_LENGTH = 0.5
+            SILENCE_THRESHOLD = Config.SILENCE_THRESHOLD
+            SILENCE_DURATION = Config.SILENCE_DURATION
+            MAX_DURATION = Config.MAX_RECORDING_DURATION
+            MIN_AUDIO_LENGTH = Config.MIN_AUDIO_LENGTH
 
             pya = pyaudio.PyAudio()
             stream = pya.open(

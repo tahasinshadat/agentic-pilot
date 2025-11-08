@@ -2,6 +2,7 @@
 
 import os
 from typing import Dict, Any, Optional
+from utils.path_validator import validate_file_path
 
 
 def edit_file(

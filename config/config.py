@@ -30,6 +30,19 @@ class Config:
     TOOL_RETRY_ATTEMPTS = 2  # Number of retries for failed tools (total attempts = 1 + retries)
     TOOL_RETRY_DELAY = 1.0  # Seconds to wait between retries
 
+    MAX_CONVERSATION_TURNS = 20  # Maximum turns to keep in conversation history
+    MAX_TOOL_ITERATIONS = 5  # Maximum tool execution iterations per interaction
+
+    # Audio Recording Settings (moved from gemini.py)
+    SILENCE_THRESHOLD = 300  # Audio energy threshold for silence detection
+    SILENCE_DURATION = 2.0  # Seconds of silence to end recording
+    MAX_RECORDING_DURATION = 10  # Maximum seconds for a single recording
+    MIN_AUDIO_LENGTH = 0.5  # Minimum audio length in seconds
+    MIN_TRANSCRIPTION_LENGTH = 3  # Minimum transcription text length
+
+    # TTS Settings (moved from gemini.py)
+    ELEVENLABS_VOICE_ID = "UgBBYS2sOqTuMpoF3BR0"  # Default voice ID
+
     # ChatTTS settings
     TTS_COMPILE = False  # Set to True for faster inference (requires compatible GPU)
 
@@ -44,6 +57,24 @@ class Config:
 
         if not cls.ELEVENLABS_API_KEY:
             raise ValueError("ELEVENLABS_API_KEY not found in environment variables")
+
+
+        # Validate numeric ranges
+        if cls.TOOL_RETRY_ATTEMPTS < 0:
+            raise ValueError(f"TOOL_RETRY_ATTEMPTS must be >= 0, got {cls.TOOL_RETRY_ATTEMPTS}")
+
+        if cls.TOOL_RETRY_DELAY < 0:
+            raise ValueError(f"TOOL_RETRY_DELAY must be >= 0, got {cls.TOOL_RETRY_DELAY}")
+
+        if cls.MAX_CONVERSATION_TURNS < 1:
+            raise ValueError(f"MAX_CONVERSATION_TURNS must be >= 1, got {cls.MAX_CONVERSATION_TURNS}")
+
+        if cls.SILENCE_THRESHOLD < 0:
+            raise ValueError(f"SILENCE_THRESHOLD must be >= 0, got {cls.SILENCE_THRESHOLD}")
+
+        if cls.MAX_RECORDING_DURATION < cls.MIN_AUDIO_LENGTH:
+            raise ValueError(f"MAX_RECORDING_DURATION must be >= MIN_AUDIO_LENGTH")
+
 
         print("[Config] Configuration validated successfully")
 

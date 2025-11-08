@@ -75,12 +75,14 @@ Do not include any other text, just the coordinates in the format above."""
         click_x = int(match.group(1))
         click_y = int(match.group(2))
 
-        # Validate coordinates are within screen bounds
-        if click_x < 0 or click_x > screen_width or click_y < 0 or click_y > screen_height:
-            return {
-                "status": "error",
-                "message": f"Coordinates ({click_x}, {click_y}) are outside screen bounds ({screen_width}x{screen_height})"
-            }
+        # Clamp coordinates to screen bounds (safer than erroring)
+        original_x, original_y = click_x, click_y
+        click_x = max(0, min(click_x, screen_width - 1))
+        click_y = max(0, min(click_y, screen_height - 1))
+
+        # Log if coordinates were clamped
+        if click_x != original_x or click_y != original_y:
+            print(f"[Click] Clamped coordinates from ({original_x}, {original_y}) to ({click_x}, {click_y})")
 
         # Click!
         pyautogui.click(click_x, click_y)
