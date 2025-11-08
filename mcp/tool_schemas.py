@@ -128,17 +128,6 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
             "required": ["app_name"]
         }
     },
-    {
-        "name": "open_application",
-        "description": "Opens a desktop application by name (e.g., 'notepad', 'chrome', 'spotify'). Use when user wants to launch an app. DEPRECATED: Use 'launch' instead for better reliability.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {
-                "application_name": {"type": "STRING", "description": "Name of the application to open"}
-            },
-            "required": ["application_name"]
-        }
-    },
 
     # ==================== WEB TOOLS ====================
     {
@@ -192,16 +181,6 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
             "type": "OBJECT",
             "properties": {
                 "instruction": {"type": "STRING", "description": "Optional specific instruction for analysis"}
-            }
-        }
-    },
-    {
-        "name": "solve_problem_on_screen",
-        "description": "DEPRECATED - Use execute_autopilot instead. This tool only ANALYZES problems and returns text, it does NOT actually SOLVE them or take action. For actually solving tasks on screen (clicking, typing, completing steps), use execute_autopilot which will take control and complete the task.",
-        "parameters": {
-            "type": "OBJECT",
-            "properties": {
-                "problem_type": {"type": "STRING", "description": "Optional hint about problem type (math, coding, etc.)"}
             }
         }
     },
