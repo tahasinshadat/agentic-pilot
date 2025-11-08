@@ -4,7 +4,7 @@ Standalone application for configuring and testing Jarvis assistant.
 Run this to customize and preview your assistant without starting Jarvis.
 
 Usage:
-    python settings_app.py
+    python settings_app.py 
 """
 
 import sys
