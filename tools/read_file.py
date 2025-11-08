@@ -2,6 +2,7 @@
 
 import os
 from typing import Dict, Any
+from utils.path_validator import validate_file_path
 
 
 def read_file(file_path: str) -> Dict[str, Any]:

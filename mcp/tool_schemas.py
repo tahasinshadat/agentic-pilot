@@ -312,7 +312,7 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
     },
     # ==================== ACCESSIBILITY FEATURES ====================
     {
-        "name": "accessibility_shortcuts.py",
+        "name": "accessibility_shortcuts",
         "description": "Toggles Windows accessibility features like Narrator, Magnifier, On-Screen Keyboard, and Live Captions based on user preferences. Use when user wants to enable/disable accessibility tools.",
         "parameters": {
             "type": "OBJECT",
@@ -325,7 +325,7 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
         }
     },
     {
-        "name": "screen_color_filter.py",
+        "name": "screen_color_filter",
         "description": "Enables or disables Windows color filters (grayscale, inverted, etc.) based on user preference. Use when user wants to change screen color settings for accessibility.",
         "parameters": {
             "type": "OBJECT",
