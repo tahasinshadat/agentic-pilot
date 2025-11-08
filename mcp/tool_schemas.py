@@ -80,6 +80,21 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
             "properties": {}
         }
     },
+    # ==================== APPOINTMENTS ====================
+    {
+        "name": "make_appointment",
+        "description": "Book an appointment using an embedded Daylight/Stripe scheduler on a booking page.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "booking_url": {"type": "STRING", "description": "URL of the booking page that contains the embedded scheduler"},
+                "date_text": {"type": "STRING", "description": "Visible date label to click, e.g., 'Wed, Nov 12' or '12'"},
+                "time_text": {"type": "STRING", "description": "Visible time label to click, e.g., '2:30 PM'"},
+                "patient": {"type": "OBJECT", "description": "Patient fields (first_name, last_name, email, phone, dob)"}
+            },
+            "required": ["booking_url", "date_text", "time_text", "patient"]
+        }
+    },
 
     # ==================== APPLICATION CONTROL ====================
     {
@@ -385,22 +400,28 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
     },
     {
         "name": "browser_fill_form",
-        "description": "Fills out form fields in browser. Use when user wants to auto-fill a form.",
+        "description": "Fills out form fields in browser. Use when user wants to auto-fill a form. Supports targeting an iframe.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
-                "fields": {"type": "OBJECT", "description": "Dictionary of field names and values"}
+                "fields": {"type": "OBJECT", "description": "Dictionary of field selectors (or names/ids) to values"},
+                "frame_url_contains": {"type": "STRING", "description": "Substring to match target iframe URL (optional)"},
+                "frame_name": {"type": "STRING", "description": "Exact iframe name (optional)"},
+                "frame_index": {"type": "INTEGER", "description": "Index in page.frames() (optional)"}
             },
             "required": ["fields"]
         }
     },
     {
         "name": "browser_click_element",
-        "description": "Clicks an element in browser by selector. Use when user wants to click something on a page.",
+        "description": "Clicks an element in browser by selector. Supports targeting an iframe.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
-                "selector": {"type": "STRING", "description": "CSS selector for element to click"}
+                "selector": {"type": "STRING", "description": "CSS selector for element to click"},
+                "frame_url_contains": {"type": "STRING", "description": "Substring to match target iframe URL (optional)"},
+                "frame_name": {"type": "STRING", "description": "Exact iframe name (optional)"},
+                "frame_index": {"type": "INTEGER", "description": "Index in page.frames() (optional)"}
             },
             "required": ["selector"]
         }

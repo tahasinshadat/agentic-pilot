@@ -53,6 +53,9 @@ from .browser_screenshot import browser_screenshot
 # Autopilot (PyAutoGUI-based computer control)
 from .autopilot import execute_autopilot
 
+# Appointments
+from .make_appointment import make_appointment
+
 __all__ = [
     # Utilities
     "ScreenCapture",
@@ -100,4 +103,6 @@ __all__ = [
     "browser_screenshot",
     # Autopilot
     "execute_autopilot",
+    # Appointments
+    "make_appointment",
 ]

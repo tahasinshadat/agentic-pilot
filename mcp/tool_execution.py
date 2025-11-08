@@ -236,10 +236,32 @@ class ToolExecutor:
                 return await tools.browser_google_search(self.browser, args.get("query"))
 
             elif tool_name == "browser_fill_form":
-                return await tools.browser_fill_form(self.browser, args.get("fields", {}))
+                return await tools.browser_fill_form(
+                    self.browser,
+                    args.get("fields", {}),
+                    args.get("frame_url_contains"),
+                    args.get("frame_name"),
+                    args.get("frame_index"),
+                )
 
             elif tool_name == "browser_click_element":
-                return await tools.browser_click_element(self.browser, args.get("selector"))
+                return await tools.browser_click_element(
+                    self.browser,
+                    args.get("selector"),
+                    args.get("frame_url_contains"),
+                    args.get("frame_name"),
+                    args.get("frame_index"),
+                )
+            
+            # ==================== APPOINTMENTS ====================
+            elif tool_name == "make_appointment":
+                return await tools.make_appointment(
+                    self.browser,
+                    booking_url=args.get("booking_url"),
+                    date_text=args.get("date_text"),
+                    time_text=args.get("time_text"),
+                    patient=args.get("patient", {}),
+                )
 
             elif tool_name == "browser_get_page_content":
                 return await tools.browser_get_page_content(self.browser)
