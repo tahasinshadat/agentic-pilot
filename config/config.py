@@ -26,7 +26,9 @@ class Config:
     CHUNK_SIZE = 1024
 
     # Gemini settings
-    MODEL = "gemini-2.0-flash-exp"
+    MODEL = "gemini-2.5-flash"  # Updated to 2.5 for better reasoning
+    TOOL_RETRY_ATTEMPTS = 2  # Number of retries for failed tools (total attempts = 1 + retries)
+    TOOL_RETRY_DELAY = 1.0  # Seconds to wait between retries
 
     # ChatTTS settings
     TTS_COMPILE = False  # Set to True for faster inference (requires compatible GPU)

@@ -428,6 +428,13 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
         finally:
             self.stop()
 
+    async def trigger_listening(self):
+        """
+        Manually trigger listening mode (bypasses wake word).
+        Can be called externally (e.g., from hotkey).
+        """
+        await self._on_wake_detected()
+
     async def _on_wake_detected(self, command_text: str = None):
         """
         Handle wake word detection.
@@ -599,7 +606,7 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
             return ""
 
     async def _handle_tool_calls(self, function_calls):
-        """Handle function/tool calls from Gemini using MCP."""
+        """Handle function/tool calls from Gemini using MCP with retry logic."""
         function_responses = []
 
         for fc in function_calls:
@@ -608,13 +615,51 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
 
             Logger.info("Core", f"Tool call: {tool_name}")
 
-            try:
-                # Execute tool via MCP
-                result = await execute_tool(tool_name, args)
-            except Exception as e:
-                import traceback
-                traceback.print_exc()
-                result = {"success": False, "error": str(e)}
+            # Retry logic with exponential backoff
+            result = None
+            last_error = None
+
+            for attempt in range(1 + Config.TOOL_RETRY_ATTEMPTS):
+                try:
+                    if attempt > 0:
+                        Logger.info("Core", f"Retry attempt {attempt}/{Config.TOOL_RETRY_ATTEMPTS} for {tool_name}")
+                        await asyncio.sleep(Config.TOOL_RETRY_DELAY * attempt)  # Exponential backoff
+
+                    # Execute tool via MCP
+                    result = await execute_tool(tool_name, args)
+
+                    # Check if result indicates failure
+                    if isinstance(result, dict):
+                        if result.get("status") == "error" or result.get("success") == False:
+                            last_error = result.get("message") or result.get("error") or "Tool returned error status"
+                            Logger.info("Core", f"Tool {tool_name} returned error: {last_error}")
+                            # Continue to retry
+                            continue
+
+                    # Success! Break out of retry loop
+                    Logger.info("Core", f"Tool {tool_name} succeeded" + (f" on attempt {attempt + 1}" if attempt > 0 else ""))
+                    break
+
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                    last_error = str(e)
+                    Logger.error("Core", f"Tool {tool_name} failed (attempt {attempt + 1}): {last_error}")
+                    result = None
+                    # Continue to next retry
+
+            # If all retries exhausted, create helpful error response
+            if result is None or (isinstance(result, dict) and (result.get("status") == "error" or result.get("success") == False)):
+                error_msg = last_error or "Tool execution failed after all retries"
+                result = {
+                    "status": "error",
+                    "success": False,
+                    "error": error_msg,
+                    "tool_name": tool_name,
+                    "attempts": 1 + Config.TOOL_RETRY_ATTEMPTS,
+                    "suggestion": f"Tool '{tool_name}' failed after {1 + Config.TOOL_RETRY_ATTEMPTS} attempts. Error: {error_msg}. Please try an alternative approach or different tool."
+                }
+                Logger.error("Core", f"Tool {tool_name} exhausted all retries. Returning error to Gemini for alternative approach.")
 
             function_responses.append({"name": tool_name, "response": result})
 

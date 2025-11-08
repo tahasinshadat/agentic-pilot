@@ -168,7 +168,8 @@ async def execute_autopilot(
     gemini_client,
     screen_capture,
     objective: str,
-    max_iterations: int = 10
+    max_iterations: int = 10,
+    tool_executor=None
 ) -> Dict[str, Any]:
     """
     Execute autopilot mode for complex UI automation tasks.
@@ -186,8 +187,13 @@ async def execute_autopilot(
     try:
         interpreter = AutopilotInterpreter()
 
-        # Load autopilot-specific context
-        autopilot_context = _get_autopilot_context()
+        # Load autopilot-specific context with available tools
+        from mcp.tool_schemas import get_tool_schemas
+        available_tools = get_tool_schemas()
+        # Exclude execute_autopilot to prevent recursion
+        available_tools = [t for t in available_tools if t['name'] != 'execute_autopilot']
+
+        autopilot_context = _get_autopilot_context(available_tools)
 
         for step_num in range(max_iterations):
             print(f"[Autopilot] Step {step_num + 1}/{max_iterations}")
@@ -276,21 +282,51 @@ IMPORTANT: The screen is {screen_width} pixels wide and {screen_height} pixels t
                     "steps_taken": step_num + 1
                 }
 
-            # Execute steps
+            # Execute steps (can be PyAutoGUI commands or tool calls)
             steps = instructions.get('steps', [])
             if not steps:
                 print("[Autopilot] No steps provided, continuing...")
                 continue
 
             print(f"[Autopilot] Executing {len(steps)} steps...")
-            success = interpreter.execute_commands(steps)
 
-            if not success:
-                return {
-                    "status": "error",
-                    "message": "Failed to execute autopilot commands",
-                    "steps_taken": step_num + 1
-                }
+            # Execute each step (PyAutoGUI or tool call)
+            for step in steps:
+                try:
+                    # Check if this is a tool call (has 'tool' field) or PyAutoGUI command (has 'function' field)
+                    if 'tool' in step:
+                        # Tool call - execute via ToolExecutor
+                        tool_name = step['tool']
+
+                        # Prevent recursive autopilot calls
+                        if tool_name == 'execute_autopilot':
+                            print("[Autopilot] Skipping recursive autopilot call")
+                            continue
+
+                        if not tool_executor:
+                            print(f"[Autopilot] Cannot call tool '{tool_name}' - no ToolExecutor provided")
+                            continue
+
+                        justification = step.get('human_readable_justification', '')
+                        if justification:
+                            print(f"[Autopilot] Tool: {justification}")
+
+                        # Execute the tool
+                        result = await tool_executor.execute(tool_name, step.get('parameters', {}))
+                        print(f"[Autopilot] Tool '{tool_name}' result: {result.get('status', 'unknown')}")
+
+                    elif 'function' in step:
+                        # PyAutoGUI command - execute via interpreter
+                        success = interpreter.execute_command(step)
+                        if not success:
+                            print(f"[Autopilot] Warning: Command failed: {step.get('function')}")
+                    else:
+                        print(f"[Autopilot] Invalid step format: {step}")
+
+                except Exception as e:
+                    print(f"[Autopilot] Error executing step: {e}")
+                    # Continue with next step instead of failing completely
+                    continue
 
             # Small delay before next iteration
             await asyncio.sleep(0.5)
@@ -311,25 +347,65 @@ IMPORTANT: The screen is {screen_width} pixels wide and {screen_height} pixels t
         }
 
 
-def _get_autopilot_context() -> str:
+def _get_autopilot_context(available_tools: list) -> str:
     """
     Get the autopilot-specific context for Gemini.
-    Comprehensive PyAutoGUI documentation with keyboard-first approach.
+    Comprehensive PyAutoGUI documentation with keyboard-first approach + available tools.
     """
-    return """
-You are controlling a computer through PyAutoGUI commands. Return valid JSON responses that map to function calls.
+    # Build tools list for context
+    tools_list = "\n".join([
+        f"- {tool['name']}: {tool['description'][:150]}..."
+        for tool in available_tools[:15]  # Limit to top 15 to save tokens
+    ])
+
+    return f"""
+You are controlling a computer through PyAutoGUI commands AND JARVIS tools. Return valid JSON responses.
 
 JSON Format:
-{
+{{
     "steps": [
-        {
-            "function": "...",
-            "parameters": {"key": "value"},
+        {{
+            "function": "...",  // For PyAutoGUI commands
+            "parameters": {{"key": "value"}},
             "human_readable_justification": "..."
-        }
+        }},
+        {{
+            "tool": "...",  // For JARVIS tools
+            "parameters": {{"key": "value"}},
+            "human_readable_justification": "..."
+        }}
     ],
     "done": null or "completion message"
-}
+}}
+
+==================== AVAILABLE JARVIS TOOLS ====================
+
+You can call these tools in your steps using "tool" field instead of "function":
+
+{tools_list}
+
+CRITICAL: Use tools FIRST before PyAutoGUI when possible!
+- To open websites: use "open_website" tool, NOT PyAutoGUI
+- To search Google: use "search_google" tool, NOT PyAutoGUI
+- To launch apps: use "launch" or "smart_open" tools
+- To create/edit files: use file operation tools
+
+Example using tools:
+{{
+    "steps": [
+        {{
+            "tool": "open_website",
+            "parameters": {{"url": "https://nytimes.com/games/wordle"}},
+            "human_readable_justification": "Opening Wordle website"
+        }},
+        {{
+            "function": "sleep",
+            "parameters": {{"secs": 3}},
+            "human_readable_justification": "Waiting for page to load"
+        }}
+    ],
+    "done": null
+}}
 
 ==================== AVAILABLE FUNCTIONS ====================
 
@@ -467,9 +543,68 @@ Other:
 
 6. ERROR PREVENTION:
    - Never overwrite user data - create new files/tabs
-   - If you see login/authentication, stop with done message
    - If task becomes unclear, stop with explanation
    - Verify screen state before proceeding with sensitive actions
+
+==================== POPUP & LOGIN HANDLING ====================
+
+CRITICAL: Handle popups and login screens properly!
+
+POPUP DETECTION & HANDLING:
+When you see popups, modals, or overlay dialogs, ALWAYS handle them FIRST:
+
+Common popup types to look for:
+- Cookie consent banners ("Accept Cookies", "Accept All", "I Agree")
+- Newsletter signups ("Subscribe", "No Thanks", "Close", "X")
+- Age verification ("I'm 18+", "Enter", "Continue")
+- Terms of service ("Accept", "I Agree", "Continue")
+- Welcome messages ("Get Started", "Continue", "Skip", "X")
+- Location permission requests ("Allow", "Block", "Not Now")
+- Notification requests ("Allow", "Block", "Later")
+- App install prompts ("Install", "No Thanks", "Continue in Browser")
+
+How to handle popups:
+1. IDENTIFY: Look at the screenshot - is there a popup/modal?
+2. LOCATE DISMISS BUTTON: Find "Accept", "Continue", "X", "Close", "No Thanks", etc.
+3. CLICK IT: Use click() or press Enter/Esc to dismiss
+4. WAIT: Add sleep(1) after dismissing to let page settle
+5. VERIFY: Request new screenshot to confirm popup is gone
+
+Example popup handling:
+{{{{
+    "steps": [
+        {{{{"function": "click", "parameters": {{{{"x": 960, "y": 400}}}}, "human_readable_justification": "Clicking 'Accept Cookies' button"}}}},
+        {{{{"function": "sleep", "parameters": {{{{"secs": 1}}}}, "human_readable_justification": "Waiting for popup to close"}}}}
+    ],
+    "done": null
+}}}}
+
+Keyboard shortcuts to dismiss popups:
+- Esc key: Closes most modals/dialogs
+- Enter key: Clicks default "OK" or "Continue" button
+- Tab + Enter: Navigate to button then click it
+
+LOGIN FORM DETECTION:
+If you see a login/authentication form (username/password fields), STOP IMMEDIATELY:
+
+How to identify login forms:
+- Input fields labeled "Username", "Email", "Password"
+- "Sign In", "Log In", "Login" buttons
+- "Forgot Password?" links
+- OAuth buttons ("Sign in with Google/Facebook/Apple")
+
+When login detected, return this EXACT response:
+{{{{
+    "steps": [],
+    "done": "LOGIN_REQUIRED: I detected a login form. Please log in to your account, then ask me to continue the task."
+}}}}
+
+DO NOT attempt to:
+- Fill in login credentials (security risk)
+- Click "Sign In" or "Log In" buttons
+- Continue with the task
+
+After user logs in, they will ask you to continue. Start by requesting a new screenshot.
 
 ==================== WINDOWS-SPECIFIC TIPS ====================
 
@@ -499,32 +634,32 @@ Window Management:
 ==================== EXAMPLE RESPONSES ====================
 
 Example 1: Opening Chrome and navigating to website
-{
+{{
     "steps": [
-        {"function": "hotkey", "parameters": {"key1": "win", "key2": "s"}, "human_readable_justification": "Opening Windows Search"},
-        {"function": "sleep", "parameters": {"secs": 1}, "human_readable_justification": "Waiting for search"},
-        {"function": "write", "parameters": {"string": "chrome", "interval": 0.05}, "human_readable_justification": "Typing Chrome"},
-        {"function": "press", "parameters": {"keys": "enter"}, "human_readable_justification": "Launching Chrome"}
+        {{"function": "hotkey", "parameters": {{"key1": "win", "key2": "s"}}, "human_readable_justification": "Opening Windows Search"}},
+        {{"function": "sleep", "parameters": {{"secs": 1}}, "human_readable_justification": "Waiting for search"}},
+        {{"function": "write", "parameters": {{"string": "chrome", "interval": 0.05}}, "human_readable_justification": "Typing Chrome"}},
+        {{"function": "press", "parameters": {{"keys": "enter"}}, "human_readable_justification": "Launching Chrome"}}
     ],
     "done": null
-}
+}}
 
 Example 2: Filling form with keyboard
-{
+{{
     "steps": [
-        {"function": "press", "parameters": {"keys": "tab"}, "human_readable_justification": "Moving to first field"},
-        {"function": "write", "parameters": {"string": "John Doe", "interval": 0.05}, "human_readable_justification": "Entering name"},
-        {"function": "press", "parameters": {"keys": "tab"}, "human_readable_justification": "Moving to email field"},
-        {"function": "write", "parameters": {"string": "john@example.com", "interval": 0.05}, "human_readable_justification": "Entering email"}
+        {{"function": "press", "parameters": {{"keys": "tab"}}, "human_readable_justification": "Moving to first field"}},
+        {{"function": "write", "parameters": {{"string": "John Doe", "interval": 0.05}}, "human_readable_justification": "Entering name"}},
+        {{"function": "press", "parameters": {{"keys": "tab"}}, "human_readable_justification": "Moving to email field"}},
+        {{"function": "write", "parameters": {{"string": "john@example.com", "interval": 0.05}}, "human_readable_justification": "Entering email"}}
     ],
     "done": null
-}
+}}
 
 Example 3: Task complete
-{
+{{
     "steps": [],
     "done": "Successfully completed the Wordle puzzle in 4 attempts"
-}
+}}
 
 ==================== REMEMBER ====================
 

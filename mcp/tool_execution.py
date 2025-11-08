@@ -137,9 +137,6 @@ class ToolExecutor:
                     delay_seconds=args.get("delay_seconds", 0)
                 )
 
-            elif tool_name == "open_application":
-                return tools.open_application(application_name=args.get("application_name"))
-
             # ==================== WEB TOOLS ====================
             elif tool_name == "open_website":
                 return tools.open_website(url=args.get("url"))
@@ -153,22 +150,6 @@ class ToolExecutor:
                     self.gemini_client,
                     self.screen_capture,
                     instruction=args.get("instruction")
-                )
-
-            elif tool_name == "solve_problem_on_screen":
-                # Renamed from solve_leetcode - works for ANY problem
-                return await tools.solve_problem_on_screen(
-                    self.gemini_client,
-                    self.screen_capture,
-                    problem_type=args.get("problem_type")
-                )
-
-            elif tool_name == "solve_leetcode":
-                # Legacy alias - redirect to new name
-                return await tools.solve_problem_on_screen(
-                    self.gemini_client,
-                    self.screen_capture,
-                    problem_type="coding"
                 )
 
             # ==================== GENERAL UI INTERACTION ====================
@@ -272,7 +253,8 @@ class ToolExecutor:
                     self.gemini_client,
                     self.screen_capture,
                     objective=args.get("objective"),
-                    max_iterations=args.get("max_iterations", 10)
+                    max_iterations=args.get("max_iterations", 10),
+                    tool_executor=self  # Pass ToolExecutor so autopilot can call other tools
                 )
 
             # ==================== UNKNOWN TOOL ====================

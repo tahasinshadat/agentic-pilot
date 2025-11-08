@@ -13,6 +13,7 @@ from config import Config
 from agent.gemini import GeminiCore
 from gui.floating_window import FloatingAssistantWindow
 from utils.logger import Logger
+from utils.hotkey import HotkeyHandler
 
 
 class JarvisApp(QObject):
@@ -53,6 +54,9 @@ class JarvisApp(QObject):
         self.loop = asyncio.new_event_loop()
         self.core_thread = None
 
+        # Hotkey handler
+        self.hotkey_handler = None
+
     def setup_gui(self):
         """Setup floating GUI window."""
         self.gui = FloatingAssistantWindow()
@@ -73,7 +77,11 @@ class JarvisApp(QObject):
         self.core_thread = threading.Thread(target=self._run_async_core, daemon=True)
         self.core_thread.start()
 
-        Logger.info("App", f"Jarvis started! Say 'Hey {Config.WAKE_WORD.capitalize()}'")
+        # Register global hotkeys
+        self.hotkey_handler = HotkeyHandler(self.jarvis, self.loop)
+        self.hotkey_handler.register_hotkeys()
+
+        Logger.info("App", f"Jarvis started! Say 'Hey {Config.WAKE_WORD.capitalize()}' or press Win+J")
 
     def _run_async_core(self):
         """Run async core in separate thread."""
@@ -108,6 +116,11 @@ class JarvisApp(QObject):
     def stop(self):
         """Stop Jarvis."""
         Logger.info("App", "Stopping Jarvis...")
+
+        # Unregister hotkeys
+        if self.hotkey_handler:
+            self.hotkey_handler.unregister_hotkeys()
+
         self.jarvis.stop()
 
         if self.loop.is_running():
@@ -138,9 +151,10 @@ def main():
         print("="*60)
         print(f"[OK] Jarvis is ready!")
         print(f"  Wake word: 'Hey {Config.WAKE_WORD.capitalize()}'")
+        print(f"  Hotkey: Win+J (Windows key + J)")
         print(f"  GUI: Floating window in bottom-right corner")
         print()
-        print("  Say the wake word to activate Jarvis!")
+        print("  Say the wake word OR press Win+J to activate!")
         print("="*60)
         print()
 

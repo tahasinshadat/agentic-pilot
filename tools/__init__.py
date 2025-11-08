@@ -11,7 +11,6 @@ from .read_file import read_file
 from .list_files import list_files
 
 # Application control
-from .open_application import open_application
 from .launch import launch
 from .smart_open import smart_open_simple as smart_open
 from .play_music import play_music
@@ -25,7 +24,6 @@ from .search_google import search_google
 
 # Screen solver tools
 from .analyze_screen import analyze_screen
-from .solve_problem_on_screen import solve_problem_on_screen, solve_leetcode
 
 # General UI interaction tools
 from .click_on_screen import click_on_screen
@@ -65,7 +63,6 @@ __all__ = [
     "read_file",
     "list_files",
     # Application control
-    "open_application",
     "launch",
     "smart_open",
     "play_music",
@@ -76,8 +73,6 @@ __all__ = [
     "search_google",
     # Screen solver
     "analyze_screen",
-    "solve_problem_on_screen",
-    "solve_leetcode",  # Legacy alias
     # UI interaction
     "click_on_screen",
     "type_text",
