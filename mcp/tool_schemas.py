@@ -331,7 +331,34 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
             "properties": {}
         }
     },
-
+    # ==================== ACCESSIBILITY FEATURES ====================
+    {
+        "name": "accessibility_shortcuts.py",
+        "description": "Toggles Windows accessibility features like Narrator, Magnifier, On-Screen Keyboard, and Live Captions based on user preferences. Use when user wants to enable/disable accessibility tools.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "narrator": {"type": "BOOLEAN", "description": "Toggle Narrator (True to toggle, False/None to leave as-is)"},
+                "live_captions": {"type": "BOOLEAN", "description": "Toggle Live Captions (True to toggle, False/None to leave as-is)"},
+                "onscreen_keyboard": {"type": "BOOLEAN", "description": "Toggle On-Screen Keyboard (True to toggle, False/None to leave as-is)"},
+                "magnifier": {"type": "BOOLEAN", "description": "Toggle Magnifier (True to toggle, False/None to leave as-is)"}
+            }
+        }
+    },
+    {
+        "name": "screen_color_filter.py",
+        "description": "Enables or disables Windows color filters (grayscale, inverted, etc.) based on user preference. Use when user wants to change screen color settings for accessibility.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "filter_code": {
+                    "type": "INTEGER",
+                    "description": "Color filter code: -1 to disable (the default screen, no filter), 0 for grayscale (for those experiencing visual overstimulation for ADHD), 1 for inverted (for those with low vision), 2 for grayscale inverted (solves no condition, just for fun), 3 for deuteranopia, 4 for protanopia, 5 for tritanopia, 6 for warm (for those who want blue light reduction for better sleep AKA night light), 7 for dim (for those with epilepsy or eye strain), 8 for low contrast (for those with dyslexia where visual stress makes it difficult to read), 9 for high contrast (primary solution for those with low vision), 10 for warm dim (combined blue light reduction and dimming), 11 for warm low contrast (combined blue light reduction and low contrast)."
+                }
+            },
+            "required": ["filter_code"]
+        }
+    },
     # ==================== BROWSER CONTROL ====================
     {
         "name": "browser_open_tab",

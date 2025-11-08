@@ -91,6 +91,9 @@ __all__ = [
     "format_code",
     "save_file",
     "comment_code",
+    # Accessibility Settings
+    "screen_color_filter",
+    "accessibility_shortcuts",
     # Browser control
     "browser_open_tab",
     "browser_close_tab",
