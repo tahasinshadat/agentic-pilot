@@ -1,408 +1,707 @@
 """
 Jarvis Settings & Test Application
-Standalone application for configuring and testing Jarvis assistant.
-Run this to customize and preview your assistant without starting Jarvis.
+Futuristic control hub for configuring and testing the Jarvis assistant.
 
 Usage:
-    python settings_app.py 
+    python settings_app.py
 """
 
 import sys
-from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout,
-                                QWidget, QPushButton, QLabel, QComboBox, QGroupBox, QFormLayout)
+
 from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QHBoxLayout,
+    QWidget,
+    QPushButton,
+    QLabel,
+    QComboBox,
+    QGroupBox,
+    QFormLayout,
+    QFrame,
+    QGraphicsDropShadowEffect,
+)
+
 from gui.floating_window import FloatingAssistantWindow
 from gui.settings import get_settings
 
 
 class SettingsApp(QMainWindow):
     """
-    Combined settings and test application with live preview.
-    All-in-one window with inline settings and test controls.
+    Jarvis Settings & Test Manager
+
+    Layout:
+        - Top: Futuristic header with title, tagline, AI orb & state indicator.
+        - Left: Glass panel for identity / visual configuration.
+        - Right: Glass panel for test controls & system status.
+
+    Visual style:
+        - Dark, layered background with neon cyan / blue / purple accents.
+        - Panels feel like holographic cards.
+        - Buttons mimic game/HUD controls.
     """
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Jarvis Settings & Test Manager")
-        # 3:2 aspect ratio (900x600)
-        self.setGeometry(100, 100, 900, 600)
-        self.setMinimumSize(900, 600)
 
-        # Preview window (shows how Jarvis will look)
+        self.setWindowTitle("JARVIS · Control Hub")
+        self.setGeometry(100, 100, 1000, 620)
+        self.setMinimumSize(960, 580)
+
+        # Core models
+        self.settings = get_settings()
+
+        # Live preview (existing floating Jarvis window)
         self.preview_window = FloatingAssistantWindow()
         self.preview_window.show()
         self.preview_window.set_listening()
 
-        # Settings
-        self.settings = get_settings()
+        # Internal
+        self.ai_state_label = None
+        self.status_label = None
+        self.config_display = None
 
-        # Setup UI
-        self.setup_ui()
+        self._setup_ui()
 
-    def setup_ui(self):
-        """Create the main UI with horizontal layout."""
+    # -------------------------------------------------------------------------
+    # UI SETUP
+    # -------------------------------------------------------------------------
+
+    def _setup_ui(self):
         central = QWidget()
         self.setCentralWidget(central)
-        main_layout = QHBoxLayout(central)
-        main_layout.setSpacing(15)
-        main_layout.setContentsMargins(20, 20, 20, 20)
 
-        # LEFT SIDE - Settings Panel
-        settings_panel = self.create_settings_panel()
-        main_layout.addWidget(settings_panel, stretch=2)
+        root = QVBoxLayout(central)
+        root.setSpacing(18)
+        root.setContentsMargins(26, 22, 26, 22)
 
-        # RIGHT SIDE - Test Controls Panel
-        test_panel = self.create_test_panel()
-        main_layout.addWidget(test_panel, stretch=1)
+        header = self._create_header()
+        body = self._create_body()
 
-        # Window style
-        self.setStyleSheet("""
+        root.addWidget(header)
+        root.addLayout(body)
+
+        self._apply_global_style()
+
+    def _create_header(self) -> QWidget:
+        """
+        Futuristic top bar:
+            - Left: Title + subtitle
+            - Center: Thin divider / HUD line
+            - Right: AI orb + dynamic state label
+        """
+        header = QWidget()
+        layout = QHBoxLayout(header)
+        layout.setSpacing(16)
+        layout.setContentsMargins(0, 0, 0, 4)
+
+        # Left: Title
+        title_block = QWidget()
+        title_layout = QVBoxLayout(title_block)
+        title_layout.setSpacing(2)
+        title_layout.setContentsMargins(0, 0, 0, 0)
+
+        title = QLabel("JARVIS CONTROL HUB")
+        title.setStyleSheet(
+            """
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: #38bdf8;
+            """
+        )
+        title_layout.addWidget(title)
+
+        subtitle = QLabel("Configure identity, visuals & behavior · Live-synced with your AI assistant")
+        subtitle.setStyleSheet(
+            """
+            font-size: 10px;
+            color: #9ca3af;
+            """
+        )
+        title_layout.addWidget(subtitle)
+
+        layout.addWidget(title_block, stretch=3, alignment=Qt.AlignVCenter)
+
+        # Middle: HUD line
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setStyleSheet("color: rgba(56,189,248,0.22);")
+        layout.addWidget(line, stretch=2, alignment=Qt.AlignVCenter)
+
+        # Right: AI orb + state
+        orb_container = QWidget()
+        orb_layout = QHBoxLayout(orb_container)
+        orb_layout.setSpacing(8)
+        orb_layout.setContentsMargins(0, 0, 0, 0)
+
+        orb = QLabel()
+        orb.setFixedSize(30, 30)
+        orb.setObjectName("aiOrb")
+
+        glow = QGraphicsDropShadowEffect()
+        glow.setBlurRadius(28)
+        glow.setColor(Qt.cyan)
+        glow.setOffset(0, 0)
+        orb.setGraphicsEffect(glow)
+
+        self.ai_state_label = QLabel("ONLINE · LISTENING")
+        self.ai_state_label.setStyleSheet(
+            """
+            font-size: 9px;
+            color: #a5b4fc;
+            """
+        )
+
+        orb_layout.addWidget(orb, alignment=Qt.AlignRight | Qt.AlignVCenter)
+        orb_layout.addWidget(self.ai_state_label, alignment=Qt.AlignRight | Qt.AlignVCenter)
+
+        layout.addWidget(orb_container, stretch=1, alignment=Qt.AlignRight | Qt.AlignVCenter)
+
+        # Simple pulse animation for the orb
+        self._start_orb_pulse(orb)
+
+        return header
+
+    def _create_body(self) -> QHBoxLayout:
+        """
+        Two main glass panels:
+            - Left: Settings
+            - Right: Test controls
+        """
+        body_layout = QHBoxLayout()
+        body_layout.setSpacing(18)
+
+        settings_panel = self._create_settings_panel()
+        controls_panel = self._create_test_panel()
+
+        body_layout.addWidget(settings_panel, stretch=2)
+        body_layout.addWidget(controls_panel, stretch=1)
+
+        return body_layout
+
+    def _apply_global_style(self):
+        """
+        Global futuristic style:
+            - Layered gradient background
+            - Neon outlines
+            - Glass panels (semi-transparent)
+        """
+        self.setStyleSheet(
+            """
+            * {
+                font-family: "Segoe UI", "SF Pro Text", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            }
+
             QMainWindow {
-                background-color: #1a1a2e;
+                background-color: #01030a;
+                background-image: qlineargradient(
+                    x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #020817,
+                    stop:0.35 #020817,
+                    stop:1 #020617
+                );
             }
+
             QWidget {
-                background-color: #1a1a2e;
-                color: white;
+                background-color: transparent;
+                color: #e5e7eb;
             }
-            QLabel {
-                color: white;
+
+            #GlassPanel {
+                background-color: rgba(6, 12, 30, 0.96);
+                border-radius: 18px;
+                border: 1px solid rgba(56, 189, 248, 0.18);
             }
+
+            #GlassPanelRight {
+                background-color: rgba(4, 7, 20, 0.98);
+                border-radius: 18px;
+                border: 1px solid rgba(168, 85, 247, 0.26);
+            }
+
             QGroupBox {
-                font-size: 14px;
-                font-weight: bold;
-                border: 2px solid #0096FF;
-                border-radius: 8px;
-                margin-top: 12px;
-                padding-top: 12px;
+                font-size: 11px;
+                font-weight: 600;
+                color: #9ca3af;
+                border: 1px solid rgba(56, 189, 248, 0.20);
+                border-radius: 12px;
+                margin-top: 14px;
+                padding: 12px;
+                background-color: rgba(5, 10, 25, 0.98);
             }
+
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 12px;
-                padding: 0 8px;
+                left: 10px;
+                padding: 0 4px;
+                color: #38bdf8;
+                font-size: 10px;
+                letter-spacing: 0.08em;
             }
-        """)
 
-    def create_settings_panel(self):
-        """Create left panel with all settings."""
+            QLabel {
+                font-size: 10px;
+            }
+
+            QComboBox {
+                background-color: rgba(3, 7, 18, 0.98);
+                color: #e5e7eb;
+                border: 1px solid rgba(129, 140, 248, 0.9);
+                border-radius: 8px;
+                padding: 6px 10px;
+                font-size: 10px;
+            }
+
+            QComboBox:hover {
+                border: 1px solid #38bdf8;
+            }
+
+            QComboBox::drop-down {
+                border: none;
+                width: 16px;
+            }
+
+            QComboBox QAbstractItemView {
+                background-color: #020817;
+                color: #e5e7eb;
+                selection-background-color: #1d4ed8;
+                border: 1px solid #38bdf8;
+            }
+
+            QPushButton {
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            /* AI Orb */
+            #aiOrb {
+                border-radius: 15px;
+                background-color: qradialgradient(
+                    cx:0.3, cy:0.3, radius:0.9,
+                    fx:0.3, fy:0.3,
+                    stop:0 #e0f2fe,
+                    stop:0.3 #38bdf8,
+                    stop:0.7 #1d4ed8,
+                    stop:1 transparent
+                );
+            }
+            """
+        )
+
+    # -------------------------------------------------------------------------
+    # LEFT PANEL: SETTINGS
+    # -------------------------------------------------------------------------
+
+    def _create_settings_panel(self) -> QWidget:
         panel = QWidget()
+        panel.setObjectName("GlassPanel")
         layout = QVBoxLayout(panel)
-        layout.setSpacing(15)
+        layout.setSpacing(14)
+        layout.setContentsMargins(16, 16, 16, 16)
 
-        # Title
-        title = QLabel("⚙️ JARVIS SETTINGS")
-        title.setStyleSheet("""
-            font-size: 24px;
-            font-weight: bold;
-            color: #0096FF;
-            padding: 10px;
-        """)
-        title.setAlignment(Qt.AlignCenter)
-        layout.addWidget(title)
+        # Panel header
+        header = QLabel("ASSISTANT PROFILE")
+        header.setStyleSheet(
+            """
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: #6ee7ff;
+            """
+        )
+        layout.addWidget(header)
 
-        # Assistant Identity Group
-        identity_group = QGroupBox("Assistant Identity")
+        caption = QLabel("Define how Jarvis appears, sounds, and visualizes itself.")
+        caption.setStyleSheet("font-size: 9px; color: #9ca3af;")
+        layout.addWidget(caption)
+
+        # Identity Group
+        identity_group = QGroupBox("IDENTITY")
         identity_layout = QFormLayout()
-        identity_layout.setSpacing(10)
+        identity_layout.setSpacing(8)
 
-        self.name_combo = self.create_combo(["Jarvis", "Sarah"], self.settings.get("assistant_name"))
+        name_label = self._field_label("Display Name")
+        self.name_combo = self._create_combo(
+            ["Jarvis", "Sarah"],
+            self.settings.get("assistant_name", "Jarvis"),
+        )
         self.name_combo.currentTextChanged.connect(self.on_name_changed)
-        identity_layout.addRow("Name:", self.name_combo)
+        identity_layout.addRow(name_label, self.name_combo)
 
-        self.voice_combo = self.create_combo(
+        voice_label = self._field_label("Voice Accent")
+        self.voice_combo = self._create_combo(
             ["English", "Australian", "British", "Indian", "African"],
-            self.settings.get("voice_accent")
+            self.settings.get("voice_accent", "English"),
         )
         self.voice_combo.currentTextChanged.connect(self.on_voice_changed)
-        identity_layout.addRow("Voice Accent:", self.voice_combo)
+        identity_layout.addRow(voice_label, self.voice_combo)
 
         identity_group.setLayout(identity_layout)
         layout.addWidget(identity_group)
 
-        # Visual Effects Group
-        visual_group = QGroupBox("Visual Effects")
+        # Visual Group
+        visual_group = QGroupBox("VISUAL SIGNATURE")
         visual_layout = QFormLayout()
-        visual_layout.setSpacing(10)
+        visual_layout.setSpacing(8)
 
-        self.glow_combo = self.create_combo(
+        glow_label = self._field_label("Glow Mode")
+        self.glow_combo = self._create_combo(
             ["Inward", "Outward"],
-            self.settings.get("glow_effect", "inward").capitalize()
+            self._cap(self.settings.get("glow_effect", "inward")),
         )
         self.glow_combo.currentTextChanged.connect(self.on_glow_changed)
-        visual_layout.addRow("Glow Effect:", self.glow_combo)
+        visual_layout.addRow(glow_label, self.glow_combo)
 
-        self.color_combo = self.create_combo(
-            ["Blue", "Green", "Purple", "Red", "Cyan", "Yellow", "Orange", "Pink"],
-            self.settings.get("gui_color", "blue").capitalize()
+        color_label = self._field_label("Primary Accent")
+        self.color_combo = self._create_combo(
+            ["Blue", "Cyan", "Purple", "Neon Green", "Red", "Orange", "Pink"],
+            self._map_color_value(self.settings.get("gui_color", "blue")),
         )
         self.color_combo.currentTextChanged.connect(self.on_color_changed)
-        visual_layout.addRow("GUI Color:", self.color_combo)
+        visual_layout.addRow(color_label, self.color_combo)
 
-        self.shape_combo = self.create_combo(
-            ["Sphere", "Icosahedron"],
-            self.settings.get("animation_shape", "sphere").capitalize()
+        shape_label = self._field_label("Orb Geometry")
+        self.shape_combo = self._create_combo(
+            ["Sphere", "Icosahedron", "Humanoid"],
+            self._cap(self.settings.get("animation_shape", "sphere")),
         )
         self.shape_combo.currentTextChanged.connect(self.on_shape_changed)
-        visual_layout.addRow("Animation Shape:", self.shape_combo)
+        visual_layout.addRow(shape_label, self.shape_combo)
 
         visual_group.setLayout(visual_layout)
         layout.addWidget(visual_group)
 
-        # Current Config Display
+        # Config summary / system log style
         self.config_display = QLabel()
-        self.config_display.setStyleSheet("""
-            font-size: 11px;
-            color: #888;
-            background-color: #252540;
-            border: 2px solid #0096FF;
-            border-radius: 8px;
-            padding: 12px;
-        """)
-        self.update_config_display()
+        self.config_display.setWordWrap(True)
+        self.config_display.setStyleSheet(
+            """
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            font-size: 9px;
+            color: #9ca3af;
+            background-color: rgba(2, 6, 23, 0.98);
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.26);
+            padding: 9px 10px;
+            """
+        )
+        self._update_config_display()
         layout.addWidget(self.config_display)
 
         layout.addStretch()
-
         return panel
 
-    def create_test_panel(self):
-        """Create right panel with test controls."""
+    # -------------------------------------------------------------------------
+    # RIGHT PANEL: TEST CONTROLS
+    # -------------------------------------------------------------------------
+
+    def _create_test_panel(self) -> QWidget:
         panel = QWidget()
+        panel.setObjectName("GlassPanelRight")
         layout = QVBoxLayout(panel)
         layout.setSpacing(12)
+        layout.setContentsMargins(16, 16, 16, 16)
 
-        # Title
-        title = QLabel("🎬 TEST CONTROLS")
-        title.setStyleSheet("""
-            font-size: 20px;
-            font-weight: bold;
-            color: #0096FF;
-            padding: 10px;
-        """)
-        title.setAlignment(Qt.AlignCenter)
-        layout.addWidget(title)
-
-        # Instructions
-        instructions = QLabel(
-            "Test different GUI states.\n"
-            "Watch the floating window!"
+        header = QLabel("STATE SIMULATION")
+        header.setStyleSheet(
+            """
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: #c4b5fd;
+            """
         )
-        instructions.setStyleSheet("padding: 8px; color: #AAA; font-size: 12px;")
-        instructions.setAlignment(Qt.AlignCenter)
-        layout.addWidget(instructions)
+        layout.addWidget(header)
 
-        layout.addSpacing(10)
+        caption = QLabel("Trigger Jarvis UI states and observe behavior in the floating preview.")
+        caption.setWordWrap(True)
+        caption.setStyleSheet("font-size: 9px; color: #9ca3af;")
+        layout.addWidget(caption)
 
-        # State buttons
-        btn_listening = self.create_test_button("🎤 LISTENING", "#4CAF50", self.test_listening)
-        layout.addWidget(btn_listening)
+        # Buttons
+        layout.addWidget(
+            self._create_state_button("LISTENING", "#22c55e", self.test_listening)
+        )
+        layout.addWidget(
+            self._create_state_button("THINKING", "#38bdf8", self.test_thinking)
+        )
+        layout.addWidget(
+            self._create_state_button("SPEAKING", "#6366f1", self.test_speaking)
+        )
+        layout.addWidget(
+            self._create_state_button("IDLE", "#6b7280", self.test_idle)
+        )
 
-        btn_thinking = self.create_test_button("🤔 THINKING", "#FF9800", self.test_thinking)
-        layout.addWidget(btn_thinking)
-
-        btn_speaking = self.create_test_button("🗣️ SPEAKING", "#2196F3", self.test_speaking)
-        layout.addWidget(btn_speaking)
-
-        btn_idle = self.create_test_button("💤 IDLE", "#9E9E9E", self.test_idle)
-        layout.addWidget(btn_idle)
-
-        layout.addSpacing(15)
-
-        # Auto test
-        btn_auto = QPushButton("🎬 Run Auto Test")
-        btn_auto.clicked.connect(self.run_auto_test)
-        btn_auto.setStyleSheet("""
+        # Auto test button
+        auto_btn = QPushButton("RUN NEURAL CYCLE")
+        auto_btn.clicked.connect(self.run_auto_test)
+        auto_btn.setCursor(Qt.PointingHandCursor)
+        auto_btn.setStyleSheet(
+            """
             QPushButton {
-                background-color: #9C27B0;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 15px;
-                font-size: 13px;
-                font-weight: bold;
+                background-color: qlineargradient(
+                    x1:0, y1:0, x2:1, y2:0,
+                    stop:0 #a855f7,
+                    stop:1 #38bdf8
+                );
+                color: #f9fafb;
+                border-radius: 10px;
+                padding: 9px 14px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
             }
             QPushButton:hover {
-                background-color: #7b1fa2;
+                border: 1px solid rgba(148, 163, 253, 0.9);
             }
-        """)
-        layout.addWidget(btn_auto)
+            QPushButton:pressed {
+                background-color: #4c1d95;
+            }
+            """
+        )
+        layout.addWidget(auto_btn)
 
-        layout.addSpacing(15)
-
-        # Status label
-        self.status_label = QLabel("Ready to test!")
-        self.status_label.setStyleSheet("""
-            padding: 10px;
-            background-color: #252540;
-            border: 1px solid #0096FF;
-            border-radius: 5px;
-            font-family: 'Courier New';
-            font-size: 11px;
-            color: #0096FF;
-        """)
-        self.status_label.setAlignment(Qt.AlignCenter)
+        # Status / log
+        self.status_label = QLabel("Ready. Jarvis systems nominal.")
         self.status_label.setWordWrap(True)
+        self.status_label.setAlignment(Qt.AlignCenter)
+        self.status_label.setStyleSheet(
+            """
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            font-size: 9px;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 9px;
+            background-color: rgba(2,6,23,0.98);
+            border: 1px solid rgba(75,85,99,0.85);
+            color: #9ca3af;
+            """
+        )
         layout.addWidget(self.status_label)
 
         layout.addStretch()
-
         return panel
 
-    def create_combo(self, items, current):
-        """Create styled combo box."""
+    # -------------------------------------------------------------------------
+    # HELPERS
+    # -------------------------------------------------------------------------
+
+    def _create_combo(self, items, current) -> QComboBox:
         combo = QComboBox()
         combo.addItems(items)
-        combo.setCurrentText(current)
-        combo.setStyleSheet("""
-            QComboBox {
-                background-color: #2d2d44;
-                color: white;
-                border: 2px solid #0096FF;
-                border-radius: 6px;
-                padding: 8px;
-                font-size: 12px;
-            }
-            QComboBox:hover {
-                border: 2px solid #00AAFF;
-            }
-            QComboBox::drop-down {
-                border: none;
-                width: 30px;
-            }
-            QComboBox QAbstractItemView {
-                background-color: #2d2d44;
-                color: white;
-                selection-background-color: #0096FF;
-                border: 2px solid #0096FF;
-            }
-        """)
+        if current in items:
+            combo.setCurrentText(current)
+        combo.setCursor(Qt.PointingHandCursor)
         return combo
 
-    def create_test_button(self, text, color, callback):
-        """Create styled test button."""
+    def _field_label(self, text: str) -> QLabel:
+        lbl = QLabel(text.upper())
+        lbl.setStyleSheet(
+            """
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: #6b7280;
+            """
+        )
+        return lbl
+
+    def _create_state_button(self, text: str, color: str, callback) -> QPushButton:
         btn = QPushButton(text)
         btn.clicked.connect(callback)
-        btn.setStyleSheet(f"""
+        btn.setCursor(Qt.PointingHandCursor)
+        btn.setStyleSheet(
+            f"""
             QPushButton {{
-                background-color: {color};
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 14px;
-                font-size: 13px;
-                font-weight: bold;
+                background-color: rgba(1, 6, 18, 0.98);
+                color: {color};
+                border-radius: 10px;
+                padding: 9px 12px;
+                border: 1px solid {color};
+                text-align: left;
             }}
             QPushButton:hover {{
-                opacity: 0.9;
+                background-color: rgba(10, 18, 35, 0.98);
             }}
-        """)
+            QPushButton:pressed {{
+                background-color: {color};
+                color: #020817;
+            }}
+            """
+        )
         return btn
 
-    def update_config_display(self):
-        """Update the current configuration display."""
-        self.config_display.setText(
-            f"Current Configuration:\n\n"
-            f"Name: {self.settings.get_assistant_name()}\n"
-            f"Voice: {self.settings.get('voice_accent')}\n"
-            f"Color: {self.settings.get('gui_color').capitalize()}\n"
-            f"Glow: {self.settings.get('glow_effect').capitalize()}\n"
-            f"Shape: {self.settings.get('animation_shape').capitalize()}\n\n"
-            f"Settings saved to:\nconfig/settings.json"
+    @staticmethod
+    def _cap(value: str) -> str:
+        return (value or "").capitalize()
+
+    @staticmethod
+    def _map_color_value(stored: str) -> str:
+        """Map old simple values to nicer labels without breaking behavior."""
+        if not stored:
+            return "Blue"
+        v = stored.lower()
+        if v == "cyan":
+            return "Cyan"
+        if v in ("green", "neon", "neon_green", "neongreen"):
+            return "Neon Green"
+        return v.capitalize()
+
+    def _start_orb_pulse(self, orb_label: QLabel):
+        """Subtle pulsing via alternating stylesheet (fake 'breathing' effect)."""
+        base = (
+            """
+            border-radius: 15px;
+            background-color: qradialgradient(
+                cx:0.3, cy:0.3, radius:0.9,
+                fx:0.3, fy:0.3,
+                stop:0 #e0f2fe,
+                stop:0.3 #38bdf8,
+                stop:0.7 #1d4ed8,
+                stop:1 transparent
+            );
+            """
+        )
+        alt = (
+            """
+            border-radius: 15px;
+            background-color: qradialgradient(
+                cx:0.4, cy:0.4, radius:1.0,
+                fx:0.4, fy:0.4,
+                stop:0 #bae6fd,
+                stop:0.35 #22c55e,
+                stop:0.8 #1d4ed8,
+                stop:1 transparent
+            );
+            """
         )
 
-    # Settings change handlers
-    def on_name_changed(self, name):
+        def toggle():
+            orb_label.setStyleSheet(alt if orb_label.property("state") != 1 else base)
+            orb_label.setProperty("state", 0 if orb_label.property("state") == 1 else 1)
+
+        timer = QTimer(self)
+        timer.timeout.connect(toggle)
+        timer.start(900)
+
+    # -------------------------------------------------------------------------
+    # CONFIG DISPLAY
+    # -------------------------------------------------------------------------
+
+    def _update_config_display(self):
+        self.config_display.setText(
+            "CONFIG SNAPSHOT\n"
+            "────────────────\n"
+            f"assistant_name      = {self.settings.get_assistant_name()}\n"
+            f"voice_accent        = {self.settings.get('voice_accent')}\n"
+            f"gui_color           = {self.settings.get('gui_color')}\n"
+            f"glow_effect         = {self.settings.get('glow_effect')}\n"
+            f"animation_shape     = {self.settings.get('animation_shape')}\n\n"
+            "Storage: config/settings.json"
+        )
+
+    # -------------------------------------------------------------------------
+    # SETTINGS CHANGE HANDLERS
+    # -------------------------------------------------------------------------
+
+    def on_name_changed(self, name: str):
         self.settings.set("assistant_name", name)
         self.preview_window.reload_settings()
-        self.update_config_display()
+        self._update_config_display()
 
-    def on_voice_changed(self, voice):
+    def on_voice_changed(self, voice: str):
         self.settings.set("voice_accent", voice)
-        self.update_config_display()
+        self._update_config_display()
 
-    def on_glow_changed(self, glow):
+    def on_glow_changed(self, glow: str):
         self.settings.set("glow_effect", glow.lower())
         self.preview_window.reload_settings()
-        self.update_config_display()
+        self._update_config_display()
 
-    def on_color_changed(self, color):
-        self.settings.set("gui_color", color.lower())
+    def on_color_changed(self, color: str):
+        # Map display label back to simple key
+        key = color.lower().replace(" ", "_")
+        if key == "neon_green":
+            key = "green"
+        self.settings.set("gui_color", key)
         self.preview_window.reload_settings()
-        self.update_config_display()
+        self._update_config_display()
 
-    def on_shape_changed(self, shape):
+    def on_shape_changed(self, shape: str):
         self.settings.set("animation_shape", shape.lower())
         self.preview_window.reload_settings()
-        self.update_config_display()
+        self._update_config_display()
 
-    # Test control handlers
+    # -------------------------------------------------------------------------
+    # TEST CONTROL HANDLERS
+    # -------------------------------------------------------------------------
+
+    def _set_ai_state(self, label: str):
+        if self.ai_state_label:
+            self.ai_state_label.setText(label)
+
     def test_listening(self):
-        self.status_label.setText("Testing LISTENING mode...\n🎤 Speak to see border glow!")
+        self.status_label.setText("Listening mode engaged. Awaiting input...")
+        self._set_ai_state("ONLINE · LISTENING")
         self.preview_window.set_listening()
 
     def test_thinking(self):
-        self.status_label.setText("Testing THINKING mode...")
+        self.status_label.setText("Thinking mode engaged. Processing signals...")
+        self._set_ai_state("ONLINE · THINKING")
         self.preview_window.set_thinking()
 
     def test_speaking(self):
-        self.status_label.setText("Testing SPEAKING mode...\n🗣️ Watch the animation!")
+        self.status_label.setText("Speaking mode engaged. Rendering response...")
+        self._set_ai_state("ONLINE · SPEAKING")
         self.preview_window.set_speaking()
 
     def test_idle(self):
-        self.status_label.setText("Testing IDLE mode...\n💤 Window will hide in 2s")
+        self.status_label.setText("Idle mode engaged. Preview will auto-hide.")
+        self._set_ai_state("STANDBY · IDLE")
         self.preview_window.set_idle()
 
     def run_auto_test(self):
-        """Run automated test sequence."""
-        self.status_label.setText("🎬 AUTO TEST: Starting sequence...")
+        self.status_label.setText("Running neural state cycle...")
+        self._set_ai_state("ONLINE · TESTING")
 
-        QTimer.singleShot(0, lambda: (
-            self.preview_window.set_listening(),
-            self.status_label.setText("🎤 LISTENING (4s)")
+        QTimer.singleShot(0, lambda: (self.preview_window.set_listening(),
+                                      self.status_label.setText("Phase 1/4: LISTENING (4s)")))
+        QTimer.singleShot(4000, lambda: (self.preview_window.set_thinking(),
+                                         self.status_label.setText("Phase 2/4: THINKING (4s)")))
+        QTimer.singleShot(8000, lambda: (self.preview_window.set_speaking(),
+                                         self.status_label.setText("Phase 3/4: SPEAKING (4s)")))
+        QTimer.singleShot(12000, lambda: (self.preview_window.set_idle(),
+                                          self.status_label.setText("Phase 4/4: IDLE (3s)")))
+        QTimer.singleShot(15000, lambda: (
+            self.status_label.setText("Neural cycle complete. All visual states verified."),
+            self._set_ai_state("ONLINE · LISTENING"),
         ))
 
-        QTimer.singleShot(4000, lambda: (
-            self.preview_window.set_thinking(),
-            self.status_label.setText("🤔 THINKING (4s)")
-        ))
-
-        QTimer.singleShot(8000, lambda: (
-            self.preview_window.set_speaking(),
-            self.status_label.setText("🗣️ SPEAKING (4s)")
-        ))
-
-        QTimer.singleShot(12000, lambda: (
-            self.preview_window.set_idle(),
-            self.status_label.setText("💤 IDLE (hides in 2s)")
-        ))
-
-        QTimer.singleShot(15000, lambda: self.status_label.setText(
-            "✅ AUTO TEST COMPLETE!\n\n"
-            "All states tested:\n"
-            "• Listening ✓\n"
-            "• Thinking ✓\n"
-            "• Speaking ✓\n"
-            "• Idle ✓"
-        ))
+    # -------------------------------------------------------------------------
+    # CLEANUP
+    # -------------------------------------------------------------------------
 
     def closeEvent(self, event):
-        """Clean up when closing."""
         if self.preview_window:
             self.preview_window.close()
         event.accept()
 
 
 def main():
-    """Run the settings application."""
-    print("="*70)
-    print("  JARVIS SETTINGS & TEST MANAGER")
-    print("="*70)
-    print("\nCombined settings and testing application")
-    print("Configure and preview your assistant")
-    print("\nSettings saved to: config/settings.json")
-    print("Changes apply when Jarvis starts")
-    print("="*70)
+    print("=" * 70)
+    print("  JARVIS · CONTROL HUB")
+    print("=" * 70)
+    print("Futuristic settings & test console for your AI assistant.")
+    print("Settings saved to: config/settings.json")
+    print("Changes apply when Jarvis starts.")
+    print("=" * 70)
 
     app = QApplication(sys.argv)
+    # Optional: slight font hinting
+    app.setFont(QFont("Segoe UI", 9))
     window = SettingsApp()
     window.show()
     sys.exit(app.exec())

@@ -114,7 +114,7 @@ class SettingsWindow(QMainWindow):
 
         # Shape selector
         self.shape_combo = QComboBox()
-        self.shape_combo.addItems(["Sphere", "Icosahedron"])
+        self.shape_combo.addItems(["Sphere", "Icosahedron", "Humanoid"])
         current_shape = self.settings.get("animation_shape", "sphere")
         self.shape_combo.setCurrentText(current_shape.capitalize())
         self.shape_combo.currentTextChanged.connect(self.on_shape_changed)

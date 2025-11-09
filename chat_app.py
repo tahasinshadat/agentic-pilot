@@ -221,7 +221,8 @@ class ChatWindow(QMainWindow):
     def setup_ui(self):
         # Create the chat UI.
         self.setWindowTitle(f"{self.settings.get('assistant_name', 'Jarvis')} Chat")
-        self.setGeometry(100, 100, 650, 850)
+        # Default size: smaller overall with ~4:1 aspect ratio (20:5)
+        self.setGeometry(100, 100, 425, 700)
 
         # Make window stay on top
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.Window)
@@ -257,6 +258,21 @@ class ChatWindow(QMainWindow):
         header.setAlignment(Qt.AlignCenter)
         header.setStyleSheet(f"color: {self.theme_hex}; padding: 10px;")
         layout.addWidget(header)
+        # Add subtitle and restyle header to match settings_app theme
+        header.setText("CHAT CONSOLE")
+        header.setStyleSheet(
+            """
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: #38bdf8;
+            padding: 6px 0 2px 0;
+            """
+        )
+        subtitle = QLabel(f"{self.settings.get('assistant_name', 'Jarvis')} • Screen-aware assistant")
+        subtitle.setAlignment(Qt.AlignCenter)
+        subtitle.setStyleSheet("font-size: 12px; color: #9ca3af;")
+        layout.addWidget(subtitle)
 
         # Status label
         self.status_label = QLabel("Ready")
@@ -269,6 +285,20 @@ class ChatWindow(QMainWindow):
         """)
         self.status_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.status_label)
+        # Override status label styling to match settings_app
+        self.status_label.setFont(QFont("JetBrains Mono", 11))
+        self.status_label.setStyleSheet(
+            """
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 11px;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 9px;
+            background-color: rgba(2,6,23,0.98);
+            border: 1px solid rgba(75,85,99,0.85);
+            color: #9ca3af;
+            """
+        )
 
         # Chat history (scrollable)
         scroll = QScrollArea()
@@ -295,6 +325,10 @@ class ChatWindow(QMainWindow):
             }}
         """)
 
+        # Apply glass panel style to scroll container
+        scroll.setObjectName("GlassPanel")
+        # Clear old per-widget scroll styles to defer to global theme
+        scroll.setStyleSheet("")
         self.chat_container = QWidget()
         self.chat_layout = QVBoxLayout(self.chat_container)
         self.chat_layout.setAlignment(Qt.AlignTop)
@@ -314,12 +348,15 @@ class ChatWindow(QMainWindow):
                 padding: 8px;
             }
         """)
+        # Apply glass panel style to input frame
+        input_frame.setObjectName("GlassPanelRight")
+        input_frame.setStyleSheet("")
         input_layout = QHBoxLayout(input_frame)
         input_layout.setContentsMargins(8, 8, 8, 8)
 
         self.input_field = QLineEdit()
         self.input_field.setPlaceholderText("Type your message...")
-        self.input_field.setFont(QFont("Segoe UI", 12))
+        self.input_field.setFont(QFont("Segoe UI", 14))
         self.input_field.setStyleSheet("""
             QLineEdit {
                 border: none;
@@ -332,6 +369,8 @@ class ChatWindow(QMainWindow):
             }
         """)
         self.input_field.returnPressed.connect(self.send_message)
+        # Softer placeholder to match theme
+        self.input_field.setStyleSheet("QLineEdit::placeholder { color: #6b7280; font-size: 13px; }")
 
         send_btn = QPushButton("Send")
         send_btn.setFont(QFont("Segoe UI", 11, QFont.Bold))
@@ -351,6 +390,31 @@ class ChatWindow(QMainWindow):
             }}
         """)
         send_btn.clicked.connect(self.send_message)
+        # Futuristic gradient button style like settings_app
+        send_btn.setCursor(Qt.PointingHandCursor)
+        send_btn.setText("SEND")
+        send_btn.setStyleSheet(
+            """
+            QPushButton {
+                background-color: qlineargradient(
+                    x1:0, y1:0, x2:1, y2:0,
+                    stop:0 #a855f7,
+                    stop:1 #38bdf8
+                );
+                color: #f9fafb;
+                border-radius: 10px;
+                padding: 10px 20px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+            }
+            QPushButton:hover {
+                border: 1px solid rgba(148, 163, 253, 0.9);
+            }
+            QPushButton:pressed {
+                background-color: #4c1d95;
+            }
+            """
+        )
 
         input_layout.addWidget(self.input_field, stretch=1)
         input_layout.addWidget(send_btn)
@@ -374,7 +438,99 @@ class ChatWindow(QMainWindow):
             }
         """)
         clear_btn.clicked.connect(self.clear_chat)
+        # Themed clear button matching state buttons
+        clear_btn.setText("CLEAR CHAT")
+        clear_btn.setCursor(Qt.PointingHandCursor)
+        clear_btn.setStyleSheet(
+            f"""
+            QPushButton {{
+                background-color: rgba(1, 6, 18, 0.98);
+                color: {self.theme_hex};
+                border-radius: 10px;
+                padding: 9px 12px;
+                border: 1px solid {self.theme_hex};
+                text-align: center;
+            }}
+            QPushButton:hover {{
+                background-color: rgba(10, 18, 35, 0.98);
+            }}
+            QPushButton:pressed {{
+                background-color: {self.theme_hex};
+                color: #020817;
+            }}
+            """
+        )
         layout.addWidget(clear_btn)
+
+        # Apply global theme last so it overrides basic dark theme
+        self.setStyleSheet(
+            f"""
+            * {{
+                font-family: 'Segoe UI', 'SF Pro Text', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            }}
+
+            QMainWindow {{
+                background-color: #01030a;
+                background-image: qlineargradient(
+                    x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #020817,
+                    stop:0.35 #020817,
+                    stop:1 #020617
+                );
+            }}
+
+            QWidget {{
+                background-color: transparent;
+                color: #e5e7eb;
+            }}
+
+            #GlassPanel {{
+                background-color: rgba(6, 12, 30, 0.96);
+                border-radius: 18px;
+                border: 1px solid rgba(56, 189, 248, 0.18);
+            }}
+
+            #GlassPanelRight {{
+                background-color: rgba(4, 7, 20, 0.98);
+                border-radius: 18px;
+                border: 1px solid rgba(168, 85, 247, 0.26);
+            }}
+
+            QLabel {{
+                font-size: 12px;
+            }}
+
+            QLineEdit {{
+                background-color: transparent;
+                color: #e5e7eb;
+                border: none;
+                padding: 8px 10px;
+                font-size: 14px;
+            }}
+
+            QPushButton {{
+                font-size: 11px;
+                font-weight: 600;
+            }}
+
+            QScrollArea {{
+                border: none;
+            }}
+            QScrollBar:vertical {{
+                background: rgba(2, 8, 23, 0.6);
+                width: 12px;
+                border-radius: 6px;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {self.theme_hex};
+                border-radius: 6px;
+                min-height: 20px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {self.theme_color.lighter(120).name()};
+            }}
+            """
+        )
 
         # Add welcome message
         self.add_message("assistant", f"Hello! I'm {self.settings.get('assistant_name', 'Jarvis')}. I can see your screen and help you with anything. What can I do for you?")
@@ -389,55 +545,63 @@ class ChatWindow(QMainWindow):
 
         # Role label
         role_label = QLabel("You" if role == "user" else self.settings.get('assistant_name', 'Jarvis'))
-        role_label.setFont(QFont("Segoe UI", 10, QFont.Bold))
+        role_label.setFont(QFont("Segoe UI", 12, QFont.Bold))
 
         # Message text
         msg_label = QLabel(content)
-        msg_label.setFont(QFont("Segoe UI", 12))
+        msg_label.setFont(QFont("Segoe UI", 14))
         msg_label.setWordWrap(True)
         msg_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
 
         bubble_layout.addWidget(role_label)
         bubble_layout.addWidget(msg_label)
 
-        # Style based on role with theme color
+        # Style based on role with futuristic/glass theme
         if role == "user":
-            bubble.setStyleSheet(f"""
+            bubble.setStyleSheet(
+                f"""
                 QFrame {{
-                    background: {self.theme_hex};
+                    background-color: rgba(1, 6, 18, 0.98);
                     border-radius: 16px;
+                    border: 1px solid {self.theme_hex};
                     margin-left: 60px;
                 }}
                 QLabel {{
-                    color: white;
+                    color: {self.theme_hex};
                     background: transparent;
                 }}
-            """)
+                """
+            )
         elif role == "system":
-            bubble.setStyleSheet("""
+            bubble.setStyleSheet(
+                """
                 QFrame {
-                    background: #4d2020;
+                    background-color: rgba(30, 6, 12, 0.98);
                     border-radius: 16px;
-                    border: 2px solid #803030;
+                    border: 1px solid rgba(239, 68, 68, 0.55);
                 }
                 QLabel {
-                    color: #ff8080;
+                    color: #fca5a5;
                     background: transparent;
                 }
-            """)
+                """
+            )
         else:  # assistant
-            bubble.setStyleSheet("""
+            bubble.setStyleSheet(
+                """
                 QFrame {
-                    background: #2d2d2d;
+                    background-color: rgba(5, 10, 25, 0.98);
                     border-radius: 16px;
-                    border: 2px solid #3d3d3d;
+                    border: 1px solid rgba(56, 189, 248, 0.20);
                     margin-right: 60px;
                 }
                 QLabel {
-                    color: #ffffff;
+                    color: #e5e7eb;
                     background: transparent;
+                    border: none;
                 }
-            """)
+                """
+            )
 
         self.chat_layout.addWidget(bubble)
 
