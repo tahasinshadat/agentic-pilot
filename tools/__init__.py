@@ -54,6 +54,16 @@ from .browser_screenshot import browser_screenshot
 from .accessibility_shortcuts import accessibility_shortcuts
 from .screen_color_filter import screen_color_filter
 
+
+# System controls
+from .adjust_volume import adjust_volume
+from .adjust_brightness import adjust_brightness
+
+
+# System controls
+from .adjust_volume import adjust_volume
+from .adjust_brightness import adjust_brightness
+
 # Autopilot (PyAutoGUI-based computer control)
 from .autopilot import execute_autopilot
 
@@ -96,6 +106,12 @@ __all__ = [
     # Accessibility Settings
     "screen_color_filter",
     "accessibility_shortcuts",
+    # System controls
+    "adjust_volume",
+    "adjust_brightness",
+    # System controls
+    "adjust_volume",
+    "adjust_brightness",
     # Browser control
     "browser_open_tab",
     "browser_close_tab",

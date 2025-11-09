@@ -12,6 +12,7 @@ from PySide6.QtCore import QObject, Signal, Slot
 from config import Config
 from agent.gemini import GeminiCore
 from gui.floating_window import FloatingAssistantWindow
+from gui.settings import get_settings
 from utils.logger import Logger
 from utils.hotkey import HotkeyHandler
 
@@ -35,9 +36,13 @@ class JarvisApp(QObject):
         Config.validate()
 
         # Initialize Gemini core
+        # Get wake word from settings (based on assistant name)
+        settings = get_settings()
+        self.assistant_name = settings.get_assistant_name()
+        
         self.jarvis = GeminiCore(
             gemini_api_key=Config.GEMINI_API_KEY,
-            wake_word=Config.WAKE_WORD
+            wake_word=self.assistant_name.lower()
         )
 
         # Set up callbacks
@@ -81,7 +86,7 @@ class JarvisApp(QObject):
         self.hotkey_handler = HotkeyHandler(self.jarvis, self.loop)
         self.hotkey_handler.register_hotkeys()
 
-        Logger.info("App", f"Jarvis started! Say 'Hey {Config.WAKE_WORD.capitalize()}' or press Win+J")
+        Logger.info("App", f"{self.assistant_name} started! Say 'Hey {self.assistant_name}' or press Win+J")
 
     def _run_async_core(self):
         """Run async core in separate thread."""
@@ -129,8 +134,12 @@ class JarvisApp(QObject):
 
 def main():
     """Main entry point."""
+    # Get assistant name from settings
+    settings = get_settings()
+    assistant_name = settings.get_assistant_name()
+    
     print("="*60)
-    print("JARVIS - Advanced AI Assistant")
+    print(f"{assistant_name.upper()} - Advanced AI Assistant")
     print("="*60)
     print()
 
@@ -149,8 +158,8 @@ def main():
 
         print()
         print("="*60)
-        print(f"[OK] Jarvis is ready!")
-        print(f"  Wake word: 'Hey {Config.WAKE_WORD.capitalize()}'")
+        print(f"[OK] {assistant_name} is ready!")
+        print(f"  Wake word: 'Hey {assistant_name}'")
         print(f"  Hotkey: Win+J (Windows key + J)")
         print(f"  GUI: Floating window in bottom-right corner")
         print()

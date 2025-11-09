@@ -25,3 +25,11 @@ playwright>=1.40.0
 pyautogui>=0.9.54
 pyperclip>=1.8.2
 elevenlabs>=1.0.0
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# System controls (volume and brightness)
+pycaw
+comtypes
+screen-brightness-control
+WMI

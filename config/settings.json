@@ -1,7 +1,8 @@
 {
-    "assistant_name": "Jarvis",
+    "assistant_name": "Sarah",
     "glow_effect": "inward",
     "voice_accent": "English",
     "gui_color": "blue",
-    "animation_shape": "sphere"
+    "animation_shape": "sphere",
+    "whisper_model": "base"
 }

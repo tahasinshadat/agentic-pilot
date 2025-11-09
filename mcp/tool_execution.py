@@ -9,69 +9,9 @@ import asyncio
 # Import all tools
 import tools
 
-
-class BrowserManager:
-    """Simple browser manager for browser tools."""
-
-    def __init__(self):
-        from playwright.async_api import async_playwright
-        self.playwright = None
-        self.browser = None
-        self.pages = {}
-        self.current_page = None
-        self._initialized = False
-
-    async def initialize(self):
-        """Initialize browser with proper error handling."""
-        if self._initialized:
-            return
-        
-        try:
-            from playwright.async_api import async_playwright
-            self.playwright = await async_playwright().start()
-
-            # Try to connect to existing Chrome first
-            try:
-                self.browser = await self.playwright.chromium.connect_over_cdp("http://localhost:9222")
-                print("[Browser] Connected to existing Chrome")
-            except Exception as connect_error:
-                print(f"[Browser] Could not connect to existing Chrome: {connect_error}")
-                # Launch new browser
-                try:
-                    self.browser = await self.playwright.chromium.launch(headless=False)
-                    print("[Browser] Launched new browser")
-                except Exception as launch_error:
-                    print(f"[Browser] Failed to launch browser: {launch_error}")
-                    raise RuntimeError(f"Browser initialization failed: {launch_error}") from launch_error
-
-            # Get default context
-            contexts = self.browser.contexts
-            if contexts:
-                context = contexts[0]
-                pages = context.pages
-                if pages:
-                    self.current_page = pages[0]
-                    self.pages["main"] = self.current_page
-            
-            self._initialized = True
-            
-        except Exception as e:
-            print(f"[Browser] Init error: {e}")
-            # Cleanup partial initialization
-            await self.cleanup()
-            raise
-
-    async def cleanup(self):
-        """Cleanup browser."""
-        try:
-            if self.browser:
-                await self.browser.close()
-            if self.playwright:
-                await self.playwright.stop()
-        except Exception as e:
-            print(f"[Browser] Cleanup error: {e}")
-        finally:
-            self._initialized = False
+# Import new browser controller and interpreter
+from mcp.browser_controller import BrowserController
+from mcp.interpreter import CommandInterpreter
 
 
 class ToolExecutor:
@@ -87,14 +27,15 @@ class ToolExecutor:
         """
         self.gemini_client = gemini_client
         self.screen_capture = screen_capture
-        self.browser = BrowserManager()
+        self.browser = BrowserController()
+        self.interpreter = CommandInterpreter()
 
     async def initialize(self):
         """Initialize executor (browser)."""
         print("[MCP] Initializing browser...")
         try:
-            await self.browser.initialize()
-            print("[MCP] Browser initialized!")
+            # Browser is lazy-loaded, so just mark as ready
+            print("[MCP] Browser controller ready (will initialize on first use)")
         except Exception as e:
             print(f"[MCP] Browser initialization failed: {e}")
             print("[MCP] Some browser-based tools may not work. Continuing anyway...")
@@ -176,8 +117,6 @@ class ToolExecutor:
             # ==================== GENERAL UI INTERACTION ====================
             elif tool_name == "click_on_screen":
                 return await tools.click_on_screen(
-                    self.gemini_client,
-                    self.screen_capture,
                     target=args.get("target"),
                     x=args.get("x"),
                     y=args.get("y")
@@ -249,26 +188,25 @@ class ToolExecutor:
             elif tool_name == "screen_color_filter":
                 return tools.screen_color_filter(filter_code=args.get("filter_code"))
 
-            # ==================== BROWSER CONTROL ====================
-            elif tool_name == "browser_open_tab":
-                # Default to about:blank if no URL provided - SMART INFERENCE
-                url = args.get("url", "about:blank")
-                return await tools.browser_open_tab(
-                    self.browser,
-                    url,
-                    args.get("tab_name")
+            # ==================== SYSTEM CONTROLS ====================
+            elif tool_name == "adjust_volume":
+                return tools.adjust_volume(change=args.get("change"))
+
+            elif tool_name == "adjust_brightness":
+                return tools.adjust_brightness(change=args.get("change"))
+
+            # ==================== BROWSER CONTROL (Selenium) ====================
+            elif tool_name == "browser_navigate":
+                return self.browser.navigate(url=args.get("url"))
+
+            elif tool_name == "browser_click_element":
+                return self.browser.click_element(
+                    selector=args.get("selector"),
+                    selector_type=args.get("selector_type", "css")
                 )
 
-            elif tool_name == "browser_close_tab":
-                return await tools.browser_close_tab(self.browser, args.get("tab_id"))
-
-            elif tool_name == "browser_navigate":
-                return await tools.browser_navigate(self.browser, args.get("url"))
-
-            elif tool_name == "browser_google_search":
-                return await tools.browser_google_search(self.browser, args.get("query"))
-
             elif tool_name == "browser_fill_form":
+                return self.browser.fill_form(field_values=args.get("fields", {}))
                 return await tools.browser_fill_form(
                     self.browser,
                     args.get("fields", {}),
@@ -297,10 +235,13 @@ class ToolExecutor:
                 )
 
             elif tool_name == "browser_get_page_content":
-                return await tools.browser_get_page_content(self.browser)
+                return self.browser.get_page_content()
 
             elif tool_name == "browser_screenshot":
-                return await tools.browser_screenshot(self.browser)
+                return self.browser.screenshot(filepath=args.get("filepath"))
+
+            elif tool_name == "browser_execute_script":
+                return self.browser.execute_script(script=args.get("script"))
 
             # ==================== AUTOPILOT ====================
             elif tool_name == "execute_autopilot":
@@ -331,7 +272,8 @@ class ToolExecutor:
 
     async def cleanup(self):
         """Cleanup resources."""
-        await self.browser.cleanup()
+        if self.browser:
+            self.browser.close()
 
 
 # Global executor instance (will be initialized by agent)
