@@ -1,0 +1,43 @@
+[
+  {
+    "externalId": "TG-2024-1001",
+    "dateTime": "2024-02-02T18:30:00Z",
+    "url": "https://www.target.com/orders/TG-2024-1001",
+    "orderStatus": "DELIVERED",
+    "items": [
+      {
+        "name": "Omeprazole 20mg Capsules 42 count",
+        "sku": "OME20",
+        "price": 21.99,
+        "quantity": 1
+      },
+      {
+        "name": "Hand Soap Refill",
+        "sku": "SOAP01",
+        "price": 6.49,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "externalId": "TG-2024-1120",
+    "dateTime": "2024-03-10T17:05:00Z",
+    "url": "https://www.target.com/orders/TG-2024-1120",
+    "orderStatus": "DELIVERED",
+    "items": [
+      {
+        "name": "Omeprazole 20mg Capsules 42 count",
+        "sku": "OME20",
+        "price": 26.5,
+        "quantity": 1
+      },
+      {
+        "name": "Digestive Enzyme Tablets",
+        "sku": "DIGENZ",
+        "price": 16.75,
+        "quantity": 1
+      }
+    ]
+  }
+]
+

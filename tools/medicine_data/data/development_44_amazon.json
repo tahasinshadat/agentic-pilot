@@ -1,0 +1,63 @@
+[
+  {
+    "externalId": "253-1868126-1324382",
+    "dateTime": "2024-01-27T15:13:35Z",
+    "url": "https://www.amazon.com/orders/253-1868126-1324382",
+    "orderStatus": "DELIVERED",
+    "items": [
+      {
+        "name": "Tylenol 500mg Caplets 100 count",
+        "sku": "TYL500100",
+        "price": 12.49,
+        "quantity": 1
+      },
+      {
+        "name": "Heating Pad for Back Pain Relief",
+        "sku": "HPAD123",
+        "price": 24.99,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "externalId": "112-9988126-2233445",
+    "dateTime": "2024-02-25T10:05:12Z",
+    "url": "https://www.amazon.com/orders/112-9988126-2233445",
+    "orderStatus": "DELIVERED",
+    "items": [
+      {
+        "name": "Tylenol 500mg Caplets 100 count",
+        "sku": "TYL500100",
+        "price": 14.25,
+        "quantity": 1
+      },
+      {
+        "name": "Daily Multivitamin Tablets",
+        "sku": "MVIT90",
+        "price": 18.99,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "externalId": "114-5558126-7788990",
+    "dateTime": "2024-03-28T09:45:00Z",
+    "url": "https://www.amazon.com/orders/114-5558126-7788990",
+    "orderStatus": "DELIVERED",
+    "items": [
+      {
+        "name": "Tylenol 500mg Caplets 100 count",
+        "sku": "TYL500100",
+        "price": 22.75,
+        "quantity": 1
+      },
+      {
+        "name": "Compression Socks",
+        "sku": "SOCKS01",
+        "price": 16.5,
+        "quantity": 2
+      }
+    ]
+  }
+]
+
