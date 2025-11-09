@@ -47,17 +47,42 @@ def accessibility_shortcuts(
       does not have a single toggle shortcut.
     """
 
-    if narrator is True:
-        pyautogui.hotkey("win", "ctrl", "enter")
+    try:
+        toggled_features = []
 
-    if live_captions is True:
-        pyautogui.hotkey("win", "ctrl", "l")
+        if narrator is True:
+            pyautogui.hotkey("win", "ctrl", "enter")
+            toggled_features.append("Narrator")
 
-    if onscreen_keyboard is True:
-        pyautogui.hotkey("win", "ctrl", "o")
+        if live_captions is True:
+            pyautogui.hotkey("win", "ctrl", "l")
+            toggled_features.append("Live Captions")
 
-    if magnifier is True:
-        if _is_running(["magnify.exe", "magnify"]):
-            pyautogui.hotkey("win", "esc")  # turn off
+        if onscreen_keyboard is True:
+            pyautogui.hotkey("win", "ctrl", "o")
+            toggled_features.append("On-Screen Keyboard")
+
+        if magnifier is True:
+            if _is_running(["magnify.exe", "magnify"]):
+                pyautogui.hotkey("win", "esc")  # turn off
+                toggled_features.append("Magnifier (turned off)")
+            else:
+                pyautogui.hotkey("win", "=")    # turn on
+                toggled_features.append("Magnifier (turned on)")
+
+        if toggled_features:
+            return {
+                "status": "success",
+                "message": f"Toggled accessibility features: {', '.join(toggled_features)}"
+            }
         else:
-            pyautogui.hotkey("win", "=")    # turn on
+            return {
+                "status": "success",
+                "message": "No accessibility features were toggled (all parameters were False or None)"
+            }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Failed to toggle accessibility features: {str(e)}"
+        }

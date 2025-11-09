@@ -165,7 +165,7 @@ def screen_color_filter(filter_code):
         winreg.CloseKey(key)
         reset_gamma()  # reset gamma to default
         print("Display presets disabled: Color filter off and gamma reset.")
-        return
+        return {"status": "success", "message": "Disabled all color filters and reset gamma to default"}
 
     if preset["kind"] == "win":
         # Native Windows filter path
@@ -185,7 +185,7 @@ def screen_color_filter(filter_code):
         name = preset.get("name", str(preset["filter_type"]))
         print(f"Applied Windows color filter: {name} (type={preset['filter_type']}).")
         winreg.CloseKey(key)
-        return
+        return {"status": "success", "message": f"Applied Windows color filter: {name}"}
 
     if preset["kind"] == "gamma":
         # Gamma-only path: ensure Windows filter is OFF
@@ -199,5 +199,6 @@ def screen_color_filter(filter_code):
 
         # Apply gamma preset
         _apply_gamma_preset(preset)
-        print(f"Applied gamma preset: {preset.get('name','custom')} (code={filter_code}).")
-        return
+        preset_name = preset.get('name', 'custom')
+        print(f"Applied gamma preset: {preset_name} (code={filter_code}).")
+        return {"status": "success", "message": f"Applied gamma preset: {preset_name}"}

@@ -153,10 +153,10 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
         }
     },
 
-    # ==================== AUTOPILOT (PRIMARY ACTION TOOL) ====================
+    # ==================== AUTOPILOT (FALLBACK ACTION TOOL) ====================
     {
         "name": "execute_autopilot",
-        "description": "PRIMARY ACTION TOOL - USE THIS WHEN USER WANTS YOU TO DO ANYTHING. Autopilot takes control of the screen to complete multi-step tasks by analyzing screenshots in a loop and executing PyAutoGUI commands. Use for: solving problems, filling forms, playing games, navigating UIs, opening apps AND doing something with them. When user says DO/SOLVE/COMPLETE/FILL/PLAY/OPEN AND DO X, use this tool. Examples: 'solve today's wordle' -> autopilot opens Wordle and solves it; 'fill out this form' -> autopilot fills form step by step; 'send an email' -> autopilot opens email, composes, sends.",
+        "description": "Autopilot takes control of the screen to complete multi-step tasks by analyzing screenshots in a loop and executing PyAutoGUI commands. Use for: solving problems, filling forms, playing games, navigating UIs, opening apps AND doing something with them. When user says DO/SOLVE/COMPLETE/FILL/PLAY/OPEN AND DO X, use this tool. Examples: 'solve today's wordle' -> autopilot opens Wordle and solves it; 'fill out this form' -> autopilot fills form step by step; 'send an email' -> autopilot opens email, composes, sends.",
         "parameters": {
             "type": "OBJECT",
             "properties": {
@@ -336,6 +336,36 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
                 }
             },
             "required": ["filter_code"]
+        }
+    },
+
+    # ==================== SYSTEM CONTROLS ====================
+    {
+        "name": "adjust_volume",
+        "description": "Adjust system volume by a percentage. Use positive numbers to increase volume, negative to decrease. Scale is out of 100. Examples: adjust_volume(10) increases by 10%, adjust_volume(-20) decreases by 20%.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "change": {
+                    "type": "INTEGER",
+                    "description": "Volume change percentage (-100 to +100). Positive increases, negative decreases."
+                }
+            },
+            "required": ["change"]
+        }
+    },
+    {
+        "name": "adjust_brightness",
+        "description": "Adjust screen brightness by a percentage. Use positive numbers to increase brightness, negative to decrease. Scale is out of 100. Examples: adjust_brightness(15) increases by 15%, adjust_brightness(-30) decreases by 30%.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "change": {
+                    "type": "INTEGER",
+                    "description": "Brightness change percentage (-100 to +100). Positive increases, negative decreases."
+                }
+            },
+            "required": ["change"]
         }
     },
     # ==================== BROWSER CONTROL ====================

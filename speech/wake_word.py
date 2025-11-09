@@ -11,6 +11,7 @@ import wave
 from typing import Callable, Optional
 import pyaudio
 from faster_whisper import WhisperModel
+from gui.settings import get_settings
 
 
 class WakeWordDetector:
@@ -33,11 +34,12 @@ class WakeWordDetector:
         self.continuous_mode = False
         self.audio_stream = None
 
-        # Load Whisper model (using base for better accuracy)
-        print("[WakeWord] Loading Whisper model...")
-        # Use base model for better accuracy, tiny is too small
-        self.model = WhisperModel("base", device="cpu", compute_type="int8")
-        print("[WakeWord] Model loaded!")
+        # Load Whisper model from settings
+        settings = get_settings()
+        model_name = settings.get("whisper_model", "base")
+        print(f"[WakeWord] Loading Whisper model: {model_name}...")
+        self.model = WhisperModel(model_name, device="cpu", compute_type="int8")
+        print(f"[WakeWord] Model '{model_name}' loaded!")
 
         # Audio settings
         self.format = pyaudio.paInt16

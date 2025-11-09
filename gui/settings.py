@@ -17,6 +17,7 @@ class Settings:
         "voice_accent": "English",  # English, Australian, British, Indian, African
         "gui_color": "blue",  # blue, green, purple, red, cyan, yellow, orange, pink
         "animation_shape": "sphere",  # sphere, icosahedron
+        "whisper_model": "base",  # tiny, base, small, medium, large (base recommended for accuracy/speed balance)
     }
 
     COLOR_MAP = {
