@@ -2,7 +2,7 @@
 Jarvis - Advanced AI Assistant
 """
 
-__version__ = "1.3.0"
+__version__ = "1.4.5"
 __author__ = "Tahasin Shadat"
 
 '''

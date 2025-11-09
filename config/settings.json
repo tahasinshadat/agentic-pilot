@@ -2,7 +2,7 @@
     "assistant_name": "Sarah",
     "glow_effect": "inward",
     "voice_accent": "English",
-    "gui_color": "blue",
-    "animation_shape": "sphere",
+    "gui_color": "purple",
+    "animation_shape": "humanoid",
     "whisper_model": "base"
 }

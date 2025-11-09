@@ -1,6 +1,6 @@
 ## MedTrack Toolkit
 
-This repo is now a single Python toolkit that ingests Knot Tx-Link transactions (or the bundled mock JSON files), classifies medications, runs refill/price heuristics, and emits compact JSON that's easy for a healthcare AI assistant to parse--no Node backend or frontend required.
+A single Python toolkit that ingests Knot Tx-Link transactions (or the bundled mock JSON files), classifies medications, runs refill/price heuristics, and emits compact JSON that's easy for a healthcare AI assistant to parse.
 
 ### Layout
 

@@ -1,0 +1,1517 @@
+{
+  "fetched_at": "2025-11-09T08:42:45.489590+00:00",
+  "records": [
+    {
+      "code": "312617",
+      "min": 2.0,
+      "mode": 7.0,
+      "max": 25.0,
+      "description": "predniSONE 5 MG Oral Tablet",
+      "description_norm": "prednisone 5 mg oral tablet"
+    },
+    {
+      "code": "1870230",
+      "min": 2.47,
+      "mode": 7.2,
+      "max": 18.25,
+      "description": "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+      "description_norm": "nda020800 0 3 ml epinephrine 1 mg ml auto injector"
+    },
+    {
+      "code": "895994",
+      "min": 6.0,
+      "mode": 20.0,
+      "max": 60.0,
+      "description": "120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler -- note that brand name Flovent HFA ranges from 130 - 500",
+      "description_norm": "120 actuat fluticasone propionate 0 044 mg actuat metered dose inhaler note that brand name flovent hfa ranges from 130 500"
+    },
+    {
+      "code": "2123111",
+      "min": 0.72,
+      "mode": 62.31,
+      "max": 1174.83,
+      "description": "NDA020503 200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhale",
+      "description_norm": "nda020503 200 actuat albuterol 0 09 mg actuat metered dose inhale"
+    },
+    {
+      "code": "1091392",
+      "min": 20.0,
+      "mode": 90.0,
+      "max": 250.0,
+      "description": "Methylphenidate Hydrochloride 20 MG Oral Tablet -- note high variability on this one, I see 20-250, avg is ~90",
+      "description_norm": "methylphenidate hydrochloride 20 mg oral tablet note high variability on this one i see 20 250 avg is 90"
+    },
+    {
+      "code": "608139",
+      "min": 2.11,
+      "mode": 4.22,
+      "max": 8.44,
+      "description": "atomoxetine 100 MG Oral Capsule",
+      "description_norm": "atomoxetine 100 mg oral capsule"
+    },
+    {
+      "code": "1043400",
+      "min": 4.0,
+      "mode": 8.0,
+      "max": 12.0,
+      "description": "Acetaminophen 21.7 MG/ML / Dextromethorphan Hydrobromide 1 MG/ML / doxylamine succinate 0.417 MG/ML Oral Solution - OTC cough syrup",
+      "description_norm": "acetaminophen 21 7 mg ml dextromethorphan hydrobromide 1 mg ml doxylamine succinate 0 417 mg ml oral solution otc cough syrup"
+    },
+    {
+      "code": "313782",
+      "min": 3.0,
+      "mode": 7.0,
+      "max": 12.0,
+      "description": "Acetaminophen 325 MG Oral Tablet - OTC",
+      "description_norm": "acetaminophen 325 mg oral tablet otc"
+    },
+    {
+      "code": "1803932",
+      "min": 5.5,
+      "mode": 10.0,
+      "max": 100.0,
+      "description": "Leucovorin 100 MG Injection -- note some major outliers of 50s and 1 of 900+, but mostly < 10",
+      "description_norm": "leucovorin 100 mg injection note some major outliers of 50s and 1 of 900 but mostly 10"
+    },
+    {
+      "code": "1736776",
+      "min": 2000.0,
+      "mode": 2500.0,
+      "max": 3500.0,
+      "description": "10 ML oxaliplatin 5 MG/ML Injection -- note few instances in data",
+      "description_norm": "10 ml oxaliplatin 5 mg ml injection note few instances in data"
+    },
+    {
+      "code": "1366343",
+      "min": 300.0,
+      "mode": 600.0,
+      "max": 800.0,
+      "description": "Levonorgestrel 0.00354 MG/HR Drug Implant -- using 365 from https://www.washingtonpost.com/archive/lifestyle/wellness/1993/11/16/the-price-of-norplant/fc4fb471-7b53-4b87-9abb-bad368b88042/ adjusted to 2018 dollars",
+      "description_norm": "levonorgestrel 0 00354 mg hr drug implant using 365 from https www washingtonpost com archive lifestyle wellness 1993 11 16 the price of norplant fc4fb471 7b53 4b87 9abb bad368b88042 adjusted to 2018 dollars"
+    },
+    {
+      "code": "389221",
+      "min": 25.75,
+      "mode": 51.5,
+      "max": 103.0,
+      "description": "Etonogestrel 68 MG Drug Implant",
+      "description_norm": "etonogestrel 68 mg drug implant"
+    },
+    {
+      "code": "1000126",
+      "min": 20.0,
+      "mode": 55.0,
+      "max": 715.0,
+      "description": "1 ML medroxyprogesterone acetate 150 MG/ML Injection - est https://clearhealthcosts.com/blog/2014/05/much-depo-provera-cost-draft/",
+      "description_norm": "1 ml medroxyprogesterone acetate 150 mg ml injection est https clearhealthcosts com blog 2014 05 much depo provera cost draft"
+    },
+    {
+      "code": "807283",
+      "min": 19.63,
+      "mode": 21.92,
+      "max": 24.17,
+      "description": "Mirena 52 MG Intrauterine System -- all 3 IUDs estimated at 1000, based on http://time.com/4985605/iud-birth-control-health-insurance/",
+      "description_norm": "mirena 52 mg intrauterine system all 3 iuds estimated at 1000 based on http time com 4985605 iud birth control health insurance"
+    },
+    {
+      "code": "1605257",
+      "min": 800.0,
+      "mode": 1000.0,
+      "max": 1494.0,
+      "description": "Liletta 52 MG Intrauterine System",
+      "description_norm": "liletta 52 mg intrauterine system"
+    },
+    {
+      "code": "1856546",
+      "min": 21.96,
+      "mode": 22.05,
+      "max": 22.14,
+      "description": "Kyleena 19.5 MG Intrauterine System",
+      "description_norm": "kyleena 19 5 mg intrauterine system"
+    },
+    {
+      "code": "748962",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Camila 28 Day Pack -- all pills est at 15-50 based on https://money.usnews.com/money/blogs/alpha-consumer/2012/03/05/the-real-cost-of-birth-control",
+      "description_norm": "camila 28 day pack all pills est at 15 50 based on https money usnews com money blogs alpha consumer 2012 03 05 the real cost of birth control"
+    },
+    {
+      "code": "831533",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Errin 28 Day Pack",
+      "description_norm": "errin 28 day pack"
+    },
+    {
+      "code": "757594",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Jolivette 28 Day Pack",
+      "description_norm": "jolivette 28 day pack"
+    },
+    {
+      "code": "235389",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Mestranol / Norethynodrel [Enovid]",
+      "description_norm": "mestranol norethynodrel enovid"
+    },
+    {
+      "code": "749882",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Norinyl 1+50 28 Day Pack",
+      "description_norm": "norinyl 1 50 28 day pack"
+    },
+    {
+      "code": "1359133",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Estrostep Fe 28 Day Pack",
+      "description_norm": "estrostep fe 28 day pack"
+    },
+    {
+      "code": "749785",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Ortho Tri-Cyclen 28 Day Pack",
+      "description_norm": "ortho tri cyclen 28 day pack"
+    },
+    {
+      "code": "751905",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Trinessa 28 Day Pack",
+      "description_norm": "trinessa 28 day pack"
+    },
+    {
+      "code": "749762",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Seasonique 91 Day Pack",
+      "description_norm": "seasonique 91 day pack"
+    },
+    {
+      "code": "748856",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Yaz 28 Day Pack",
+      "description_norm": "yaz 28 day pack"
+    },
+    {
+      "code": "978950",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Natazia 28 Day Pack",
+      "description_norm": "natazia 28 day pack"
+    },
+    {
+      "code": "748879",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "Levora 0.15/30 28 Day Pack",
+      "description_norm": "levora 0 15 30 28 day pack"
+    },
+    {
+      "code": "1534809",
+      "min": 15.0,
+      "mode": 35.0,
+      "max": 50.0,
+      "description": "168 HR Ethinyl Estradiol 0.00146 MG/HR / norelgestromin 0.00625 MG/HR Transdermal System - same source as pills",
+      "description_norm": "168 hr ethinyl estradiol 0 00146 mg hr norelgestromin 0 00625 mg hr transdermal system same source as pills"
+    },
+    {
+      "code": "1367439",
+      "min": 15.0,
+      "mode": 40.0,
+      "max": 50.0,
+      "description": "NuvaRing 0.12/0.015 MG per 24HR 21 Day Vaginal Ring - est from https://www.plannedparenthood.org/learn/birth-control/birth-control-vaginal-ring-nuvaring/how-do-i-get-nuvaring",
+      "description_norm": "nuvaring 0 12 0 015 mg per 24hr 21 day vaginal ring est from https www plannedparenthood org learn birth control birth control vaginal ring nuvaring how do i get nuvaring"
+    },
+    {
+      "code": "896209",
+      "min": 6.0,
+      "mode": 20.0,
+      "max": 60.0,
+      "description": "60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler",
+      "description_norm": "60 actuat fluticasone propionate 0 25 mg actuat salmeterol 0 05 mg actuat dry powder inhaler"
+    },
+    {
+      "code": "310436",
+      "min": 0.11,
+      "mode": 1.67,
+      "max": 6.7,
+      "description": "Galantamine 4 MG Oral Tablet",
+      "description_norm": "galantamine 4 mg oral tablet"
+    },
+    {
+      "code": "997223",
+      "min": 2.0,
+      "mode": 250.0,
+      "max": 630.0,
+      "description": "Donepezil hydrochloride 10 MG Oral Tablet",
+      "description_norm": "donepezil hydrochloride 10 mg oral tablet"
+    },
+    {
+      "code": "313185",
+      "min": 1280.0,
+      "mode": 1350.0,
+      "max": 1447.0,
+      "description": "Tacrine 10 MG Oral Capsule -- using yearly cost from https://webcache.googleusercontent.com/search?q=cache:tEYxPDcg0UoJ:https://www.thepharmaletter.com/article/cognex-approved-for-alzheimer-s-in-usa+&cd=12&hl=en&ct=clnk&gl=us&client=firefox-b-1",
+      "description_norm": "tacrine 10 mg oral capsule using yearly cost from https webcache googleusercontent com search q cache teyxpdcg0uoj https www thepharmaletter com article cognex approved for alzheimer s in usa cd 12 hl en ct clnk gl us client firefox b 1"
+    },
+    {
+      "code": "1599803",
+      "min": 10.03,
+      "mode": 20.06,
+      "max": 40.12,
+      "description": "24 HR Donepezil hydrochloride 10 MG / Memantine hydrochloride 28 MG Extended Release Oral Capsule -- https://www.drugs.com/price-guide/namzaric",
+      "description_norm": "24 hr donepezil hydrochloride 10 mg memantine hydrochloride 28 mg extended release oral capsule https www drugs com price guide namzaric"
+    },
+    {
+      "code": "996740",
+      "min": 33.0,
+      "mode": 275.0,
+      "max": 900.0,
+      "description": "Memantine hydrochloride 2 MG/ML Oral Solution",
+      "description_norm": "memantine hydrochloride 2 mg ml oral solution"
+    },
+    {
+      "code": "1100184",
+      "min": 1.19,
+      "mode": 19.76,
+      "max": 1417.21,
+      "description": "Donepezil hydrochloride 23 MG Oral Tablet",
+      "description_norm": "donepezil hydrochloride 23 mg oral tablet"
+    },
+    {
+      "code": "106258",
+      "min": 3.0,
+      "mode": 7.0,
+      "max": 12.0,
+      "description": "Hydrocortisone 10 MG/ML Topical Cream - OTC",
+      "description_norm": "hydrocortisone 10 mg ml topical cream otc"
+    },
+    {
+      "code": "308971",
+      "min": 2.0,
+      "mode": 35.0,
+      "max": 500.0,
+      "description": "Carbamazepine[Tegretol] -- note fairly high variability",
+      "description_norm": "carbamazepine tegretol note fairly high variability"
+    },
+    {
+      "code": "197591",
+      "min": 0.145,
+      "mode": 0.29,
+      "max": 0.58,
+      "description": "Diazepam 5 MG Oral Tablet",
+      "description_norm": "diazepam 5 mg oral tablet"
+    },
+    {
+      "code": "204892",
+      "min": 0.11,
+      "mode": 0.61,
+      "max": 1.22,
+      "description": "clonazePAM 0.25 MG Oral Tablet",
+      "description_norm": "clonazepam 0 25 mg oral tablet"
+    },
+    {
+      "code": "198014",
+      "min": 3.0,
+      "mode": 8.0,
+      "max": 30.0,
+      "description": "Naproxen 500 MG Oral Tablet",
+      "description_norm": "naproxen 500 mg oral tablet"
+    },
+    {
+      "code": "483438",
+      "min": 0.45,
+      "mode": 0.9,
+      "max": 1.8,
+      "description": "pregabalin 100 MG Oral Capsule",
+      "description_norm": "pregabalin 100 mg oral capsule"
+    },
+    {
+      "code": "596926",
+      "min": 0.12,
+      "mode": 0.84,
+      "max": 2.14,
+      "description": "duloxetine 20 MG Delayed Release Oral Capsule",
+      "description_norm": "duloxetine 20 mg delayed release oral capsule"
+    },
+    {
+      "code": "833135",
+      "min": 4.16,
+      "mode": 8.32,
+      "max": 16.64,
+      "description": "Milnacipran hydrochloride 100 MG Oral Tablet",
+      "description_norm": "milnacipran hydrochloride 100 mg oral tablet"
+    },
+    {
+      "code": "1049635",
+      "min": 1.39,
+      "mode": 45.37,
+      "max": 5767.86,
+      "description": "Acetaminophen 325 MG / oxyCODONE Hydrochloride 2.5 MG Oral Tablet",
+      "description_norm": "acetaminophen 325 mg oxycodone hydrochloride 2 5 mg oral tablet"
+    },
+    {
+      "code": "197541",
+      "min": 2.93,
+      "mode": 5.87,
+      "max": 11.74,
+      "description": "Colchicine 0.6 MG Oral Tablet",
+      "description_norm": "colchicine 0 6 mg oral tablet"
+    },
+    {
+      "code": "197319",
+      "min": 2.0,
+      "mode": 10.0,
+      "max": 35.0,
+      "description": "Allopurinol 100 MG Oral Tablet",
+      "description_norm": "allopurinol 100 mg oral tablet"
+    },
+    {
+      "code": "1736854",
+      "min": 400.0,
+      "mode": 445.0,
+      "max": 500.0,
+      "description": "Cisplatin 50 MG Injection -- https://www.mskcc.org/sites/default/files/node/25097/documents/drug-prices-table-bach-center-health-policy-and-outcomes-v2.pdf",
+      "description_norm": "cisplatin 50 mg injection https www mskcc org sites default files node 25097 documents drug prices table bach center health policy and outcomes v2 pdf"
+    },
+    {
+      "code": "1734340",
+      "min": 150.0,
+      "mode": 200.0,
+      "max": 250.0,
+      "description": "Etoposide 100 MG Injection -- https://www.drugs.com/price-guide/etoposide",
+      "description_norm": "etoposide 100 mg injection https www drugs com price guide etoposide"
+    },
+    {
+      "code": "583214",
+      "min": 1.79,
+      "mode": 3.59,
+      "max": 7.18,
+      "description": "PACLitaxel 100 MG Injection",
+      "description_norm": "paclitaxel 100 mg injection"
+    },
+    {
+      "code": "849574",
+      "min": 6.0,
+      "mode": 8.0,
+      "max": 11.0,
+      "description": "Naproxen sodium 220 MG Oral Tablet - OTC",
+      "description_norm": "naproxen sodium 220 mg oral tablet otc"
+    },
+    {
+      "code": "312615",
+      "min": 0.19,
+      "mode": 0.38,
+      "max": 0.76,
+      "description": "predniSONE 20 MG Oral Tablet",
+      "description_norm": "prednisone 20 mg oral tablet"
+    },
+    {
+      "code": "241834",
+      "min": 1.06,
+      "mode": 6.0,
+      "max": 16.27,
+      "description": "cycloSPORIN modified 100 MG Oral Capsule",
+      "description_norm": "cyclosporin modified 100 mg oral capsule"
+    },
+    {
+      "code": "105078",
+      "min": 0.01,
+      "mode": 7.0,
+      "max": 43.0,
+      "description": "Penicillin G 375 MG/ML Injectable Solution",
+      "description_norm": "penicillin g 375 mg ml injectable solution"
+    },
+    {
+      "code": "789980",
+      "min": 11.0,
+      "mode": 175.0,
+      "max": 350.0,
+      "description": "Ampicillin 100 MG/ML Injectable Solution",
+      "description_norm": "ampicillin 100 mg ml injectable solution"
+    },
+    {
+      "code": "1652673",
+      "min": 8.8,
+      "mode": 60.0,
+      "max": 733.0,
+      "description": "Doxycycline Monohydrate 50 MG Oral Tablet",
+      "description_norm": "doxycycline monohydrate 50 mg oral tablet"
+    },
+    {
+      "code": "1650142",
+      "min": 8.8,
+      "mode": 60.0,
+      "max": 733.0,
+      "description": "Doxycycline Monohydrate 100 MG Oral Tablet",
+      "description_norm": "doxycycline monohydrate 100 mg oral tablet"
+    },
+    {
+      "code": "308182",
+      "min": 0.01,
+      "mode": 4.0,
+      "max": 25.0,
+      "description": "Amoxicillin 250 MG Oral Capsule",
+      "description_norm": "amoxicillin 250 mg oral capsule"
+    },
+    {
+      "code": "308192",
+      "min": 0.01,
+      "mode": 4.0,
+      "max": 25.0,
+      "description": "Amoxicillin 500 MG Oral Tablet",
+      "description_norm": "amoxicillin 500 mg oral tablet"
+    },
+    {
+      "code": "309045",
+      "min": 40.0,
+      "mode": 55.0,
+      "max": 66.0,
+      "description": "Cefaclor 250 MG Oral Capsule",
+      "description_norm": "cefaclor 250 mg oral capsule"
+    },
+    {
+      "code": "309043",
+      "min": 40.0,
+      "mode": 55.0,
+      "max": 66.0,
+      "description": "12 HR Cefaclor 500 MG Extended Release Oral Tablet",
+      "description_norm": "12 hr cefaclor 500 mg extended release oral tablet"
+    },
+    {
+      "code": "309097",
+      "min": 9.5,
+      "mode": 35.0,
+      "max": 273.0,
+      "description": "Cefuroxime 250 MG Oral Tablet",
+      "description_norm": "cefuroxime 250 mg oral tablet"
+    },
+    {
+      "code": "861467",
+      "min": 0.4,
+      "mode": 1.24,
+      "max": 2.64,
+      "description": "Meperidine Hydrochloride 50 MG Oral Tablet -- note a couple major outliers",
+      "description_norm": "meperidine hydrochloride 50 mg oral tablet note a couple major outliers"
+    },
+    {
+      "code": "1049221",
+      "min": 0.26,
+      "mode": 0.26,
+      "max": 0.26,
+      "description": "Acetaminophen 325 MG / oxyCODONE Hydrochloride 5 MG Oral Tablet",
+      "description_norm": "acetaminophen 325 mg oxycodone hydrochloride 5 mg oral tablet"
+    },
+    {
+      "code": "857005",
+      "min": 0.05,
+      "mode": 0.43,
+      "max": 1.34,
+      "description": "Acetaminophen 325 MG / HYDROcodone Bitartrate 7.5 MG Oral Tablet",
+      "description_norm": "acetaminophen 325 mg hydrocodone bitartrate 7 5 mg oral tablet"
+    },
+    {
+      "code": "1049630",
+      "min": 4.0,
+      "mode": 5.0,
+      "max": 12.0,
+      "description": "diphenhydrAMINE Hydrochloride 25 MG Oral Tablet - OTC [Benadryl]",
+      "description_norm": "diphenhydramine hydrochloride 25 mg oral tablet otc benadryl"
+    },
+    {
+      "code": "477045",
+      "min": 4.0,
+      "mode": 5.0,
+      "max": 10.0,
+      "description": "Chlorpheniramine Maleate 2 MG/ML Oral Solution - otc [Chlor-Timeton] - see otc_antihistamine",
+      "description_norm": "chlorpheniramine maleate 2 mg ml oral solution otc chlor timeton see otc antihistamine"
+    },
+    {
+      "code": "1363309",
+      "min": 4.0,
+      "mode": 5.0,
+      "max": 10.0,
+      "description": "Chlorpheniramine Maleate 4 MG Oral Tablet - otc",
+      "description_norm": "chlorpheniramine maleate 4 mg oral tablet otc"
+    },
+    {
+      "code": "197378",
+      "min": 3.0,
+      "mode": 7.0,
+      "max": 12.0,
+      "description": "Astemizole 10 MG Oral Tablet - otc [hismanal] - no longer available so assumed to be similar to other otc antihistamines",
+      "description_norm": "astemizole 10 mg oral tablet otc hismanal no longer available so assumed to be similar to other otc antihistamines"
+    },
+    {
+      "code": "141918",
+      "min": 6.0,
+      "mode": 9.0,
+      "max": 12.0,
+      "description": "Terfenadine 60 MG Oral Tablet - otc [seldane]",
+      "description_norm": "terfenadine 60 mg oral tablet otc seldane"
+    },
+    {
+      "code": "665078",
+      "min": 5.0,
+      "mode": 7.0,
+      "max": 19.0,
+      "description": "Loratadine 5 MG Chewable Tablet - OTC [claritin]",
+      "description_norm": "loratadine 5 mg chewable tablet otc claritin"
+    },
+    {
+      "code": "311372",
+      "min": 5.0,
+      "mode": 7.0,
+      "max": 19.0,
+      "description": "Loratadine 10 MG Oral Tablet - OTC [claritin]",
+      "description_norm": "loratadine 10 mg oral tablet otc claritin"
+    },
+    {
+      "code": "997488",
+      "min": 14.0,
+      "mode": 18.0,
+      "max": 36.0,
+      "description": "Fexofenadine hydrochloride 30 MG Oral Tablet - OTC [allegra]",
+      "description_norm": "fexofenadine hydrochloride 30 mg oral tablet otc allegra"
+    },
+    {
+      "code": "997501",
+      "min": 14.0,
+      "mode": 18.0,
+      "max": 36.0,
+      "description": "Fexofenadine hydrochloride 60 MG Oral Tablet - OTC [allegra]",
+      "description_norm": "fexofenadine hydrochloride 60 mg oral tablet otc allegra"
+    },
+    {
+      "code": "1014676",
+      "min": 15.0,
+      "mode": 19.0,
+      "max": 25.0,
+      "description": "cetirizine hydrochloride 5 MG Oral Tablet - OTC [zyrtec]",
+      "description_norm": "cetirizine hydrochloride 5 mg oral tablet otc zyrtec"
+    },
+    {
+      "code": "1014678",
+      "min": 15.0,
+      "mode": 19.0,
+      "max": 25.0,
+      "description": "cetirizine hydrochloride 10 MG Oral Tablet - OTC [zyrtec]",
+      "description_norm": "cetirizine hydrochloride 10 mg oral tablet otc zyrtec"
+    },
+    {
+      "code": "243670",
+      "min": 4.0,
+      "mode": 6.5,
+      "max": 12.0,
+      "description": "Aspirin 81 MG Oral Tablet - OTC",
+      "description_norm": "aspirin 81 mg oral tablet otc"
+    },
+    {
+      "code": "313820",
+      "min": 3.0,
+      "mode": 4.0,
+      "max": 8.0,
+      "description": "Acetaminophen 160 MG Chewable Tablet - OTC",
+      "description_norm": "acetaminophen 160 mg chewable tablet otc"
+    },
+    {
+      "code": "198405",
+      "min": 1.11,
+      "mode": 7.0,
+      "max": 45.0,
+      "description": "Ibuprofen 100 MG Oral Tablet",
+      "description_norm": "ibuprofen 100 mg oral tablet"
+    },
+    {
+      "code": "310965",
+      "min": 1.11,
+      "mode": 8.0,
+      "max": 45.0,
+      "description": "Ibuprofen 200 MG Oral Tablet",
+      "description_norm": "ibuprofen 200 mg oral tablet"
+    },
+    {
+      "code": "1049683",
+      "min": 0.19,
+      "mode": 0.49,
+      "max": 0.8,
+      "description": "oxyCODONE Hydrochloride 10 MG Oral Tablet",
+      "description_norm": "oxycodone hydrochloride 10 mg oral tablet"
+    },
+    {
+      "code": "864718",
+      "min": 0.15,
+      "mode": 0.2,
+      "max": 0.4,
+      "description": "Methadone Hydrochloride 5 MG Oral Tablet",
+      "description_norm": "methadone hydrochloride 5 mg oral tablet"
+    },
+    {
+      "code": "860975",
+      "min": 0.01,
+      "mode": 0.25,
+      "max": 4.32,
+      "description": "24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet",
+      "description_norm": "24 hr metformin hydrochloride 500 mg extended release oral tablet"
+    },
+    {
+      "code": "897122",
+      "min": 200.0,
+      "mode": 600.0,
+      "max": 1600.0,
+      "description": "3 ML liraglutide 6 MG/ML Pen Injector -- note: I see 2-pak and 3-pak",
+      "description_norm": "3 ml liraglutide 6 mg ml pen injector note i see 2 pak and 3 pak"
+    },
+    {
+      "code": "1373463",
+      "min": 75.0,
+      "mode": 400.0,
+      "max": 885.0,
+      "description": "canagliflozin 100 MG Oral Tablet",
+      "description_norm": "canagliflozin 100 mg oral tablet"
+    },
+    {
+      "code": "106892",
+      "min": 8.3,
+      "mode": 16.61,
+      "max": 33.22,
+      "description": "insulin human isophane 70 UNT/ML / Regular Insulin Human 30 UNT/ML Injectable Suspension [Humulin]",
+      "description_norm": "insulin human isophane 70 unt ml regular insulin human 30 unt ml injectable suspension humulin"
+    },
+    {
+      "code": "865098",
+      "min": 15.465,
+      "mode": 30.93,
+      "max": 61.86,
+      "description": "Insulin Lispro 100 UNT/ML Injectable Solution [Humalog]",
+      "description_norm": "insulin lispro 100 unt ml injectable solution humalog"
+    },
+    {
+      "code": "856987",
+      "min": 0.06,
+      "mode": 1.38,
+      "max": 8.15,
+      "description": "Acetaminophen 300 MG / HYDROcodone Bitartrate 5 MG Oral Tablet",
+      "description_norm": "acetaminophen 300 mg hydrocodone bitartrate 5 mg oral tablet"
+    },
+    {
+      "code": "1860154",
+      "min": 3.0,
+      "mode": 4.89,
+      "max": 8.06,
+      "description": "Abuse-Deterrent 12 HR Oxycodone Hydrochloride 15 MG Extended Release Oral Tablet",
+      "description_norm": "abuse deterrent 12 hr oxycodone hydrochloride 15 mg extended release oral tablet"
+    },
+    {
+      "code": "904419",
+      "min": 0.03,
+      "mode": 0.34,
+      "max": 1.54,
+      "description": "Alendronic acid 10 MG Oral Tablet -- SEE ALENDRONATE SODIUM",
+      "description_norm": "alendronic acid 10 mg oral tablet see alendronate sodium"
+    },
+    {
+      "code": "105585",
+      "min": 0.88,
+      "mode": 1.92,
+      "max": 2.13,
+      "description": "Methotrexate 2.5 MG Oral Tablet",
+      "description_norm": "methotrexate 2 5 mg oral tablet"
+    },
+    {
+      "code": "562251",
+      "min": 3.0,
+      "mode": 16.0,
+      "max": 153.0,
+      "description": "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet -- see AMOX TR-POTASSIUM CLAVULANATE",
+      "description_norm": "amoxicillin 250 mg clavulanate 125 mg oral tablet see amox tr potassium clavulanate"
+    },
+    {
+      "code": "834061",
+      "min": 0.01,
+      "mode": 7.0,
+      "max": 43.0,
+      "description": "Penicillin V Potassium 250 MG Oral Tablet",
+      "description_norm": "penicillin v potassium 250 mg oral tablet"
+    },
+    {
+      "code": "834102",
+      "min": 0.01,
+      "mode": 7.0,
+      "max": 43.0,
+      "description": "Penicillin V Potassium 500 MG Oral Tablet",
+      "description_norm": "penicillin v potassium 500 mg oral tablet"
+    },
+    {
+      "code": "311989",
+      "min": 0.55,
+      "mode": 11.44,
+      "max": 30.09,
+      "description": "Nitrofurantoin 5 MG/ML Oral Suspension-- note few examples",
+      "description_norm": "nitrofurantoin 5 mg ml oral suspension note few examples"
+    },
+    {
+      "code": "1094107",
+      "min": 6.75,
+      "mode": 22.0,
+      "max": 65.0,
+      "description": "Phenazopyridine hydrochloride 100 MG Oral Tablet",
+      "description_norm": "phenazopyridine hydrochloride 100 mg oral tablet"
+    },
+    {
+      "code": "311995",
+      "min": 3.0,
+      "mode": 40.0,
+      "max": 146.0,
+      "description": "NITROFURANTOIN MACROCRYSTALS 50 MG Oral Capsule",
+      "description_norm": "nitrofurantoin macrocrystals 50 mg oral capsule"
+    },
+    {
+      "code": "309362",
+      "min": 3.0,
+      "mode": 26.0,
+      "max": 150.0,
+      "description": "Clopidogrel 75 MG Oral Tablet",
+      "description_norm": "clopidogrel 75 mg oral tablet"
+    },
+    {
+      "code": "197361",
+      "min": 1.29,
+      "mode": 9.0,
+      "max": 93.0,
+      "description": "Amlodipine 5 MG Oral Tablet -- using AMLODIPINE BESYLATE",
+      "description_norm": "amlodipine 5 mg oral tablet using amlodipine besylate"
+    },
+    {
+      "code": "834357",
+      "min": 2.5,
+      "mode": 25.0,
+      "max": 360.0,
+      "description": "3 ML Amiodarone hydrocholoride 50 MG/ML Prefilled Syringe",
+      "description_norm": "3 ml amiodarone hydrocholoride 50 mg ml prefilled syringe"
+    },
+    {
+      "code": "705129",
+      "min": 1.01,
+      "mode": 6.05,
+      "max": 66.3,
+      "description": "Nitroglycerin 0.4 MG/ACTUAT Mucosal Spray",
+      "description_norm": "nitroglycerin 0 4 mg actuat mucosal spray"
+    },
+    {
+      "code": "1190795",
+      "min": 7.45,
+      "mode": 20.0,
+      "max": 40.0,
+      "description": "Atropine Sulfate 1 MG/ML Injectable Solution",
+      "description_norm": "atropine sulfate 1 mg ml injectable solution"
+    },
+    {
+      "code": "897718",
+      "min": 2.0,
+      "mode": 30.0,
+      "max": 285.0,
+      "description": "Verapamil Hydrochloride 40 MG",
+      "description_norm": "verapamil hydrochloride 40 mg"
+    },
+    {
+      "code": "312961",
+      "min": 2.0,
+      "mode": 10.0,
+      "max": 55.0,
+      "description": "Simvastatin 20 MG Oral Tablet",
+      "description_norm": "simvastatin 20 mg oral tablet"
+    },
+    {
+      "code": "1660014",
+      "min": 1.0,
+      "mode": 5.0,
+      "max": 5.0,
+      "description": "1 ML Epinephrine 1 MG/ML Injection -- https://www.cbsnews.com/news/cheaper-epipen-alternative-may-carry-risks/",
+      "description_norm": "1 ml epinephrine 1 mg ml injection https www cbsnews com news cheaper epipen alternative may carry risks"
+    },
+    {
+      "code": "197604",
+      "min": 4.0,
+      "mode": 45.0,
+      "max": 150.0,
+      "description": "Digoxin 0.125 MG Oral Tablet",
+      "description_norm": "digoxin 0 125 mg oral tablet"
+    },
+    {
+      "code": "259255",
+      "min": 0.01,
+      "mode": 0.41,
+      "max": 2.12,
+      "description": "Atorvastatin 80 MG Oral Tablet",
+      "description_norm": "atorvastatin 80 mg oral tablet"
+    },
+    {
+      "code": "1804799",
+      "min": 6000.0,
+      "mode": 6400.0,
+      "max": 6800.0,
+      "description": "Alteplase 100 MG Injection -- not found in data, used https://www.managedcaremag.com/news/cost-clot-busting-drug-alteplase-outpaces-reimbursement",
+      "description_norm": "alteplase 100 mg injection not found in data used https www managedcaremag com news cost clot busting drug alteplase outpaces reimbursement"
+    },
+    {
+      "code": "855332",
+      "min": 0.01,
+      "mode": 0.37,
+      "max": 1.37,
+      "description": "Warfarin Sodium 5 MG Oral Tablet",
+      "description_norm": "warfarin sodium 5 mg oral tablet"
+    },
+    {
+      "code": "833036",
+      "min": 15.0,
+      "mode": 65.0,
+      "max": 150.0,
+      "description": "Captopril 25 MG Oral Tablet -- high variability, ranges 15-150, avg ~65",
+      "description_norm": "captopril 25 mg oral tablet high variability ranges 15 150 avg 65"
+    },
+    {
+      "code": "1114085",
+      "min": 6.45,
+      "mode": 6.45,
+      "max": 6.45,
+      "description": "100 ML zoledronic acid 0.04 MG/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "100 ml zoledronic acid 0 04 mg ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1116758",
+      "min": 64.76,
+      "mode": 232.4,
+      "max": 302.0,
+      "description": "chloroquine phosphate 500 MG Oral Tablet - https://www.goodrx.com/aralen?kw=price&utm_source=bing&utm_medium=cpc&utm_term=aralen|p&utm_campaign=aralen&utm_content=Ad-Group_General&msclkid=b1c17c16e7cf11ec047d232b92825621",
+      "description_norm": "chloroquine phosphate 500 mg oral tablet https www goodrx com aralen kw price utm source bing utm medium cpc utm term aralen p utm campaign aralen utm content ad group general msclkid b1c17c16e7cf11ec047d232b92825621"
+    },
+    {
+      "code": "1234995",
+      "min": 0.78,
+      "mode": 1.25,
+      "max": 2.94,
+      "description": "Rocuronium bromide 10 MG/ML Injectable Solution - https://www.drugs.com/price-guide/rocuronium",
+      "description_norm": "rocuronium bromide 10 mg ml injectable solution https www drugs com price guide rocuronium"
+    },
+    {
+      "code": "1243052",
+      "min": 445.66,
+      "mode": 445.66,
+      "max": 445.66,
+      "description": "Kalydeco 150 MG Oral Tablet - https://www.drugs.com/price-guide/kalydeco",
+      "description_norm": "kalydeco 150 mg oral tablet https www drugs com price guide kalydeco"
+    },
+    {
+      "code": "1601380",
+      "min": 619.36,
+      "mode": 619.36,
+      "max": 619.36,
+      "description": "palbociclib 100 MG Oral Capsule - https://www.drugs.com/price-guide/ibrance",
+      "description_norm": "palbociclib 100 mg oral capsule https www drugs com price guide ibrance"
+    },
+    {
+      "code": "1656318",
+      "min": 4.58,
+      "mode": 4.58,
+      "max": 4.58,
+      "description": "Cefotaxime 2000 MG Injection - https://www.drugs.com/price-guide/cefotaxime",
+      "description_norm": "cefotaxime 2000 mg injection https www drugs com price guide cefotaxime"
+    },
+    {
+      "code": "1657981",
+      "min": 120.84,
+      "mode": 120.84,
+      "max": 120.84,
+      "description": "20 ML tocilizumab 20 MG/ML Injection - https://www.drugs.com/price-guide/actemra",
+      "description_norm": "20 ml tocilizumab 20 mg ml injection https www drugs com price guide actemra"
+    },
+    {
+      "code": "1658084",
+      "min": 3302.79,
+      "mode": 3302.79,
+      "max": 3302.79,
+      "description": "ado-trastuzumab emtansine 100 MG Injection - https://www.drugs.com/price-guide/kadcyla",
+      "description_norm": "ado trastuzumab emtansine 100 mg injection https www drugs com price guide kadcyla"
+    },
+    {
+      "code": "1659149",
+      "min": 6.93,
+      "mode": 8.09,
+      "max": 13.86,
+      "description": "piperacillin 4000 MG / tazobactam 500 MG Injection - https://www.drugs.com/price-guide/piperacillin-tazobactam",
+      "description_norm": "piperacillin 4000 mg tazobactam 500 mg injection https www drugs com price guide piperacillin tazobactam"
+    },
+    {
+      "code": "1659263",
+      "min": 1.02,
+      "mode": 1.76,
+      "max": 2.75,
+      "description": "1 ML heparin sodium  porcine 5000 UNT/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "1 ml heparin sodium porcine 5000 unt ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1665227",
+      "min": 0.01,
+      "mode": 0.01,
+      "max": 0.01,
+      "description": "20 ML Ciprofloxacin 10 MG/ML Injection - https://data.medicaid.gov/d/a4y5-998d/visualization",
+      "description_norm": "20 ml ciprofloxacin 10 mg ml injection https data medicaid gov d a4y5 998d visualization"
+    },
+    {
+      "code": "1719286",
+      "min": 0.08,
+      "mode": 0.09,
+      "max": 0.3,
+      "description": "10 ML Furosemide 10 MG/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "10 ml furosemide 10 mg ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1723208",
+      "min": 2.0,
+      "mode": 3.08,
+      "max": 4.16,
+      "description": "10 ML Alfentanil 0.5 MG/ML Injection - https://www.drugs.com/price-guide/alfentanil",
+      "description_norm": "10 ml alfentanil 0 5 mg ml injection https www drugs com price guide alfentanil"
+    },
+    {
+      "code": "1729584",
+      "min": 108.99,
+      "mode": 108.99,
+      "max": 108.99,
+      "description": "remifentanil 2 MG Injection - https://www.drugs.com/price-guide/remifentanil#:~:text=Remifentanil%20Prices%20This%20remifentanil%20price%20guide%20is%20based,for%20injection%2C%20depending%20on%20the%20pharmacy%20you%20visit.",
+      "description_norm": "remifentanil 2 mg injection https www drugs com price guide remifentanil text remifentanil 20prices 20this 20remifentanil 20price 20guide 20is 20based for 20injection 2c 20depending 20on 20the 20pharmacy 20you 20visit"
+    },
+    {
+      "code": "1732136",
+      "min": 0.99,
+      "mode": 1.76,
+      "max": 2.05,
+      "description": "1 ML Morphine Sulfate 5 MG/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "1 ml morphine sulfate 5 mg ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1732186",
+      "min": 1.72,
+      "mode": 2.0,
+      "max": 2.34,
+      "description": "100 ML Epirubicin Hydrochloride 2 MG/ML Injection - https://www.drugs.com/price-guide/epirubicin",
+      "description_norm": "100 ml epirubicin hydrochloride 2 mg ml injection https www drugs com price guide epirubicin"
+    },
+    {
+      "code": "1734919",
+      "min": 454.0,
+      "mode": 454.0,
+      "max": 454.0,
+      "description": "Cyclophosphamide 1000 MG Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "cyclophosphamide 1000 mg injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1735006",
+      "min": 0.36,
+      "mode": 0.511,
+      "max": 0.61,
+      "description": "10 ML Fentanyl 0.05 MG/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "10 ml fentanyl 0 05 mg ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1737449",
+      "min": 2.11,
+      "mode": 2.66,
+      "max": 3.22,
+      "description": "10 ML Pamidronate Disodium 3 MG/ML Injection - https://www.drugs.com/price-guide/pamidronate",
+      "description_norm": "10 ml pamidronate disodium 3 mg ml injection https www drugs com price guide pamidronate"
+    },
+    {
+      "code": "1740467",
+      "min": 0.18,
+      "mode": 0.33,
+      "max": 0.43,
+      "description": "2 ML Ondansetron 2 MG/ML Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "2 ml ondansetron 2 mg ml injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1790099",
+      "min": 2.63,
+      "mode": 2.98,
+      "max": 3.13,
+      "description": "10 ML Doxorubicin Hydrochloride 2 MG/ML Injection - https://www.drugs.com/price-guide/doxorubicin",
+      "description_norm": "10 ml doxorubicin hydrochloride 2 mg ml injection https www drugs com price guide doxorubicin"
+    },
+    {
+      "code": "1791701",
+      "min": 0.39,
+      "mode": 0.45,
+      "max": 0.51,
+      "description": "10 ML Fluorouracil 50 MG/ML Injection - https://www.drugs.com/price-guide/fluorouracil#:~:text=Fluorouracil%20Prices.%20This%20fluorouracil%20price%20guide%20is%20based,only%20and%20are%20not%20valid%20with%20insurance%20plans.",
+      "description_norm": "10 ml fluorouracil 50 mg ml injection https www drugs com price guide fluorouracil text fluorouracil 20prices 20this 20fluorouracil 20price 20guide 20is 20based only 20and 20are 20not 20valid 20with 20insurance 20plans"
+    },
+    {
+      "code": "1807513",
+      "min": 4.88,
+      "mode": 6.9,
+      "max": 9.2,
+      "description": "vancomycin 1000 MG Injection - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "vancomycin 1000 mg injection https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "1808217",
+      "min": 0.27,
+      "mode": 0.27,
+      "max": 0.27,
+      "description": "100 ML Propofol 10 MG/ML Injection - https://www.drugs.com/price-guide/propofol#:~:text=Brand%20names%20for%20propofol%20include%20Diprivan.%20Propofol%20Prices.,100%20milliliters%2C%20depending%20on%20the%20pharmacy%20you%20visit.",
+      "description_norm": "100 ml propofol 10 mg ml injection https www drugs com price guide propofol text brand 20names 20for 20propofol 20include 20diprivan 20propofol 20prices 100 20milliliters 2c 20depending 20on 20the 20pharmacy 20you 20visit"
+    },
+    {
+      "code": "1809104",
+      "min": 4.72,
+      "mode": 5.22,
+      "max": 5.84,
+      "description": "5 ML SUFentanil 0.05 MG/ML Injection - https://www.drugs.com/price-guide/sufentanil",
+      "description_norm": "5 ml sufentanil 0 05 mg ml injection https www drugs com price guide sufentanil"
+    },
+    {
+      "code": "1860480",
+      "min": 27.98,
+      "mode": 31.11,
+      "max": 34.45,
+      "description": "1 ML DOCEtaxel 20 MG/ML Injection - https://www.drugs.com/price-guide/docetaxel",
+      "description_norm": "1 ml docetaxel 20 mg ml injection https www drugs com price guide docetaxel"
+    },
+    {
+      "code": "1873983",
+      "min": 219.61,
+      "mode": 245.5,
+      "max": 263.81,
+      "description": "ribociclib 200 MG Oral Tablet - https://www.drugs.com/price-guide/kisqali",
+      "description_norm": "ribociclib 200 mg oral tablet https www drugs com price guide kisqali"
+    },
+    {
+      "code": "1940648",
+      "min": 96.88,
+      "mode": 96.88,
+      "max": 96.88,
+      "description": "neratinib 40 MG Oral Tablet - https://www.drugs.com/price-guide/nerlynx",
+      "description_norm": "neratinib 40 mg oral tablet https www drugs com price guide nerlynx"
+    },
+    {
+      "code": "1946840",
+      "min": 231.42,
+      "mode": 231.42,
+      "max": 231.42,
+      "description": "Verzenio 100 MG Oral Tablet - https://www.drugs.com/price-guide/verzenio",
+      "description_norm": "verzenio 100 mg oral tablet https www drugs com price guide verzenio"
+    },
+    {
+      "code": "198031",
+      "min": 1.69,
+      "mode": 2.35,
+      "max": 3.02,
+      "description": "24hr nicotine transdermal patch - https://www.drugs.com/price-guide/nicotine",
+      "description_norm": "24hr nicotine transdermal patch https www drugs com price guide nicotine"
+    },
+    {
+      "code": "198240",
+      "min": 0.19,
+      "mode": 0.21,
+      "max": 0.22,
+      "description": "Tamoxifen 10 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "tamoxifen 10 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "198440",
+      "min": 0.02,
+      "mode": 0.05,
+      "max": 0.07,
+      "description": "Acetaminophen 500 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "acetaminophen 500 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "199224",
+      "min": 0.12,
+      "mode": 0.17,
+      "max": 0.21,
+      "description": "anastrozole 1 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "anastrozole 1 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "200064",
+      "min": 0.13,
+      "mode": 0.17,
+      "max": 0.2,
+      "description": "letrozole 2.5 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "letrozole 2 5 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "2001499",
+      "min": 0.33,
+      "mode": 3.6,
+      "max": 7.76,
+      "description": "Vitamin B 12 5 MG/ML Injectable Solution (cyanocobalamin) - https://data.medicaid.gov/d/a4y5-998d/visualization",
+      "description_norm": "vitamin b 12 5 mg ml injectable solution cyanocobalamin https data medicaid gov d a4y5 998d visualization"
+    },
+    {
+      "code": "200243",
+      "min": 0.44,
+      "mode": 0.45,
+      "max": 0.46,
+      "description": "sevoflurane 1000 MG/ML Inhalant Solution - https://www.drugs.com/price-guide/sevoflurane#:~:text=Sevoflurane%20Prices%20This%20sevoflurane%20price%20guide%20is%20based,250%20milliliters%2C%20depending%20on%20the%20pharmacy%20you%20visit.",
+      "description_norm": "sevoflurane 1000 mg ml inhalant solution https www drugs com price guide sevoflurane text sevoflurane 20prices 20this 20sevoflurane 20price 20guide 20is 20based 250 20milliliters 2c 20depending 20on 20the 20pharmacy 20you 20visit"
+    },
+    {
+      "code": "2047241",
+      "min": 79.14,
+      "mode": 79.14,
+      "max": 79.14,
+      "description": "baricitinib 2 MG Oral Tablet - https://www.drugs.com/price-guide/olumiant",
+      "description_norm": "baricitinib 2 mg oral tablet https www drugs com price guide olumiant"
+    },
+    {
+      "code": "205532",
+      "min": 30.65,
+      "mode": 39.5,
+      "max": 44.79,
+      "description": "Pulmozyme (Dornase Alfa) - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "pulmozyme dornase alfa https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "205923",
+      "min": 57.33,
+      "mode": 58.5,
+      "max": 60.2,
+      "description": "1 ML Epoetin Alfa 4000 UNT/ML Injection [Epogen] - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "1 ml epoetin alfa 4000 unt ml injection epogen https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "2103182",
+      "min": 2.36,
+      "mode": 12.45,
+      "max": 31.46,
+      "description": "1 ML Vasopressin (USP) 20 UNT/ML Injection - https://www.drugs.com/price-guide/vasopressin#:~:text=Vasopressin%20Prices.%20This%20vasopressin%20price%20guide%20is%20based,only%20and%20are%20not%20valid%20with%20insurance%20plans.",
+      "description_norm": "1 ml vasopressin usp 20 unt ml injection https www drugs com price guide vasopressin text vasopressin 20prices 20this 20vasopressin 20price 20guide 20is 20based only 20and 20are 20not 20valid 20with 20insurance 20plans"
+    },
+    {
+      "code": "2119714",
+      "min": 978.09,
+      "mode": 978.09,
+      "max": 978.09,
+      "description": "5 ML hyaluronidase-oysk 2000 UNT/ML / trastuzumab 120 MG/ML Injection - https://www.drugs.com/price-guide/herceptin-hylecta",
+      "description_norm": "5 ml hyaluronidase oysk 2000 unt ml trastuzumab 120 mg ml injection https www drugs com price guide herceptin hylecta"
+    },
+    {
+      "code": "2284960",
+      "min": 7.5,
+      "mode": 7.5,
+      "max": 7.5,
+      "description": "remdesivir 100 MG Injection - https://www.drugs.com/price-guide/remdesivir",
+      "description_norm": "remdesivir 100 mg injection https www drugs com price guide remdesivir"
+    },
+    {
+      "code": "238100",
+      "min": 0.57,
+      "mode": 0.77,
+      "max": 1.9,
+      "description": "Lorazepam 2 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "lorazepam 2 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "242969",
+      "min": 2.08,
+      "mode": 3.45,
+      "max": 4.22,
+      "description": "4 ML Norepinephrine 1 MG/ML Injection - https://www.drugs.com/price-guide/norepinephrine#:~:text=The%20cost%20for%20norepinephrine%20intravenous%20solution%20%281%20mg%2FmL%29,only%20and%20are%20not%20valid%20with%20insurance%20plans.",
+      "description_norm": "4 ml norepinephrine 1 mg ml injection https www drugs com price guide norepinephrine text the 20cost 20for 20norepinephrine 20intravenous 20solution 20 281 20mg 2fml 29 only 20and 20are 20not 20valid 20with 20insurance 20plans"
+    },
+    {
+      "code": "245314",
+      "min": 0.45,
+      "mode": 1.25,
+      "max": 2.1,
+      "description": "Albuterol 5 MG/ML Inhalation Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "albuterol 5 mg ml inhalation solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "308136",
+      "min": 0.02,
+      "mode": 0.02,
+      "max": 0.03,
+      "description": "amLODIPine 2.5 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "amlodipine 2 5 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "308460",
+      "min": 0.37,
+      "mode": 0.5,
+      "max": 0.69,
+      "description": "Azithromycin 250 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "azithromycin 250 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "309845",
+      "min": 0.09,
+      "mode": 0.1,
+      "max": 0.12,
+      "description": "Diazepam 5 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "diazepam 5 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "310261",
+      "min": 1.88,
+      "mode": 6.0,
+      "max": 10.22,
+      "description": "exemestane 25 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "exemestane 25 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "310325",
+      "min": 0.01,
+      "mode": 0.01,
+      "max": 0.01,
+      "description": "ferrous sulfate 325 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "ferrous sulfate 325 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "310385",
+      "min": 0.02,
+      "mode": 0.03,
+      "max": 0.04,
+      "description": "FLUoxetine 20 MG Oral Capsule - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "fluoxetine 20 mg oral capsule https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "310798",
+      "min": 0.01,
+      "mode": 0.01,
+      "max": 0.02,
+      "description": "Hydrochlorothiazide 25 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "hydrochlorothiazide 25 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "311700",
+      "min": 0.22,
+      "mode": 0.22,
+      "max": 0.22,
+      "description": "Midazolam 1 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "midazolam 1 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "312938",
+      "min": 0.05,
+      "mode": 0.08,
+      "max": 0.08,
+      "description": "Sertraline 100 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "sertraline 100 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "313002",
+      "min": 0.05,
+      "mode": 0.06,
+      "max": 0.08,
+      "description": "Sodium Chloride 9 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "sodium chloride 9 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "313572",
+      "min": 17.5,
+      "mode": 28.3,
+      "max": 46.28,
+      "description": "Vancomycin 50 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "vancomycin 50 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "313988",
+      "min": 0.01,
+      "mode": 0.32,
+      "max": 0.04,
+      "description": "Furosemide 40 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "furosemide 40 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "314076",
+      "min": 0.02,
+      "mode": 0.02,
+      "max": 0.02,
+      "description": "lisinopril 10 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "lisinopril 10 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "314231",
+      "min": 0.02,
+      "mode": 0.03,
+      "max": 0.03,
+      "description": "Simvastatin 10 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "simvastatin 10 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "360110",
+      "min": 17.02,
+      "mode": 17.88,
+      "max": 17.88,
+      "description": "Sirolimus 2 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "sirolimus 2 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "542347",
+      "min": 0.14,
+      "mode": 0.2,
+      "max": 0.23,
+      "description": "Isoflurane 999 MG/ML Inhalant Solution - https://www.drugs.com/price-guide/isoflurane#:~:text=Brand%20names%20for%20isoflurane%20include%20Forane%2C%20and%20Terrell.,100%20milliliters%2C%20depending%20on%20the%20pharmacy%20you%20visit.",
+      "description_norm": "isoflurane 999 mg ml inhalant solution https www drugs com price guide isoflurane text brand 20names 20for 20isoflurane 20include 20forane 2c 20and 20terrell 100 20milliliters 2c 20depending 20on 20the 20pharmacy 20you 20visit"
+    },
+    {
+      "code": "562366",
+      "min": 0.01,
+      "mode": 0.45,
+      "max": 0.7,
+      "description": "desflurane 1000 MG/ML Inhalation Solution - https://www.drugs.com/price-guide/suprane",
+      "description_norm": "desflurane 1000 mg ml inhalation solution https www drugs com price guide suprane"
+    },
+    {
+      "code": "597195",
+      "min": 0.99,
+      "mode": 0.99,
+      "max": 0.99,
+      "description": "Carboplatin 10 MG/ML Injectable Solution - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "carboplatin 10 mg ml injectable solution https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "597730",
+      "min": 1.17,
+      "mode": 2.34,
+      "max": 2.34,
+      "description": "lopinavir 200 MG / Ritonavir 50 MG Oral Tablet - https://www.drugs.com/price-guide/lopinavir-ritonavir",
+      "description_norm": "lopinavir 200 mg ritonavir 50 mg oral tablet https www drugs com price guide lopinavir ritonavir"
+    },
+    {
+      "code": "672149",
+      "min": 58.2,
+      "mode": 58.2,
+      "max": 58.2,
+      "description": "lapatinib 250 MG Oral Tablet - https://www.drugs.com/price-guide/tykerb",
+      "description_norm": "lapatinib 250 mg oral tablet https www drugs com price guide tykerb"
+    },
+    {
+      "code": "727711",
+      "min": 136.25,
+      "mode": 192.31,
+      "max": 192.31,
+      "description": "0.67 ML anakinra 149 MG/ML Prefilled Syringe (Kineret) - https://data.medicaid.gov/d/a4y5-998d/visualization",
+      "description_norm": "0 67 ml anakinra 149 mg ml prefilled syringe kineret https data medicaid gov d a4y5 998d visualization"
+    },
+    {
+      "code": "727762",
+      "min": 203.39,
+      "mode": 203.39,
+      "max": 203.39,
+      "description": "5 ML fulvestrant 50 MG/ML Prefilled Syringe - https://www.drugs.com/price-guide/faslodex",
+      "description_norm": "5 ml fulvestrant 50 mg ml prefilled syringe https www drugs com price guide faslodex"
+    },
+    {
+      "code": "752899",
+      "min": 633.2,
+      "mode": 633.2,
+      "max": 633.2,
+      "description": "0.25 ML Leuprolide Acetate 30 MG/ML Prefilled Syringe - https://www.drugs.com/price-guide/leuprolide",
+      "description_norm": "0 25 ml leuprolide acetate 30 mg ml prefilled syringe https www drugs com price guide leuprolide"
+    },
+    {
+      "code": "854228",
+      "min": 9.1,
+      "mode": 10.88,
+      "max": 38.57,
+      "description": "0.3 ML Enoxaparin sodium 100 MG/ML Prefilled Syringe - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "0 3 ml enoxaparin sodium 100 mg ml prefilled syringe https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "854235",
+      "min": 9.1,
+      "mode": 10.88,
+      "max": 38.57,
+      "description": "0.4 ML Enoxaparin sodium 100 MG/ML Prefilled Syringe - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "0 4 ml enoxaparin sodium 100 mg ml prefilled syringe https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "854252",
+      "min": 11.56,
+      "mode": 13.07,
+      "max": 60.71,
+      "description": "1 ML Enoxaparin sodium 150 MG/ML Prefilled Syringe - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "1 ml enoxaparin sodium 150 mg ml prefilled syringe https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "856980",
+      "min": 0.03,
+      "mode": 0.49,
+      "max": 1.69,
+      "description": "Acetaminophen/Hydrocodone - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "acetaminophen hydrocodone https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "866414",
+      "min": 0.2,
+      "mode": 0.2,
+      "max": 1.73,
+      "description": "24 HR metoprolol succinate 100 MG Extended Release Oral Tablet [Toprol] - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "24 hr metoprolol succinate 100 mg extended release oral tablet toprol https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "883826",
+      "min": 1.63,
+      "mode": 2.33,
+      "max": 4.03,
+      "description": "Tranexamic Acid 650 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "tranexamic acid 650 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "966222",
+      "min": 0.25,
+      "mode": 0.28,
+      "max": 0.43,
+      "description": "Levothyroxine Sodium 0.075 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "levothyroxine sodium 0 075 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "979092",
+      "min": 0.1,
+      "mode": 0.28,
+      "max": 2.62,
+      "description": "Hydroxychloroquine Sulfate 200 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "hydroxychloroquine sulfate 200 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "979485",
+      "min": 0.03,
+      "mode": 0.08,
+      "max": 0.09,
+      "description": "Losartan Potassium 25 MG Oral Tablet - https://data.medicaid.gov/Drug-Pricing-and-Payment/NADAC-National-Average-Drug-Acquisition-Cost-/a4y5-998d",
+      "description_norm": "losartan potassium 25 mg oral tablet https data medicaid gov drug pricing and payment nadac national average drug acquisition cost a4y5 998d"
+    },
+    {
+      "code": "993452",
+      "min": 816.12,
+      "mode": 1014.45,
+      "max": 1237.68,
+      "description": "1 ML denosumab 60 MG/ML Prefilled Syringe (Prolia) - https://data.medicaid.gov/d/a4y5-998d/visualization",
+      "description_norm": "1 ml denosumab 60 mg ml prefilled syringe prolia https data medicaid gov d a4y5 998d visualization"
+    }
+  ]
+}

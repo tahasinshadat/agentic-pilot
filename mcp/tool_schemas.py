@@ -96,6 +96,92 @@ TOOL_SCHEMAS: List[Dict[str, Any]] = [
         }
     },
 
+    # ==================== DAYLIGHT APPOINTMENTS ====================
+    {
+        "name": "daylight_launch_site",
+        "description": "Launches the Daylight Health appointment booking site and clicks the initial button to start the scheduling process. This MUST be called first before any other daylight functions. Returns a driver instance that will be stored automatically for subsequent calls.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {}
+        }
+    },
+    {
+        "name": "daylight_select_date",
+        "description": "Selects a specific date in the Daylight appointment calendar. Navigates through months if needed. Returns True if date was successfully selected, False if unavailable. Requires daylight_launch_site to be called first.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "date_str": {"type": "STRING", "description": "Date in YYYY-MM-DD format (e.g., '2025-12-07')"}
+            },
+            "required": ["date_str"]
+        }
+    },
+    {
+        "name": "daylight_get_available_times",
+        "description": "Gets a list of available appointment times for a specific date. First selects the date, then retrieves all available time slots. Returns empty list if date is unavailable. Requires daylight_launch_site to be called first.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "date_str": {"type": "STRING", "description": "Date in YYYY-MM-DD format (e.g., '2025-12-07')"}
+            },
+            "required": ["date_str"]
+        }
+    },
+    {
+        "name": "daylight_confirm_time",
+        "description": "Confirms and selects a specific appointment time on a given date. Validates that the time is available and clicks the confirm button. Returns True if successful. Requires daylight_launch_site to be called first.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "date_str": {"type": "STRING", "description": "Date in YYYY-MM-DD format (e.g., '2025-12-07')"},
+                "time_str": {"type": "STRING", "description": "Time in 'H:MM AM/PM' format (e.g., '5:30 PM')"}
+            },
+            "required": ["date_str", "time_str"]
+        }
+    },
+    {
+        "name": "daylight_fill_contact_form",
+        "description": "Fills out the contact information form with patient details and submits the appointment. Should be called after successfully confirming a date and time. Requires daylight_launch_site to be called first.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "first_name": {"type": "STRING", "description": "Patient's first name"},
+                "last_name": {"type": "STRING", "description": "Patient's last name"},
+                "email": {"type": "STRING", "description": "Patient's email address"},
+                "phone": {"type": "STRING", "description": "Patient's phone number in xxx-xxx-xxxx format"}
+            },
+            "required": ["first_name", "last_name", "email", "phone"]
+        }
+    },
+    {
+        "name": "daylight_press_confirm_button",
+        "description": "Clicks the final 'Confirm Appointment' button. Use this if daylight_fill_contact_form didn't automatically click the confirm button. Requires daylight_launch_site to be called first.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {}
+        }
+    },
+
+    # ==================== MEDICINE DATA ====================
+    {
+        "name": "get_medicine_data",
+        "description": "Get comprehensive medication purchase history and insights for the user. Returns medication purchases from retailers (Amazon, Walmart, Target), refill status, price history, spending analysis, and alerts. Use this when user asks about their medication purchases, when they last bought something (e.g. 'when did I last buy ibuprofen'), refill dates, medication spending, or price comparisons. The data includes fake/demo data for development purposes.",
+        "parameters": {
+            "type": "OBJECT",
+            "properties": {
+                "external_user_id": {
+                    "type": "STRING",
+                    "description": "Optional user ID (defaults to configured default user for demo)"
+                },
+                "sync_first": {
+                    "type": "BOOLEAN",
+                    "description": "Whether to sync latest data before returning snapshot (default: true)"
+                }
+            },
+            "required": []
+        }
+    },
+
     # ==================== APPLICATION CONTROL ====================
     {
         "name": "play_music",

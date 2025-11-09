@@ -6,8 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from datetime import datetime
 
-
-def launch_daylight_site():
+def daylight_launch_site():
     
     daylight_url = "https://go.daylight-health.com/intake-lexmed" 
 
@@ -19,7 +18,7 @@ def launch_daylight_site():
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="primaryButton"]'))).click()
     return driver
 
-def select_date(driver, date_str) -> bool:
+def daylight_select_date(driver, date_str) -> bool:
     """
     Clicks the given date (YYYY-MM-DD) in a React Datepicker.
     Navigates between months if needed.
@@ -76,45 +75,7 @@ def select_date(driver, date_str) -> bool:
                 prev_btn.click()
             time.sleep(0.5)
 
-
-    """
-    Given a date (YYYY-MM-DD), selects that date and returns a list of available time strings.
-    Returns [] if the date is unavailable or no time slots appear.
-    """
-    # Try to select the date first
-    was_selected = select_date(driver, date_str)
-    if not was_selected:
-        print(f"ℹ️ No availability for {date_str}")
-        return []
-
-    wait = WebDriverWait(driver, 10)
-
-    try:
-        # Wait until time slot container is visible
-        wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "button, div")))
-        time.sleep(0.5)  # small delay for animations
-
-        # Collect all visible time options (adjust the selector if needed)
-        # Example: buttons with text like "9:00 AM", "10:30 AM", etc.
-        time_elements = driver.find_elements(
-            By.XPATH,
-            "//button[contains(text(), 'AM') or contains(text(), 'PM') or contains(text(), ':')]"
-        )
-
-        available_times = [elem.text.strip() for elem in time_elements if elem.is_displayed() and elem.text.strip()]
-
-        if not available_times:
-            print(f"🕓 No time slots listed for {date_str}")
-            return []
-
-        print(f"✅ Found {len(available_times)} available times for {date_str}: {available_times}")
-        return available_times
-
-    except Exception as e:
-        print(f"⚠️ Could not retrieve times for {date_str}: {e}")
-        return []
-
-def get_available_times(driver, date_str):
+def daylight_get_available_times(driver, date_str):
     """
     Returns a list of available appointment times for the given date (YYYY-MM-DD).
     If the date is unavailable or has no times, returns an empty list.
@@ -122,7 +83,7 @@ def get_available_times(driver, date_str):
     wait = WebDriverWait(driver, 10)
 
     # Step 1: Try selecting the date first (using your previous function)
-    if not select_date(driver, date_str):
+    if not daylight_select_date(driver, date_str):
         print(f"🚫 No availability for {date_str} (date is greyed out or not clickable).")
         return []
 
@@ -154,7 +115,7 @@ def get_available_times(driver, date_str):
 
     return available_times
 
-def confirm_time(driver, date_str, time_str):
+def daylight_confirm_time(driver, date_str, time_str):
     """
     Selects a specific appointment time if it is available.
     After selecting the time, waits for and clicks the confirm button.
@@ -163,17 +124,14 @@ def confirm_time(driver, date_str, time_str):
 
     time_str should be in the format "X:XX PM".
     """
-    available_times = get_available_times(driver, date_str)
+    available_times = daylight_get_available_times(driver, date_str)
 
     if not available_times:
         print(f"🚫 No available times for {date_str}.")
         return False
 
     if time_str not in available_times:
-        print(f"⚠️ {time_str} is not available on {date_str}.")
-        print(f"🕓 Available options: {', '.join(available_times)}")
-        new_time = input("Please enter a different time (e.g., 2:30 PM): ").strip()
-        return confirm_time(driver, date_str, new_time)
+        return f"{time_str} is not available on {date_str}. Available options: {', '.join(available_times)}"
 
     # Select the desired time
     wait = WebDriverWait(driver, 15)
@@ -207,7 +165,7 @@ def confirm_time(driver, date_str, time_str):
         print(f"⚠️ Could not confirm time {time_str}: {e}")
         return False
 
-def fill_contact_form(driver, first_name, last_name, email, phone):
+def daylight_fill_contact_form(driver, first_name, last_name, email, phone):
     """
     Fills out the appointment contact form and clicks the 'Confirm Appointment' button.
     Arguments:
@@ -261,7 +219,7 @@ def fill_contact_form(driver, first_name, last_name, email, phone):
         print(f"⚠️ Could not complete form submission: {e}")
         return False
 
-def press_confirm_button(driver):
+def daylight_press_confirm_button(driver):
     """
     Waits for and clicks the 'Confirm Appointment' button at the end of the form.
     Assumes the contact form has already been filled out successfully.
@@ -284,15 +242,14 @@ def press_confirm_button(driver):
         print(f"⚠️ Could not click Confirm Appointment button: {e}")
         return False
 
-
-def main():
-    driver = launch_daylight_site()
+if __name__ == "__main__":
+    driver = daylight_launch_site()
     date = "2025-12-07"
     time_choice = "5:30 PM"
 
-    if confirm_time(driver, date, time_choice):
+    if daylight_confirm_time(driver, date, time_choice):
         print("✅ Appointment time confirmed. Filling out contact info...")
-        fill_contact_form(
+        daylight_fill_contact_form(
             driver,
             first_name="Alice",
             last_name="Smith",
@@ -301,8 +258,3 @@ def main():
         )
     else:
         print("❌ Could not confirm the requested time.")
-
-
-
-if __name__ == "__main__":
-    main()

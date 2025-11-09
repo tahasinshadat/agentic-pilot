@@ -29,6 +29,7 @@ class ToolExecutor:
         self.screen_capture = screen_capture
         self.browser = BrowserController()
         self.interpreter = CommandInterpreter()
+        self.daylight_driver = None  # Selenium driver for Daylight appointments
 
     async def initialize(self):
         """Initialize executor (browser)."""
@@ -234,6 +235,64 @@ class ToolExecutor:
                     patient=args.get("patient", {}),
                 )
 
+            # ==================== DAYLIGHT APPOINTMENTS ====================
+            elif tool_name == "daylight_launch_site":
+                self.daylight_driver = tools.daylight_launch_site()
+                return {"success": True, "message": "Daylight site launched successfully"}
+
+            elif tool_name == "daylight_select_date":
+                if not self.daylight_driver:
+                    return {"success": False, "error": "Daylight driver not initialized. Call daylight_launch_site first."}
+                result = tools.daylight_select_date(
+                    driver=self.daylight_driver,
+                    date_str=args.get("date_str")
+                )
+                return {"success": result, "date_selected": result}
+
+            elif tool_name == "daylight_get_available_times":
+                if not self.daylight_driver:
+                    return {"success": False, "error": "Daylight driver not initialized. Call daylight_launch_site first."}
+                times = tools.daylight_get_available_times(
+                    driver=self.daylight_driver,
+                    date_str=args.get("date_str")
+                )
+                return {"success": True, "available_times": times}
+
+            elif tool_name == "daylight_confirm_time":
+                if not self.daylight_driver:
+                    return {"success": False, "error": "Daylight driver not initialized. Call daylight_launch_site first."}
+                result = tools.daylight_confirm_time(
+                    driver=self.daylight_driver,
+                    date_str=args.get("date_str"),
+                    time_str=args.get("time_str")
+                )
+                return {"success": result, "time_confirmed": result}
+
+            elif tool_name == "daylight_fill_contact_form":
+                if not self.daylight_driver:
+                    return {"success": False, "error": "Daylight driver not initialized. Call daylight_launch_site first."}
+                result = tools.daylight_fill_contact_form(
+                    driver=self.daylight_driver,
+                    first_name=args.get("first_name"),
+                    last_name=args.get("last_name"),
+                    email=args.get("email"),
+                    phone=args.get("phone")
+                )
+                return {"success": result, "form_submitted": result}
+
+            elif tool_name == "daylight_press_confirm_button":
+                if not self.daylight_driver:
+                    return {"success": False, "error": "Daylight driver not initialized. Call daylight_launch_site first."}
+                result = tools.daylight_press_confirm_button(driver=self.daylight_driver)
+                return {"success": result, "button_clicked": result}
+
+            # ==================== MEDICINE DATA ====================
+            elif tool_name == "get_medicine_data":
+                return tools.get_medicine_data(
+                    external_user_id=args.get("external_user_id"),
+                    sync_first=args.get("sync_first", True)
+                )
+
             elif tool_name == "browser_get_page_content":
                 return self.browser.get_page_content()
 
@@ -274,6 +333,8 @@ class ToolExecutor:
         """Cleanup resources."""
         if self.browser:
             self.browser.close()
+        if self.daylight_driver:
+            self.daylight_driver.quit()
 
 
 # Global executor instance (will be initialized by agent)

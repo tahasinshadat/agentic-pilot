@@ -17,7 +17,7 @@ class Config:
     ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 
     # Wake word settings
-    WAKE_WORD = "jarvis"  # Options: "jarvis", "sarah"
+    WAKE_WORD = "sarah"  # Options: "jarvis", "sarah"
     ENERGY_THRESHOLD = 500  # Minimum audio energy for wake word detection
 
     # Audio settings
@@ -35,13 +35,20 @@ class Config:
 
     # Audio Recording Settings (moved from gemini.py)
     SILENCE_THRESHOLD = 300  # Audio energy threshold for silence detection
-    SILENCE_DURATION = 2.0  # Seconds of silence to end recording
-    MAX_RECORDING_DURATION = 10  # Maximum seconds for a single recording
+    SILENCE_DURATION = 3.5  # Seconds of silence to end recording
+    MAX_RECORDING_DURATION = 15  # Maximum seconds for a single recording
     MIN_AUDIO_LENGTH = 0.5  # Minimum audio length in seconds
     MIN_TRANSCRIPTION_LENGTH = 3  # Minimum transcription text length
 
     # TTS Settings (moved from gemini.py)
-    ELEVENLABS_VOICE_ID = "UgBBYS2sOqTuMpoF3BR0"  # Default voice ID
+    ELEVENLABS_VOICE_ID = "Z3R5wn05IrDiVCyEkUrK"  # Default voice ID (Jarvis)
+
+    # Voice ID mapping for different assistants
+    VOICE_IDS = {
+        "jarvis": "UgBBYS2sOqTuMpoF3BR0",  # Jarvis voice
+        "sarah": "Z3R5wn05IrDiVCyEkUrK"    # Sarah voice
+    }
+    # Serafina: 4tRn1lSkEn13EVTuqb0g
 
     # ChatTTS settings
     TTS_COMPILE = False  # Set to True for faster inference (requires compatible GPU)
@@ -91,3 +98,19 @@ class Config:
             print(f"[Config] Wake word set to: {wake_word}")
         else:
             print(f"[Config] Invalid wake word: {wake_word}")
+
+    @classmethod
+    def get_voice_id(cls, assistant_name: str) -> str:
+        """
+        Get the ElevenLabs voice ID for the given assistant name.
+
+        Args:
+            assistant_name: Name of the assistant ("Jarvis" or "Sarah")
+
+        Returns:
+            Voice ID string for ElevenLabs
+        """
+        name_lower = assistant_name.lower()
+        voice_id = cls.VOICE_IDS.get(name_lower, cls.ELEVENLABS_VOICE_ID)
+        print(f"[Config] Using voice ID for {assistant_name}: {voice_id}")
+        return voice_id

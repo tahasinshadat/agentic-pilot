@@ -112,6 +112,7 @@ class JarvisApp(QObject):
     async def _on_speaking_end(self):
         """Called when Jarvis finishes speaking."""
         Logger.info("App", "Speech finished")
+        # Don't change GUI state here - let on_idle() or on_listening() handle it explicitly
 
     async def _on_idle(self):
         """Called when Jarvis goes idle."""

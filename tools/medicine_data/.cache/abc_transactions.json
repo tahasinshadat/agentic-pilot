@@ -1,0 +1,249 @@
+{
+  "user": {
+    "id": 166358890,
+    "name": "MedTrack Demo User",
+    "external_user_id": "abc"
+  },
+  "transactions": [
+    {
+      "external_id": "WM-8831-4192",
+      "merchant_id": 45,
+      "merchant_name": "Walmart",
+      "order_id": "WM-8831-4192",
+      "order_date": "2024-01-15T14:22:00+00:00",
+      "status": "DELIVERED",
+      "total": 44.85,
+      "source": "local",
+      "items": [
+        {
+          "name": "Lisinopril 20mg Tablets 90 count",
+          "sku": "LIS20",
+          "price": 9.88,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "lisinopril 20mg tablets 90 count",
+          "ingredient_key": null
+        },
+        {
+          "name": "Blood Pressure Cuff Monitor",
+          "sku": "BPCUFF01",
+          "price": 34.97,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "blood pressure cuff monitor",
+          "ingredient_key": null
+        }
+      ]
+    },
+    {
+      "external_id": "253-1868126-1324382",
+      "merchant_id": 44,
+      "merchant_name": "Amazon",
+      "order_id": "253-1868126-1324382",
+      "order_date": "2024-01-27T15:13:35+00:00",
+      "status": "DELIVERED",
+      "total": 37.48,
+      "source": "local",
+      "items": [
+        {
+          "name": "Tylenol 500mg Caplets 100 count",
+          "sku": "TYL500100",
+          "price": 12.49,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "tylenol 500mg caplets 100 count",
+          "ingredient_key": "acetaminophen"
+        },
+        {
+          "name": "Heating Pad for Back Pain Relief",
+          "sku": "HPAD123",
+          "price": 24.99,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "heating pad for back pain relief",
+          "ingredient_key": null
+        }
+      ]
+    },
+    {
+      "external_id": "TG-2024-1001",
+      "merchant_id": 12,
+      "merchant_name": "Target",
+      "order_id": "TG-2024-1001",
+      "order_date": "2024-02-02T18:30:00+00:00",
+      "status": "DELIVERED",
+      "total": 28.48,
+      "source": "local",
+      "items": [
+        {
+          "name": "Omeprazole 20mg Capsules 42 count",
+          "sku": "OME20",
+          "price": 21.99,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "omeprazole 20mg capsules 42 count",
+          "ingredient_key": "omeprazole"
+        },
+        {
+          "name": "Hand Soap Refill",
+          "sku": "SOAP01",
+          "price": 6.49,
+          "quantity": 1,
+          "is_medication": false,
+          "normalized_name": null,
+          "ingredient_key": null
+        }
+      ]
+    },
+    {
+      "external_id": "112-9988126-2233445",
+      "merchant_id": 44,
+      "merchant_name": "Amazon",
+      "order_id": "112-9988126-2233445",
+      "order_date": "2024-02-25T10:05:12+00:00",
+      "status": "DELIVERED",
+      "total": 33.24,
+      "source": "local",
+      "items": [
+        {
+          "name": "Tylenol 500mg Caplets 100 count",
+          "sku": "TYL500100",
+          "price": 14.25,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "tylenol 500mg caplets 100 count",
+          "ingredient_key": "acetaminophen"
+        },
+        {
+          "name": "Daily Multivitamin Tablets",
+          "sku": "MVIT90",
+          "price": 18.99,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "daily multivitamin tablets",
+          "ingredient_key": "multivitamin"
+        }
+      ]
+    },
+    {
+      "external_id": "WM-9912-5513",
+      "merchant_id": 45,
+      "merchant_name": "Walmart",
+      "order_id": "WM-9912-5513",
+      "order_date": "2024-03-05T16:12:00+00:00",
+      "status": "DELIVERED",
+      "total": 31.47,
+      "source": "local",
+      "items": [
+        {
+          "name": "Lisinopril 20mg Tablets 90 count",
+          "sku": "LIS20",
+          "price": 18.72,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "lisinopril 20mg tablets 90 count",
+          "ingredient_key": null
+        },
+        {
+          "name": "Ibuprofen 200mg Tablets 200 count",
+          "sku": "IBU200",
+          "price": 12.75,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "ibuprofen 200mg tablets 200 count",
+          "ingredient_key": "ibuprofen"
+        }
+      ]
+    },
+    {
+      "external_id": "TG-2024-1120",
+      "merchant_id": 12,
+      "merchant_name": "Target",
+      "order_id": "TG-2024-1120",
+      "order_date": "2024-03-10T17:05:00+00:00",
+      "status": "DELIVERED",
+      "total": 43.25,
+      "source": "local",
+      "items": [
+        {
+          "name": "Omeprazole 20mg Capsules 42 count",
+          "sku": "OME20",
+          "price": 26.5,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "omeprazole 20mg capsules 42 count",
+          "ingredient_key": "omeprazole"
+        },
+        {
+          "name": "Digestive Enzyme Tablets",
+          "sku": "DIGENZ",
+          "price": 16.75,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "digestive enzyme tablets",
+          "ingredient_key": null
+        }
+      ]
+    },
+    {
+      "external_id": "114-5558126-7788990",
+      "merchant_id": 44,
+      "merchant_name": "Amazon",
+      "order_id": "114-5558126-7788990",
+      "order_date": "2024-03-28T09:45:00+00:00",
+      "status": "DELIVERED",
+      "total": 55.75,
+      "source": "local",
+      "items": [
+        {
+          "name": "Tylenol 500mg Caplets 100 count",
+          "sku": "TYL500100",
+          "price": 22.75,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "tylenol 500mg caplets 100 count",
+          "ingredient_key": "acetaminophen"
+        },
+        {
+          "name": "Compression Socks",
+          "sku": "SOCKS01",
+          "price": 16.5,
+          "quantity": 2,
+          "is_medication": false,
+          "normalized_name": null,
+          "ingredient_key": null
+        }
+      ]
+    },
+    {
+      "external_id": "WM-6612-8821",
+      "merchant_id": 45,
+      "merchant_name": "Walmart",
+      "order_id": "WM-6612-8821",
+      "order_date": "2024-04-18T13:48:00+00:00",
+      "status": "SHIPPED",
+      "total": 39.75,
+      "source": "local",
+      "items": [
+        {
+          "name": "Ibuprofen 200mg Tablets 200 count",
+          "sku": "IBU200",
+          "price": 28.25,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "ibuprofen 200mg tablets 200 count",
+          "ingredient_key": "ibuprofen"
+        },
+        {
+          "name": "Vitamin D3 2000 IU Softgels",
+          "sku": "VITD3",
+          "price": 11.5,
+          "quantity": 1,
+          "is_medication": true,
+          "normalized_name": "vitamin d3 2000 iu softgels",
+          "ingredient_key": null
+        }
+      ]
+    }
+  ]
+}

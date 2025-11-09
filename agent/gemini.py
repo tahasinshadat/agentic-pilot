@@ -32,8 +32,6 @@ class GeminiCore:
         self.is_running = False
         self.wake_word = wake_word
 
-        # Continuous conversation mode
-        self.continuous_mode = False
         self.conversation_history = []
         self._history_lock = asyncio.Lock()  # Protect conversation history from race conditions
 
@@ -49,7 +47,7 @@ class GeminiCore:
         # TTS manager (ElevenLabs WebSocket Streaming - exact copy from ada.py)
         self.tts = ElevenLabsTTS(
             api_key=Config.ELEVENLABS_API_KEY,
-            voice_id=Config.ELEVENLABS_VOICE_ID
+            voice_id=Config.get_voice_id(wake_word)
         )
 
         # Screen capture
@@ -106,53 +104,6 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
         }
 
 
-    async def _continuous_listening_loop(self):
-        """Continuous listening loop - keeps listening until 'terminate' is heard."""
-        while self.continuous_mode and self.is_running:
-            try:
-                # Show listening state
-                if self.on_listening:
-                    await self.on_listening()
-
-                # Record and transcribe
-                user_text = await self._record_and_transcribe_command()
-
-                if not user_text:
-                    Logger.info("Core", "No command detected in continuous mode")
-                    await asyncio.sleep(0.5)
-                    continue
-
-                # Check for terminate command
-                if "terminate" in user_text.lower().strip():
-                    Logger.info("Core", "Terminate command detected")
-                    self.continuous_mode = False
-                    self.conversation_history = []
-
-                    # Speak confirmation and wait for it to finish
-                    await self.tts.speak(
-                        "Continuous mode deactivated. Goodbye.",
-                        on_start=self.on_speaking_start,
-                        on_end=self.on_speaking_end
-                    )
-
-                    # Small delay to let the speech finish and GUI animation play
-                    await asyncio.sleep(0.5)
-
-                    if self.on_idle:
-                        await self.on_idle()
-                    break
-
-                # Process the interaction with conversation history
-                await self._process_interaction(user_text, use_history=True)
-
-                # Small delay before listening again to ensure TTS completes
-                await asyncio.sleep(0.3)
-
-            except Exception as e:
-                Logger.error("Core", f"Error in continuous loop: {e}")
-                import traceback
-                traceback.print_exc()
-                await asyncio.sleep(1)
 
     async def _process_interaction(self, user_text: str, use_history: bool = False):
         """Process user command with Gemini (typed contents; no Part.from_* helpers)."""
@@ -169,7 +120,7 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
             Logger.info("Core", "Capturing screen for context...")
             screenshot_result = await self.screen_capture.capture_screen()
 
-            # Use conversation history in continuous mode
+            # Use conversation history for multi-turn conversations
             if use_history:
                 async with self._history_lock:
                     if self.conversation_history:
@@ -325,39 +276,33 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
                     if self.on_speaking_end:
                         await self.on_speaking_end()
 
-                # Check if Jarvis asked a question - if so, continue listening for answer
-                # IMPORTANT: Remove "not use_history" condition to enable multi-turn conversations
-                if speech_successful and response_text.strip().endswith('?'):
-                    Logger.info("Core", "Question detected - continuing listening for answer")
+                # Check if we should continue listening:
+                # 1. Response ends with a question mark, OR
+                # 2. We're in an ongoing multi-turn conversation (has conversation history)
+                should_continue_listening = (
+                    response_text.strip().endswith('?') or
+                    (self.conversation_history and len(self.conversation_history) > 0)
+                )
+
+                if speech_successful and should_continue_listening:
+                    if response_text.strip().endswith('?'):
+                        Logger.info("Core", "Question detected - continuing listening for answer")
+                    else:
+                        Logger.info("Core", "Multi-turn conversation - continuing listening")
 
                     try:
                         # Start listening for response
                         if self.on_listening:
                             await self.on_listening()
 
+                        # Small delay to ensure GUI state updates
+                        await asyncio.sleep(0.1)
+
                         # Record user's answer
                         answer_text = await self._record_and_transcribe_command()
 
                         if answer_text:
                             Logger.info("Core", f"Got answer: {answer_text}")
-
-                            # Check if user said "no" or wants to end conversation
-                            answer_lower = answer_text.lower().strip()
-                            decline_keywords = ["no", "nope", "nothing", "that's all", "thats all", "i'm good", "im good", "all good", "no thanks", "no thank you"]
-
-                            if any(keyword in answer_lower for keyword in decline_keywords) and len(answer_lower) < 15:
-                                Logger.info("Core", "User declined further assistance, ending conversation")
-                                # Acknowledge and end gracefully
-                                await self.tts.speak(
-                                    "Alright! Let me know if you need anything.",
-                                    on_start=self.on_speaking_start,
-                                    on_end=self.on_speaking_end
-                                )
-                                # Clear history and go idle
-                                self.conversation_history = []
-                                if self.on_idle:
-                                    await self.on_idle()
-                                return
 
                             # Process answer with conversation history
                             # Keep context from previous conversation
@@ -389,7 +334,7 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
                 if self.on_speaking_end:
                     await self.on_speaking_end()
 
-            # Only go idle if not in continuous mode and didn't return early
+            # Go idle if didn't return early from question handling
             if not use_history and self.on_idle:
                 await self.on_idle()
 
@@ -469,44 +414,6 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
 
         # Check for special commands
         user_text_lower = user_text.lower().strip()
-
-        # Check for "listen up" command
-        if "listen up" in user_text_lower or "listen" in user_text_lower:
-            Logger.info("Core", "Continuous mode ACTIVATED")
-            self.continuous_mode = True
-            self.conversation_history = []
-
-            # Speak confirmation
-            if self.on_speaking_start:
-                await self.on_speaking_start()
-            await self.tts.speak(
-                "I'm listening.",
-                on_start=self.on_speaking_start,
-                on_end=self.on_speaking_end
-            )
-
-            # Start continuous listening loop
-            await self._continuous_listening_loop()
-            return
-
-        # Check for "terminate" command
-        if "terminate" in user_text_lower:
-            Logger.info("Core", "Continuous mode DEACTIVATED")
-            self.continuous_mode = False
-            self.conversation_history = []
-
-            # Speak confirmation
-            if self.on_speaking_start:
-                await self.on_speaking_start()
-            await self.tts.speak(
-                "Continuous mode deactivated. Goodbye.",
-                on_start=self.on_speaking_start,
-                on_end=self.on_speaking_end
-            )
-
-            if self.on_idle:
-                await self.on_idle()
-            return
 
         # Process the command normally
         await self._process_interaction(user_text)
@@ -689,6 +596,3 @@ Keep responses SHORT (1-3 sentences) for voice. Use tools intelligently. You can
 
         Logger.info("Core", "Gemini stopped")
 
-    def set_continuous_mode(self, enabled: bool):
-        """Enable/disable continuous listening mode."""
-        self.wake_detector.set_continuous_mode(enabled)
