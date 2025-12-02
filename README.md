@@ -1,4 +1,4 @@
-# JARVIS - Advanced AI Assistant
+# SARAH - Advanced AI Assistant
 
 An advanced voice-activated AI assistant with vision and autopilot capabilities, combining the best of conversational AI with powerful computer control. Inspired by Iron Man's JARVIS and enhanced with Open-Interface's autonomous UI automation.
 
