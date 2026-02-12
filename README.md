@@ -195,7 +195,7 @@ Edit \`config/context.txt\` to modify JARVIS's behavior and tool usage patterns.
 
 ## Credits
 - **Powered by**: Gemini 2.0 Flash, ElevenLabs, faster-whisper, PyAutoGUI, Playwright
-
+- **Contributors**: Tahasin Shadat, Ardasher Nasriddinov and Joshua Lukin
 
 ---
 **Built with combining conversational AI with autonomous computer control**
